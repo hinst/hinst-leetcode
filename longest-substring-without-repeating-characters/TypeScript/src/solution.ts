@@ -1,23 +1,20 @@
 export function lengthOfLongestSubstring(s: string): number {
     const characters = [...s];
-    function checkRepetitions(startIndex: number, endIndex: number) {
-        const map: Record<string, boolean> = {};
-        for (let i = startIndex; i < endIndex; i++) {
-            const character = characters[i];
-            if (map[character])
-                return true;
-            else
-                map[character] = true;
+    let maxLength = 0;
+    let startIndex = 0;
+    let endIndex = 0;
+    const map: Record<string, boolean> = {};
+    while (endIndex < s.length) {
+        const currentCharacter = characters[endIndex];
+        while (map[currentCharacter]) {
+            delete map[characters[startIndex]];
+            startIndex++;
         }
+        map[currentCharacter] = true;
+        endIndex++;
+        const currentLength = endIndex - startIndex;
+        if (currentLength > maxLength)
+            maxLength = currentLength;
     }
-    for (let candidateLength = s.length; candidateLength >= 0; candidateLength--) {
-        const wiggleRoom = s.length - candidateLength;
-        for (let startIndex = 0; startIndex <= wiggleRoom; startIndex++) {
-            const endIndex = startIndex + candidateLength;
-            const hasRepetitions = checkRepetitions(startIndex, endIndex);
-            if (!hasRepetitions)
-                return candidateLength;
-        }
-    }
-    return 0;
+    return maxLength;
 };
