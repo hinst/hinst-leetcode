@@ -3,42 +3,31 @@ struct Solution {}
 impl Solution {
     const OPENING_CHARACTERS: [char; 3] = ['{', '(', '['];
     const CLOSING_CHARACTERS: [char; 3] = ['}', ')', ']'];
-    const DEBUG_ENABLED: bool = true;
+    const DEBUG_ENABLED: bool = false;
 
     fn check_valid(characters: &Vec<char>, index: &mut usize) -> bool {
         let character = *characters.get(*index).unwrap();
         let opener_index = Solution::OPENING_CHARACTERS.iter().position(|&opener| opener == character);
         match opener_index {
             Some(opener_index) => {
-                *index += 1;
-                if !(*index < characters.len()) {
-                    if Solution::DEBUG_ENABLED {
-                        println!("Unexpected end of text at position {index}");
-                    }
-                    return false;
-                }
-                let character = *characters.get(*index).unwrap();
                 let expected_closing_character = *Solution::CLOSING_CHARACTERS.get(opener_index).unwrap();
-                if character == expected_closing_character {
-                    *index += 1;
-                    return true;
-                } else {
-                    let next_valid = Solution::check_valid(characters, index);
-                    if !next_valid {
-                        println!("Next text is not valid at index {index}");
-                        return false;
-                    }
+                *index += 1;
+                while *index < characters.len() {
                     let character = *characters.get(*index).unwrap();
                     if character == expected_closing_character {
                         *index += 1;
                         return true;
                     } else {
-                        if Solution::DEBUG_ENABLED {
-                            println!("Expected closing {expected_closing_character} at position {index}");
+                        let is_next_valid = Solution::check_valid(characters, index);
+                        if !is_next_valid {
+                            return false;
                         }
-                        return false;
                     }
                 }
+                if Solution::DEBUG_ENABLED {
+                    println!("Unexpected end of text at position {index}");
+                }
+                return false;
             },
             None => {
                 if Solution::DEBUG_ENABLED {
@@ -55,7 +44,12 @@ impl Solution {
         }
         let characters: Vec<char> = s.chars().collect();
         let mut index: usize = 0;
-        return Solution::check_valid(&characters, &mut index);
+        while index < characters.len() {
+            if !Solution::check_valid(&characters, &mut index) {
+                return false;
+            }
+        }
+        return true;
     }
 }
 
@@ -76,4 +70,5 @@ fn main() {
     test("(", false);
     test(")", false);
     test("[(]", false);
+    test("[][][", false);
 }
