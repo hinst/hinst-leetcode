@@ -6,35 +6,33 @@ function getFirstKey(object: any) {
 function maxProfit(prices: number[]): number {
     const sortedPricesArray = prices.map((price, index) => [price, index]).sort((a, b) => b[0] - a[0]);
     // price -> indexes
-    const sortedPricesMap: Record<string, Record<string, boolean>> = {};
+    const sortedPricesMap = new Map<number, Set<number>>();
     for (const entry of sortedPricesArray) {
         const price = entry[0];
         const index = entry[1];
-        const priceKey = 'p' + price;
-        const existingItem = sortedPricesMap[priceKey];
-        if (existingItem)
-            existingItem[index] = true;
+        const existingIndexList = sortedPricesMap.get(price);
+        if (existingIndexList)
+            existingIndexList.add(index);
         else {
-            const newItem: Record<string, boolean> = {};
-            newItem[index] = true;
-            sortedPricesMap[priceKey] = newItem;
+            const newIndexList = new Set<number>();
+            newIndexList.add(index);
+            sortedPricesMap.set(price, newIndexList);
         }
     }
 
     let bestProfit = 0;
     prices.forEach((buyingPrice, index) => {
-        const bestSellingPrice = parseInt((getFirstKey(sortedPricesMap) || 'p0').slice(1));
+        const bestSellingPrice: number = sortedPricesMap.entries().next().value[0];
         const profit = bestSellingPrice - buyingPrice;
         if (bestProfit < profit)
             bestProfit = profit;
-        const priceKey = 'p' + buyingPrice;
-        const mapItem = sortedPricesMap[priceKey];
-        delete mapItem[index];
-        if (getFirstKey(mapItem) === undefined)
-            delete sortedPricesMap[priceKey];
+        const mapItem = sortedPricesMap.get(buyingPrice);
+        mapItem?.delete(index);
+        if (mapItem && mapItem.size === 0)
+            sortedPricesMap.delete(buyingPrice);
     });
     return bestProfit;
-};
+}
 
 function test(prices: number[], expectedOutput: number) {
     const output = maxProfit(prices);
