@@ -11,8 +11,7 @@ class ThreeEntryContainer {
             this.checkExists(b, c, a) ||
             this.checkExists(c, a, b) ||
             this.checkExists(c, b, a);
-        const canAdd = !alreadyExists;
-        if (canAdd) {
+        if (!alreadyExists) {
             this.entries.push([a, b, c]);
             let firstMap = this.entriesMap.get(a);
             if (!firstMap) {
@@ -26,7 +25,6 @@ class ThreeEntryContainer {
             }
             secondSet.add(c);
         }
-        return canAdd;
     }
 
     private checkExists(a: number, b: number, c: number): boolean | undefined {
@@ -42,8 +40,8 @@ function threeSum(nums: number[]): ThreeNumbers[] {
             const secondItem = nums[secondIndex];
             const desiredItem = 0 - firstItem - secondItem;
             const thirdIndex = map.get(desiredItem);
-            const matched = thirdIndex !== undefined && secondIndex < thirdIndex &&
-                thirdIndex != firstIndex && thirdIndex != secondIndex;
+            const matched = thirdIndex !== undefined &&
+                thirdIndex != secondIndex && thirdIndex != firstIndex;
             if (matched)
                 results.add(firstItem, secondItem, desiredItem);
         }
