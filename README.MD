@@ -16,3 +16,4 @@ I wrote the solutions on my own. There is only Rust version.
 I wrote TypeScript solution myself without checking hints. However, I ended up with a complicated solution. It passed the acceptance test, but I realized that there exists a much simpler solution after I looked through the existing solutions on LeetCode. I implemented the short solution in Rust.
 
 ## 217. Contains Duplicate
+A simple task. Just use HashMap, I guess. I skipped TypeScript and wrote a simple solution in Rust.
