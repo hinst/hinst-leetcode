@@ -13,3 +13,6 @@ I wrote the solution on my own. First I wrote it in TypeScript, then I converted
 I wrote the solutions on my own. There is only Rust version.
 
 ## 121. Best Time to Buy and Sell Stock
+I wrote TypeScript solution myself without checking hints. However, I ended up with a complicated solution. It passed the acceptance test, but I realized that there exists a much simpler solution after I looked through the existing solutions on LeetCode. I implemented the short solution in Rust.
+
+## 217. Contains Duplicate
