@@ -74,4 +74,4 @@ function test(numbers: number[], expectedOutput: ThreeNumbers[]) {
 
 test([-1,0,1,2,-1,-4], [[-1,-1,2],[-1,0,1]]);
 test([0,1,1], []);
-test([0,0,0], [[0,0,0]);
+test([0,0,0], [[0,0,0]]);
