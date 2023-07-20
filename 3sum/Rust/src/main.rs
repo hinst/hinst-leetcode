@@ -35,6 +35,7 @@ impl ThreeEntryContainer {
             if None == second_set {
                 let new_set: HashSet<i32> = HashSet::new();
                 first_map.insert(b, new_set);
+                second_set = first_map.get_mut(&b);
             }
             second_set.as_mut().unwrap().insert(c);
         }
