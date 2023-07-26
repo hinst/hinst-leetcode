@@ -3,14 +3,14 @@ struct Solution {}
 use std::collections::{HashMap, HashSet};
 
 struct ThreeEntryContainer {
-    entries_map: HashMap<i32, HashMap<i32, HashSet<i32>>>,
+    entries_map: HashSet<(i32, i32, i32)>,
     entries: Vec<Vec<i32>>,
 }
 
 impl ThreeEntryContainer {
     pub fn new() -> Self {
         return ThreeEntryContainer {
-            entries_map: HashMap::new(),
+            entries_map: HashSet::new(),
             entries: Vec::new(),
         }
     }
@@ -24,35 +24,12 @@ impl ThreeEntryContainer {
             self.check_exists(c, b, a);
         if !already_exists {
             self.entries.push(vec![a, b, c]);
-            let mut first_map = self.entries_map.get_mut(&a);
-            if None == first_map {
-                let new_map: HashMap<i32, HashSet<i32>> = HashMap::new();
-                self.entries_map.insert(a, new_map);
-                first_map = self.entries_map.get_mut(&a);
-            }
-            let first_map = first_map.unwrap();
-            let mut second_set = first_map.get_mut(&b);
-            if None == second_set {
-                let new_set: HashSet<i32> = HashSet::new();
-                first_map.insert(b, new_set);
-                second_set = first_map.get_mut(&b);
-            }
-            second_set.as_mut().unwrap().insert(c);
+            self.entries_map.insert((a, b, c));
         }
     }
 
     fn check_exists(&self, a: i32, b: i32, c: i32) -> bool {
-        match self.entries_map.get(&a) {
-            Some(a_map) => {
-                match a_map.get(&b) {
-                    Some(b_set) => {
-                        return b_set.contains(&c)
-                    },
-                    None => return false,
-                };
-            }
-            None => return false,
-        };
+        return self.entries_map.contains(&(a, b, c));
     }
 }
 
@@ -75,7 +52,7 @@ impl Solution {
                 match third_index {
                     Some(third_index_ref) => {
                         let third_index = *third_index_ref;
-                        if third_index != second_index && third_index != first_index && first_index != second_index {
+                        if third_index != second_index && third_index != first_index {
                             results.add(*first_item, *second_item, desired_item);
                         }
                     },
