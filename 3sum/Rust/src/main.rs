@@ -1,6 +1,6 @@
-use std::{collections::{HashMap, HashSet}, ops::{Deref, DerefMut}};
-
 struct Solution {}
+
+use std::collections::{HashMap, HashSet};
 
 struct ThreeEntryContainer {
     entries_map: HashMap<i32, HashMap<i32, HashSet<i32>>>,
@@ -43,10 +43,10 @@ impl ThreeEntryContainer {
 
     fn check_exists(&self, a: i32, b: i32, c: i32) -> bool {
         match self.entries_map.get(&a) {
-            Some(aMap) => {
-                match aMap.get(&b) {
-                    Some(bSet) => {
-                        return bSet.contains(&c)
+            Some(a_map) => {
+                match a_map.get(&b) {
+                    Some(b_set) => {
+                        return b_set.contains(&c)
                     },
                     None => return false,
                 };
@@ -69,13 +69,13 @@ impl Solution {
         let map = Solution::create_map(&numbers);
         let mut results = ThreeEntryContainer::new();
         for (first_index, first_item) in numbers.iter().enumerate() {
-            for (second_index, second_item) in numbers.iter().skip(first_index).enumerate() {
+            for (second_index, second_item) in numbers.iter().enumerate().skip(first_index + 1) {
                 let desired_item = 0 - first_item - second_item;
                 let third_index = map.get(&desired_item);
                 match third_index {
                     Some(third_index_ref) => {
                         let third_index = *third_index_ref;
-                        if third_index != first_index && third_index != second_index {
+                        if third_index != second_index && third_index != first_index && first_index != second_index {
                             results.add(*first_item, *second_item, desired_item);
                         }
                     },
@@ -87,6 +87,18 @@ impl Solution {
     }
 }
 
+fn test(input: &[i32], expected_output: &[&[i32]]) {
+    let input = input.to_vec();
+    let expected_output: Vec<_> = expected_output.to_vec().iter().map(|item| item.to_vec()).collect();
+    let output = Solution::three_sum(input.clone());
+    if output != expected_output {
+        println!("{input:?}  {output:?}  {expected_output:?}")
+    }
+}
+
 fn main() {
-    println!("Hello, world!");
+    test(&[-1,0,1,2,-1,-4], &[&[-1,-1,2],&[-1,0,1]]);
+    test(&[0,1,1], &[]);
+    test(&[0,0,0], &[&[0,0,0]]);
+    test(&[-1,0,1], &[&[-1,0,1]]);
 }
