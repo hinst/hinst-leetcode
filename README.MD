@@ -20,3 +20,6 @@ A simple task. Just use HashMap, I guess. I skipped TypeScript and wrote a simpl
 
 ## 15. 3Sum
 As the memory of a similar task "Two Sum" was still fresh in my memory, I decided to use the same approach: loop for first and second item and find the third item quickly using a map. I wrote TypeScript code and added a class named ThreeEntryContainer to avoid duplicated entries. The solution got accepted. Afterwards I checked existing solutions on LeetCode website and apparently a faster solution is possible using binary search in a sorted array. I will leave my TypeScript solution unchanged because I feel satisfied with it for now and I do not feel like studying the binary search approach right now.
+
+# 50. Pow(x, n)
+The main difficulty here was that it seemed unclear at the beginning whether long math is required for the calculation.
