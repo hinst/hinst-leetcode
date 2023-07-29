@@ -23,3 +23,6 @@ As the memory of a similar task "Two Sum" was still fresh in my memory, I decide
 
 # 50. Pow(x, n)
 The main difficulty here was that it seemed unclear at the beginning whether long math is required for the calculation.
+
+## 9. Palindrome Number
+This is an easy task. I wrote code in Rust for it. At the end of the task description there is a question "Can you solve the task without converting the number into string?" but I do not feel like attempting it because it seems a bit pointless
