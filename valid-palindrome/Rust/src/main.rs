@@ -1,7 +1,6 @@
 struct Solution {}
 
 use std::collections::HashSet;
-
 impl Solution {
     fn to_lower_case(character: char) -> char {
         return character.to_lowercase().into_iter().next().unwrap();
@@ -10,7 +9,7 @@ impl Solution {
     pub fn is_palindrome(s: String) -> bool {
         let characters: Vec<_> = s.chars().collect();
         let mut letters: HashSet<char> = HashSet::new();
-        for letter in "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".chars() {
+        for letter in "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".chars() {
             letters.insert(letter);
         }
         let mut left_index = 0;
@@ -50,6 +49,6 @@ impl Solution {
 fn main() {
     let output = Solution::is_palindrome("A man, a plan, a canal: Panama".to_string());
     println!("{output}");
-    let output = Solution::is_palindrome("Cat sleep".to_string());
+    let output = Solution::is_palindrome("0P".to_string());
     println!("{output}");
 }
