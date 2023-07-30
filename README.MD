@@ -32,3 +32,6 @@ Wrote directly in Rust, accepted from the first try. Seems like an easy task: ju
 
 ## 125. Valid Palindrome
 An easy task. Walk through the string in two directions: left to right and right to left. Check each character
+
+## 26. Remove Duplicates from Sorted Array
+Seems like an easy task. My attempt in Rust got accepted from the first try
