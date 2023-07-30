@@ -1,4 +1,4 @@
-# Hinst Leetcode
+# Hinst Leetcode. Year 2023
 
 ## 2. Add two numbers
 I wrote the solution on my own. First I wrote the solution in TypeScript, then I converted it to Rust. The Rust version ended up being 60 lines, meanwhile TypeScript version is only 30 lines. Later I saw shorter solutions in Rust on Leetcode.
@@ -40,4 +40,7 @@ Seems like an easy task. My attempt in Rust got accepted from the first try
 Seems like an easy task, although it is marked as "Medium" on LeetCode website. My Rust code got accepted from the first try. Functions checked_mul and checked_add in Rust seem useful for this task.
 
 ## 209. Minimum Size Subarray Sum
-Seems like an easy task, especially when there was a similar task in the past: Longest Substring Without Repeating Characters. I wrote the solution for this task directly in Rust.
+Seems like an easy task, especially because there was a similar task in the past: Longest Substring Without Repeating Characters. I wrote the solution for this task directly in Rust.
+
+## 242. Valid Anagram
+An easy task. Use HashMap. My Rust code got accepted from the first try.
