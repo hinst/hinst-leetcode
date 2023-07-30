@@ -35,3 +35,6 @@ An easy task. Walk through the string in two directions: left to right and right
 
 ## 26. Remove Duplicates from Sorted Array
 Seems like an easy task. My attempt in Rust got accepted from the first try
+
+## 7. Reverse Integer
+Seems like an easy task, although it is marked as "Medium" on LeetCode website. My Rust code got accepted from the first try. Functions checked_mul and checked_add in Rust seem useful for this task.
