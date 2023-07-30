@@ -38,3 +38,6 @@ Seems like an easy task. My attempt in Rust got accepted from the first try
 
 ## 7. Reverse Integer
 Seems like an easy task, although it is marked as "Medium" on LeetCode website. My Rust code got accepted from the first try. Functions checked_mul and checked_add in Rust seem useful for this task.
+
+## 209. Minimum Size Subarray Sum
+Seems like an easy task, especially when there was a similar task in the past: Longest Substring Without Repeating Characters. I wrote the solution for this task directly in Rust.
