@@ -44,3 +44,6 @@ Seems like an easy task, especially because there was a similar task in the past
 
 ## 242. Valid Anagram
 An easy task. Use HashMap. My Rust code got accepted from the first try.
+
+## 14. Longest Common Prefix
+Seems like a trivial task. My Rust code got accepted on the first attempt. I convert String into vector of characters. Perhaps it is possible to write a solution using iter() to avoid conversion into vector.
