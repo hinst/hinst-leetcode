@@ -29,3 +29,6 @@ This is an easy task. I wrote code directly in Rust for it. At the end of the ta
 
 ## 88. Merge Sorted Array
 Wrote directly in Rust, accepted from the first try. Seems like an easy task: just copy the smaller of the two numbers while walking through the two arrays.
+
+## 125. Valid Palindrome
+An easy task. Walk through the string in two directions: left to right and right to left. Check each character
