@@ -1,25 +1,27 @@
 function findMedianSortedArrays(numbers1: number[], numbers2: number[]): number {
-    const sortedArray: number[] = [];
+    const sortedArray: number[] = new Array(numbers1.length + numbers2.length);
     let index1 = 0;
     let index2 = 0;
+    let sortedIndex = 0;
     while (true) {
         const number1 = numbers1[index1];
         const number2 = numbers2[index2];
         if (number1 == null && number2 == null)
             break;
         if (number1 == null) {
-            sortedArray.push(number2);
+            sortedArray[sortedIndex] = number2;
             ++index2;
         } else if (number2 == null) {
-            sortedArray.push(number1);
+            sortedArray[sortedIndex] = number1;
             ++index1;
         } else if (number1 < number2) {
-            sortedArray.push(number1)
+            sortedArray[sortedIndex] = number1;
             ++index1;
         } else {
-            sortedArray.push(number2);
+            sortedArray[sortedIndex] = number2;
             ++index2;
         }
+        ++sortedIndex;
     }
     return findMedian(sortedArray);
 };
