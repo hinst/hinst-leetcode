@@ -1,4 +1,4 @@
-function findMedianSortedArrays(numbers1: number[], numbers2: number[]): number {
+function findMedianSortedArrays(numbers1: Int32Array, numbers2: Int32Array): number {
     const sortedArray = new Int32Array(numbers1.length + numbers2.length);
     let index1 = 0;
     let index2 = 0;
@@ -11,10 +11,7 @@ function findMedianSortedArrays(numbers1: number[], numbers2: number[]): number 
         if (number1 == null) {
             sortedArray[sortedIndex] = number2;
             ++index2;
-        } else if (number2 == null) {
-            sortedArray[sortedIndex] = number1;
-            ++index1;
-        } else if (number1 < number2) {
+        } else if (number2 == null || number1 < number2) {
             sortedArray[sortedIndex] = number1;
             ++index1;
         } else {
@@ -37,5 +34,5 @@ function findMedian(sortedArray: Int32Array): number {
 }
 
 // const nums1 = [1,3], nums2 = [2];
-const nums1 = [1,2], nums2 = [3,4];
+const nums1 = new Int32Array([1,2]), nums2 = new Int32Array([3,4]);
 console.log(findMedianSortedArrays(nums1, nums2));

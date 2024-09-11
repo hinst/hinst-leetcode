@@ -47,3 +47,6 @@ An easy task. Use HashMap. My Rust code got accepted from the first try.
 
 ## 14. Longest Common Prefix
 Seems like a trivial task. My Rust code got accepted on the first attempt. I convert String into vector of characters. Perhaps it is possible to write a solution using iter() to avoid conversion into vector.
+
+## 4. Median of Two Sorted Arrays
+This task is marked as [Hard], but I believe I've heard the solution at the programming lesson in school, although I am not 100% sure. I got it right from the first try because of that.
