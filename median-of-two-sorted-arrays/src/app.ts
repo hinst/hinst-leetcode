@@ -1,5 +1,5 @@
 function findMedianSortedArrays(numbers1: number[], numbers2: number[]): number {
-    const sortedArray: number[] = new Array(numbers1.length + numbers2.length);
+    const sortedArray = new Int32Array(numbers1.length + numbers2.length);
     let index1 = 0;
     let index2 = 0;
     let sortedIndex = 0;
@@ -26,7 +26,7 @@ function findMedianSortedArrays(numbers1: number[], numbers2: number[]): number 
     return findMedian(sortedArray);
 };
 
-function findMedian(sortedArray: number[]): number {
+function findMedian(sortedArray: Int32Array): number {
     if (sortedArray.length === 0)
         throw new Error('Empty array cannot have a median');
     const middleIndex = Math.floor(sortedArray.length / 2);
