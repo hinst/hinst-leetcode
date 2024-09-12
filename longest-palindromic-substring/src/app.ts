@@ -3,7 +3,6 @@ function longestPalindrome(s: string): string {
         const startLimit = s.length - iLength;
         for (let start = 0; start <= startLimit; ++start) {
             const end = start + iLength;
-            // console.log(s.substring(start, end), checkPalindrome(s, start, end - 1));
             if (checkPalindrome(s, start, end - 1))
                 return s.substring(start, end);
         }

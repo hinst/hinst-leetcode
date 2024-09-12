@@ -50,3 +50,6 @@ Seems like a trivial task. My Rust code got accepted on the first attempt. I con
 
 ## 4. Median of Two Sorted Arrays
 This task is marked as [Hard], but I believe I've heard the solution at the programming lesson in school, although I am not 100% sure. I got it right from the first try because of that.
+
+## 5. Longest Palindromic Substring
+Seems like an easy task to solve when using the straightforward approach. Apparently there exists a solution that works in linear time, but the editor says that the explanation of the algorithm is out of scope of the article, so... I decided to skip it and keep my straightforward approach for now. My results: time beats 30%, memory: beats 88%.
