@@ -4,8 +4,8 @@ function convert(s: string, numRows: number): string {
     let y = 0;
     let ySpeed = numRows > 1 ? 1 : 0;
     for (const character of s) {
-        while (rows[y].length < x)
-            rows[y] += '\0';
+        if (rows[y].length < x)
+            rows[y] += '\0'.repeat(x - rows[y].length);
         rows[y] += character;
         if (numRows > 1)
             if (y >= numRows - 1)
