@@ -5,12 +5,16 @@ function convert(s: string, numRows: number): string {
     let y = 0;
     let ySpeed = numRows > 1 ? 1 : 0;
     const blockSize = numRows + Math.max(0, numRows - 2);
-    const blockWidth = numRows - 1;
+    const blockWidth = Math.max(1, numRows - 1);
     const blockCount = s.length / blockSize;
     const leftoverSize = s.length % blockSize;
     const tailSize = Math.max(0, leftoverSize - numRows);
-    console.log({ blockSize, blockCount, leftoverSize });
+    console.log({ blockSize, blockCount, tailSize, leftoverSize });
     const rowWidths = new Array(numRows).fill(Math.floor(blockCount) * blockWidth);
+    if (numRows > 1)
+    if (leftoverSize === 0)
+        for (let i = 0; i < numRows; ++i)
+            rowWidths[i] -= numRows - 2;
     for (let i = 0; i < leftoverSize - tailSize; i++)
         rowWidths[i] += 1;
     for (let i = 0; i < tailSize; i++)
@@ -42,4 +46,4 @@ function convert(s: string, numRows: number): string {
     return result;
 };
 
-console.log(convert('123456789ABC', 4));
+console.log(convert('123456789ABC', 1));
