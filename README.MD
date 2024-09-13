@@ -53,3 +53,6 @@ This task is marked as [Hard], but I believe I've heard the solution at the prog
 
 ## 5. Longest Palindromic Substring
 Seems like an easy task to solve when using the straightforward approach. Apparently there exists a solution that works in linear time, but the editor says that the explanation of the algorithm is out of scope of the article, so... I decided to skip it and keep my straightforward approach for now. My results: time beats 30%, memory: beats 88%.
+
+## 6. Zigzag Conversion
+Initially I wrote the code to fill the 2D field with the exact pattern defined in the task description. Later, I have attempted to calculate row widths and target character indexes from (x,y) however after spending several hours on it, I have decided that it is more trouble than it is worth. Eventually I realized that the X coordinate can be discarded entirely, so my time got reduced from "beats 20%" to "beats 80%". Afterwards I looked at the best solution and saw to my surprise that it uses row[y] += s[i] instead of direct index calculation. I expected it to do the direct index calculation somehow. The "Editorial" for this task is locked, so I do not know what the ideal solution is supposed to be.
