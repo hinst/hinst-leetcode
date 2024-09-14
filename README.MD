@@ -59,3 +59,5 @@ Initially I wrote the code to fill the 2D field with the exact pattern defined i
 
 ## 8. String to Integer (atoi)
 I have solved this without looking at the available solutions. Later I compared my code to the available solutions, and I believe my code looks ok. The task is made easy by the fact that most programming languages support 64 bit integer numbers, so there is no need to be too careful about the 32 bit overflow.
+
+## 10. Regular Expression Matching
