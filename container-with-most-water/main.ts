@@ -1,14 +1,16 @@
 function maxArea(height: number[]): number {
-    const heights = height.map((height, index) => [index, height]);
-    heights.sort((a, b) => b[1] - a[1]);
+    let i = 0;
+    let j = height.length - 1;
     let max = 0;
-    const n = heights.length;
-    for (let i = 0; i < n; ++i)
-        for (let j = i + 1; j < n; ++j) {
-            const area = Math.min(heights[i][1], heights[j][1]) * Math.abs(heights[i][0] - heights[j][0]);
-            if (max < area)
-                max = area;
-        }
+    while (i < j) {
+        const area = Math.min(height[i], height[j]) * (j - i);
+        if (max < area)
+            max = area;
+        if (height[i] < height[j])
+            ++i;
+        else
+            --j;
+    }
     return max;
 };
 
