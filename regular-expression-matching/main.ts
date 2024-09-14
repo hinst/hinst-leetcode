@@ -1,19 +1,19 @@
-function isMatch(text: string, pattern: string, textIndex: number = 0, patternIndex: number = 0): boolean {
-    if (text.length <= textIndex && pattern.length <= patternIndex)
-        return textIndex === text.length && patternIndex === pattern.length;
-    if (pattern[patternIndex] === '.' && pattern[patternIndex + 1] !== '*')
-        return text.length > 0 && isMatch(text, pattern, textIndex + 1, patternIndex + 1);
-    if (pattern[patternIndex + 1] === '*') {
-        const character = pattern[patternIndex];
-        for (let i = 0; i <= text.length; i++) {
-            if (isMatch(text, pattern, textIndex + i, patternIndex + 2))
+function isMatch(text: string, pattern: string, iText: number = 0, iPattern: number = 0): boolean {
+    if (text.length <= iText && pattern.length <= iPattern)
+        return iText === text.length && iPattern === pattern.length;
+    if (pattern[iPattern] === '.' && pattern[iPattern + 1] !== '*')
+        return text.length > 0 && isMatch(text, pattern, iText + 1, iPattern + 1);
+    if (pattern[iPattern + 1] === '*') {
+        const character = pattern[iPattern];
+        for (let i = 0; i <= text.length; ++i) {
+            if (isMatch(text, pattern, iText + i, iPattern + 2))
                 return true;
-            if (character !== '.' && text[textIndex + i] !== character)
+            if (character !== '.' && text[iText + i] !== character)
                 break;
         }
         return false;
     }
-    return text[textIndex] === pattern[patternIndex] && isMatch(text, pattern, textIndex + 1, patternIndex + 1);
+    return text[iText] === pattern[iPattern] && isMatch(text, pattern, iText + 1, iPattern + 1);
 };
 
 console.log(isMatch('mississippi', 'mis*is*ip*.'));
