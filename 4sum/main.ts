@@ -1,6 +1,6 @@
 function fourSum(nums: number[], target: number): number[][] {
     nums.sort((a, b) => a - b);
-    const results: any = new Map();
+    const results: Map<any, any> = new Map();
     for (let aIndex = 0; aIndex < nums.length; ++aIndex) {
         for (let bIndex = aIndex + 1; bIndex < nums.length; ++bIndex) {
             for (let cIndex = bIndex + 1; cIndex < nums.length; ++cIndex) {
@@ -19,13 +19,12 @@ function fourSum(nums: number[], target: number): number[][] {
 
 function put(results: Map<any, any>, row: number[]) {
     for (const item of row) {
-        if (results.has(item))
-            results = results.get(item);
-        else {
-            const newMap = new Map();
-            results.set(item, newMap)
-            results = newMap;
+        let next = results.get(item);
+        if (next === undefined) {
+            next = new Map();
+            results.set(item, next);
         }
+        results = next;
     }
 }
 
