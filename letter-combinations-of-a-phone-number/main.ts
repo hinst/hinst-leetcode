@@ -9,17 +9,19 @@ const BUTTONS: Record<string, string> = Object.freeze({
     '9': 'wxyz',
 });
 
-function letterCombinations(digits: string, index: number = 0, texts: string[] = []): string[] {
-    if (digits.length <= index)
-        return texts;
-    if (!texts.length)
-        texts = [''];
-    const newTexts: string[] = [];
-    const letters = BUTTONS[digits[index]];
-    for (const text of texts)
-        for (const letter of letters)
-            newTexts.push(text + letter);
-    return letterCombinations(digits, index + 1, newTexts);
+function letterCombinations(digits: string): string[] {
+    if (!digits.length)
+        return [];
+    let texts = [''];
+    for (const digit of digits) {
+        const newTexts: string[] = [];
+        const letters = BUTTONS[digit];
+        for (const text of texts)
+            for (const letter of letters)
+                newTexts.push(text + letter);
+        texts = newTexts;
+    }
+    return texts;
 }
 
 console.log(letterCombinations('23'));
