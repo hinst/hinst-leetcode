@@ -15,7 +15,7 @@ function fourSum(nums: number[], target: number): number[][] {
         }
     }
     return extract(results);
-};
+}
 
 function put(results: Map<any, any>, row: number[]) {
     let index = 0;
