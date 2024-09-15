@@ -18,23 +18,29 @@ function fourSum(nums: number[], target: number): number[][] {
 };
 
 function put(results: Map<any, any>, row: number[]) {
+    let index = 0;
+    const last = row.length - 1;
     for (const item of row) {
+        const isLast = index === last;
         let next = results.get(item);
         if (next === undefined) {
-            next = new Map();
-            results.set(item, next);
+            if (isLast)
+                results.set(item, null);
+            else {
+                next = new Map();
+                results.set(item, next);
+            }
         }
+        ++index;
         results = next;
     }
 }
 
 function extract(results: Map<any, any>, path: number[] = [], array: number[][] = []): number[][] {
-    let isEmpty = true;
-    for (const [key, value] of results) {
-        isEmpty = false;
-        extract(value, [...path, key], array);
-    }
-    if (isEmpty && path.length)
+    if (results !== null)
+        for (const [key, value] of results)
+            extract(value, [...path, key], array);
+    else if (path.length)
         array.push(path);
     return array;
 }
