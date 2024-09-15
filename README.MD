@@ -87,3 +87,7 @@ My score:
 * 1Time: 47ms, beats 93%. Memory: 51 MB, beats 59%.
 
 ## 18. 4Sum
+I wrote a program for this task without looking at the available solutions.
+I used the following approach: loop AxBxC, D=binarySearch(...).
+Afterwards I introduced Js.Map to make existing result lookup faster.
+In the end, I scored: time 287 milliseconds beats 20%, memory 59 megabytes beats 18%.
