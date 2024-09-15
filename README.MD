@@ -84,7 +84,7 @@ The run time for my second approach got improved significantly: from 1238 millis
 ## 17. Letter Combinations of a Phone Number
 This task seems easy enough: produce all possible combinations of the letters. No need to look at the available solutions.
 My score:
-* 1Time: 47ms, beats 93%. Memory: 51 MB, beats 59%.
+* Time: 47ms, beats 93%. Memory: 51 MB, beats 59%.
 
 ## 18. 4Sum
 I wrote a program for this task without looking at the available solutions.
