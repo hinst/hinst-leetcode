@@ -1,7 +1,6 @@
 function fourSum(nums: number[], target: number): number[][] {
     nums.sort((a, b) => a - b);
-    const existing = new Set<number>();
-    const results: number[][] = [];
+    const results: any = {};
     for (let aIndex = 0; aIndex < nums.length; ++aIndex) {
         for (let bIndex = aIndex + 1; bIndex < nums.length; ++bIndex) {
             for (let cIndex = bIndex + 1; cIndex < nums.length; ++cIndex) {
@@ -10,17 +9,35 @@ function fourSum(nums: number[], target: number): number[][] {
                 const remainder = target - sum;
                 const remainderIndex = binarySearch(nums, remainder, cIndex + 1);
                 if (remainderIndex !== -1) {
-                    const hash = a + b * 10 + c * 100 + remainder * 1000;
-                    if (!existing.has(hash)) {
-                        existing.add(hash);
-                        results.push([a, b, c, remainder]);
-                    }
+                    put(results, [a, b, c, remainder]);
                 }
             }
         }
     }
-    return results;
+    return extract(results);
 };
+
+function put(results: any, row: number[]) {
+    let last: any = undefined;
+    for (const item of row) {
+        if (!results[item])
+            results[item] = {};
+        last = results;
+        results = results[item];
+    }
+    if (last)
+        last[row[row.length - 1]] = row;
+    results = row;
+}
+
+function extract(results: any, array: number[][] = []): number[][] {
+    if (results.length)
+        array.push(results);
+    else
+        for (const key in results)
+            extract(results[key], array);
+    return array;
+}
 
 // Initially copied from https://stackoverflow.com/questions/22697936/binary-search-in-javascript
 function binarySearch(arr: number[], val: number, start: number = 0): number {
