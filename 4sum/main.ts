@@ -18,24 +18,22 @@ function fourSum(nums: number[], target: number): number[][] {
 };
 
 function put(results: any, row: number[]) {
-    let last: any = undefined;
     for (const item of row) {
         if (!results[item])
             results[item] = {};
-        last = results;
         results = results[item];
     }
-    if (last)
-        last[row[row.length - 1]] = row;
     results = row;
 }
 
-function extract(results: any, array: number[][] = []): number[][] {
-    if (results.length)
-        array.push(results);
-    else
-        for (const key in results)
-            extract(results[key], array);
+function extract(results: any, path: string[] = [], array: number[][] = []): number[][] {
+    let isEmpty = true;
+    for (const key in results) {
+        isEmpty = false;
+        extract(results[key], [...path, key], array);
+    }
+    if (isEmpty && path.length)
+        array.push(path.map(item => parseInt(item)));
     return array;
 }
 
