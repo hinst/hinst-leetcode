@@ -82,3 +82,6 @@ I have managed to produce two versions of code for this task:
 The run time for my second approach got improved significantly: from 1238 milliseconds to 316 milliseconds. Nevertheless, the second approach beats only 12% of LeetCode submissions, which means that the majority of the participants used an even more optimized approach. The "Editorial" article is locked behind a paywall, so I am not sure what is exactly the recommended approach here.
 
 ## 17. Letter Combinations of a Phone Number
+This task seems easy enough: produce all possible combinations of the letters. No need to look at the available solutions.
+My score:
+* 1Time: 47ms, beats 93%. Memory: 51 MB, beats 59%.
