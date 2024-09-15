@@ -9,9 +9,10 @@ function fourSum(nums: number[], target: number): number[][] {
                 const remainder = target - sum;
                 const remainderIndex = binarySearch(nums, remainder, cIndex + 1);
                 if (remainderIndex !== -1) {
-                    const key = '' + a + ';' + b + ';' + c + ';' + remainder;
+                    const row = [a, b, c, remainder];
+                    const key = row.join(';');
                     if (!results[key])
-                        results[key] = [a, b, c, remainder];
+                        results[key] = row;
                 }
             }
         }
