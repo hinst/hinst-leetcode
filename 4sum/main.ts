@@ -1,6 +1,6 @@
 function fourSum(nums: number[], target: number): number[][] {
     nums.sort((a, b) => a - b);
-    const results: any = {};
+    const results: any = new Map();
     for (let aIndex = 0; aIndex < nums.length; ++aIndex) {
         for (let bIndex = aIndex + 1; bIndex < nums.length; ++bIndex) {
             for (let cIndex = bIndex + 1; cIndex < nums.length; ++cIndex) {
@@ -17,23 +17,26 @@ function fourSum(nums: number[], target: number): number[][] {
     return extract(results);
 };
 
-function put(results: any, row: number[]) {
+function put(results: Map<any, any>, row: number[]) {
     for (const item of row) {
-        if (!results[item])
-            results[item] = {};
-        results = results[item];
+        if (results.has(item))
+            results = results.get(item);
+        else {
+            const newMap = new Map();
+            results.set(item, newMap)
+            results = newMap;
+        }
     }
-    results = row;
 }
 
-function extract(results: any, path: string[] = [], array: number[][] = []): number[][] {
+function extract(results: Map<any, any>, path: number[] = [], array: number[][] = []): number[][] {
     let isEmpty = true;
-    for (const key in results) {
+    for (const [key, value] of results) {
         isEmpty = false;
-        extract(results[key], [...path, key], array);
+        extract(value, [...path, key], array);
     }
     if (isEmpty && path.length)
-        array.push(path.map(item => parseInt(item)));
+        array.push(path);
     return array;
 }
 
