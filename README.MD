@@ -96,3 +96,6 @@ In the end, I scored: time 287 milliseconds beats 20%, memory 59 megabytes beats
 I wrote a program for this task without looking at the available solutions.
 Approach: first, convert the linked list into bi-directionally linked list.
 Second step: walk n steps backwards and cut the n-th node.
+My score: time 58 milliseconds beats 73%, memory 51 megabytes beats 93%.
+
+## 21. Merge Two Sorted Lists
