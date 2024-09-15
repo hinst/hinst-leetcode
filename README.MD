@@ -68,3 +68,10 @@ Initially I solved this task without looking at the available solutions with a f
 
 ## 12. Integer to Roman
 I solved this task without looking at the available solutions because the solution is mostly explained in the task description itself. Because the function is so short, the time result is mostly luck-based. With some retries, I got to 101ms beats 93% and 56MB memory beats 61%.
+
+## 13. Roman to Integer
+This looks like the reverse conversion of the previous task.
+I wrote an accepted program without looking at the available solutions.
+My score: beats 53% time, beats 83% memory.
+
+## 16. 3Sum Closest
