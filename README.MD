@@ -99,3 +99,6 @@ Second step: walk n steps backwards and cut the n-th node.
 My score: time 58 milliseconds beats 73%, memory 51 megabytes beats 93%.
 
 ## 21. Merge Two Sorted Lists
+I wrote a program for this task without looking at the available solutions.
+TypeScript makes sure you never access field of a null value by accident.
+My score: time 65 milliseconds beats 68%, memory 52 megabytes beats 70%.
