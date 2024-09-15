@@ -1,4 +1,4 @@
-# Hinst Leetcode. Year 2023
+# My Leetcode. Year 2023
 
 ## 2. Add two numbers
 I wrote the solution on my own. First I wrote the solution in TypeScript, then I converted it to Rust. The Rust version ended up being 60 lines, meanwhile TypeScript version is only 30 lines. Later I saw shorter solutions in Rust on Leetcode.
@@ -47,6 +47,8 @@ An easy task. Use HashMap. My Rust code got accepted from the first try.
 
 ## 14. Longest Common Prefix
 Seems like a trivial task. My Rust code got accepted on the first attempt. I convert String into vector of characters. Perhaps it is possible to write a solution using iter() to avoid conversion into vector.
+
+# My Leetcode. Year 2024
 
 ## 4. Median of Two Sorted Arrays
 This task is marked as [Hard], but I believe I've heard the solution at the programming lesson in school, although I am not 100% sure. I got it right from the first try because of that.
