@@ -75,3 +75,8 @@ I wrote an accepted program without looking at the available solutions.
 My score: beats 53% time, beats 83% memory.
 
 ## 16. 3Sum Closest
+I have managed to produce two versions of code for this task:
+1. Simple: try all AxBxC combinations
+2. Optimized: try all AxB and then find the closest C number using binary search logic in a sorted array.
+
+The run time for my second approach got improved significantly: from 1238 milliseconds to 316 milliseconds. Nevertheless, the second approach beats only 12% of LeetCode submissions, which means that the majority of the participants used an even more optimized approach. The "Editorial" article is locked behind a paywall, so I am not sure what is exactly the recommended approach here.
