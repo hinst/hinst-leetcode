@@ -112,3 +112,5 @@ My score: time 74 milliseconds beats 10%, memory 52 megabytes beats 20%.
 
 ## 23. Merge k Sorted Lists
 My approach: look for the smallest item on the list in a loop. Score: time 403 milliseconds beats 21%, memory 56 MB beats 82%.
+
+## 24. Swap Nodes in Pairs
