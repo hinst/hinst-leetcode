@@ -130,3 +130,6 @@ My score: time 57 ms beats 62%, memory 50 MB beats 96%.
 ### Approach 3
 Same as approach 2, but assign val directly instead of using swap() function.
 My score: 53 ms beats 81%, memory 51 MB beats 17%.
+
+## 28. Find the Index of the First Occurrence in a String
+Use function String.indexOf from TypeScript built-in library
