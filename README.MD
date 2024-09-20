@@ -115,3 +115,5 @@ My approach: look for the smallest item on the list in a loop. Score: time 403 m
 
 ## 24. Swap Nodes in Pairs
 My approach: build a new list instead of trying to update links in the current list. My score: time 62 milliseconds beats 29%, memory 50 megabytes beats 97%.
+
+## 25. Reverse Nodes in k-Group
