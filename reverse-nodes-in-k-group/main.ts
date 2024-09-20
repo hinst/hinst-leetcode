@@ -13,19 +13,19 @@ class ListLast {
 
 function reverseKGroup(head: ListNode | null, k: number): ListNode | null {
 	const group = new Array<number>(k);
-	group.length = 0;
+	let groupSize = 0;
 	const result = new ListLast();
 	while (head) {
-		group.push(head.val);
-		if (group.length === k) {
-			for (let i = group.length - 1; i >= 0; --i)
-				result.add(new ListNode(group[i]));
-			group.length = 0;
+		group[groupSize++] = head.val;
+		if (groupSize === k) {
+			for (--groupSize; groupSize >= 0; --groupSize)
+				result.add(new ListNode(group[groupSize]));
+			groupSize = 0;
 		}
 		head = head.next;
 	}
-	for (const item of group)
-		result.add(new ListNode(item));
+	for (let i = 0; i < groupSize; ++i)
+		result.add(new ListNode(group[i]));
 	return result.h;
 }
 
