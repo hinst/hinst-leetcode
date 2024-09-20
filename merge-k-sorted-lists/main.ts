@@ -2,12 +2,12 @@ function mergeKLists(lists: Array<ListNode | null>): ListNode | null {
     let resultHead: ListNode | null = null;
     let resultLast: ListNode | null = null;
     while (true) {
-        let min = 0;
+        let min = Number.MAX_SAFE_INTEGER;
         let minIndex = -1;
         for (let i = 0; i < lists.length; ++i) {
             const node = lists[i];
             if (node != null) {
-                if (node.val < min || minIndex === -1) {
+                if (node.val < min) {
                     min = node.val;
                     minIndex = i;
                 }
