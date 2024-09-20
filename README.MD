@@ -127,3 +127,6 @@ My score: time 61 ms beats 41%, memory 51 MB beats 70%.
 ### Approach 2
 My second approach: designate the ending of the main array as "garbage" and put all bad elements in there.
 My score: time 57 ms beats 62%, memory 50 MB beats 96%.
+### Approach 3
+Same as approach 2, but assign val directly instead of using swap() function.
+My score: 53 ms beats 81%, memory 51 MB beats 17%.
