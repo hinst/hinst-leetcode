@@ -117,3 +117,13 @@ My approach: look for the smallest item on the list in a loop. Score: time 403 m
 My approach: build a new list instead of trying to update links in the current list. My score: time 62 milliseconds beats 29%, memory 50 megabytes beats 97%.
 
 ## 25. Reverse Nodes in k-Group
+My approach: store group in an array.
+My score: time 72 ms beats 71%, memory 55 MB beats 15%.
+
+## 27. Remove Element
+### Approach 1
+My initial approach: create a second array to keep desired elements only. In the first loop we filter the elements and put all the good elements into the second array. In the second loop we copy the desired elements from the good array into the main array.
+My score: time 61 ms beats 41%, memory 51 MB beats 70%.
+### Approach 2
+My second approach: designate the ending of the main array as "garbage" and put all bad elements in there.
+My score: time 57 ms beats 62%, memory 50 MB beats 96%.
