@@ -1,22 +1,10 @@
-/** Definition for singly-linked list. */
-class ListNode {
-    val: number
-    next: ListNode | null
-    constructor(val?: number, next?: ListNode | null) {
-        this.val = (val===undefined ? 0 : val)
-        this.next = (next===undefined ? null : next)
-    }
-}
-
 function mergeKLists(lists: Array<ListNode | null>): ListNode | null {
     let resultHead: ListNode | null = null;
     let resultLast: ListNode | null = null;
     while (true) {
-        lists = lists.filter(Boolean);
-        if (lists.length === 0)
-            return resultHead;
         let min = 0;
         let minIndex = -1;
+        let haveNodes = false;
         for (let i = 0; i < lists.length; ++i) {
             const node = lists[i];
             if (node != null) {
@@ -24,8 +12,11 @@ function mergeKLists(lists: Array<ListNode | null>): ListNode | null {
                     min = node.val;
                     minIndex = i;
                 }
+                haveNodes = true;
             }
         }
+        if (!haveNodes)
+            return resultHead;
         const minNode = lists[minIndex];
         if (minNode != null) {
             lists[minIndex] = minNode.next;
@@ -38,6 +29,16 @@ function mergeKLists(lists: Array<ListNode | null>): ListNode | null {
                 resultLast = resultNext;
             }
         }
+    }
+}
+
+/** Definition for singly-linked list. */
+class ListNode {
+    val: number
+    next: ListNode | null
+    constructor(val?: number, next?: ListNode | null) {
+        this.val = (val===undefined ? 0 : val)
+        this.next = (next===undefined ? null : next)
     }
 }
 
