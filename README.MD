@@ -139,3 +139,4 @@ The task description says "without using multiplication, division, and mod opera
 ### My Approach 0
 Use division operator even though the task says to avoid using it. The solution got accepted after I have added the weird edge case 2147483648.
 ### My Approach 1
+Accumulate sum in a loop until it reaches the target value. TypeScript was too slow to pass this test, so I rewrote the solution in Go.
