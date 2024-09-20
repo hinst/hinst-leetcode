@@ -109,3 +109,5 @@ My score: time 65 milliseconds beats 68%, memory 52 megabytes beats 70%.
 I wrote a program for this task without looking at the available solutions.
 My initial approach: generate all possible sequences of () and check each sequence whether it is valid or not.
 My score: time 74 milliseconds beats 10%, memory 52 megabytes beats 20%.
+
+## 23. Merge k Sorted Lists
