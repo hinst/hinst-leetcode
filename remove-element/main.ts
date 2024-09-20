@@ -1,14 +1,23 @@
-function removeElement(items: number[], val: number): number {
-	const acceptedItems = new Array<number>(items.length);
-	let acceptedCount = 0;
-	for (const item of items)
-		if (item !== val)
-			acceptedItems[acceptedCount++] = item;
-	for (let i = 0; i < acceptedCount; ++i)
-		items[i] = acceptedItems[i];
-	return acceptedCount;
+function swap(items: number[], a: number, b: number) {
+	const buffer = items[a];
+	items[a] = items[b];
+	items[b] = buffer;
 }
 
-const array = [0,1,2,2,3,0,4,2];
-console.log(removeElement(array, 2));
-console.log(array);
+function removeElement(items: number[], val: number): number {
+	let left = 0;
+	let right = items.length - 1;
+	while (left <= right) {
+		if (items[left] !== val)
+			++left;
+		else if (items[right] !== val)
+			swap(items, left, right);
+		else
+			right--;
+	}
+	return left;
+}
+
+const array = [3,2,2,3];
+const n = removeElement(array, 2)
+console.log(n, array, array.slice(0, n));
