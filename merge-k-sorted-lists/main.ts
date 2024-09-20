@@ -12,6 +12,7 @@ function mergeKLists(lists: Array<ListNode | null>): ListNode | null {
     let resultHead: ListNode | null = null;
     let resultLast: ListNode | null = null;
     while (true) {
+        lists = lists.filter(Boolean);
         if (lists.length === 0)
             return resultHead;
         let min = 0;
@@ -23,8 +24,7 @@ function mergeKLists(lists: Array<ListNode | null>): ListNode | null {
                     min = node.val;
                     minIndex = i;
                 }
-            } else
-                lists.splice(i);
+            }
         }
         const minNode = lists[minIndex];
         if (minNode != null) {
