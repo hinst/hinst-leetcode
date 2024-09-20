@@ -1,18 +1,13 @@
-function swap(items: number[], a: number, b: number) {
-	const buffer = items[a];
-	items[a] = items[b];
-	items[b] = buffer;
-}
-
 function removeElement(items: number[], val: number): number {
 	let left = 0;
 	let right = items.length - 1;
 	while (left <= right) {
 		if (items[left] !== val)
 			++left;
-		else if (items[right] !== val)
-			swap(items, left, right);
-		else
+		else if (items[right] !== val) {
+			items[left] = items[right];
+			items[right] = val;
+		} else
 			right--;
 	}
 	return left;
