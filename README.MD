@@ -114,3 +114,4 @@ My score: time 74 milliseconds beats 10%, memory 52 megabytes beats 20%.
 My approach: look for the smallest item on the list in a loop. Score: time 403 milliseconds beats 21%, memory 56 MB beats 82%.
 
 ## 24. Swap Nodes in Pairs
+My approach: build a new list instead of trying to update links in the current list. My score: time 62 milliseconds beats 29%, memory 50 megabytes beats 97%.
