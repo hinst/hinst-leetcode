@@ -1,13 +1,13 @@
 class ListLast {
-	head: ListNode | null = null;
-	last: ListNode | null = null;
+	h: ListNode | null = null;
+	l: ListNode | null = null;
 
 	add(node: ListNode) {
-		if (this.last)
-			this.last.next = node;
-		if (!this.head)
-			this.head = node;
-		this.last = node;
+		if (this.l)
+			this.l.next = node;
+		else
+			this.h = node;
+		this.l = node;
 	}
 }
 
@@ -26,7 +26,7 @@ function reverseKGroup(head: ListNode | null, k: number): ListNode | null {
 	}
 	for (const item of group)
 		result.add(new ListNode(item));
-	return result.head;
+	return result.h;
 }
 
 /** Definition for singly-linked list. */
