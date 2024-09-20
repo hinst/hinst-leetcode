@@ -12,7 +12,6 @@ function mergeKLists(lists: Array<ListNode | null>): ListNode | null {
     let resultHead: ListNode | null = null;
     let resultLast: ListNode | null = null;
     while (true) {
-        lists = lists.filter(list => list != null);
         if (lists.length === 0)
             return resultHead;
         let min = 0;
@@ -24,18 +23,20 @@ function mergeKLists(lists: Array<ListNode | null>): ListNode | null {
                     min = node.val;
                     minIndex = i;
                 }
-            }
+            } else
+                lists.splice(i);
         }
         const minNode = lists[minIndex];
-        if (minNode != null)
+        if (minNode != null) {
             lists[minIndex] = minNode.next;
-        const resultNext = new ListNode(min);
-        if (resultHead == null) {
-            resultHead = resultNext;
-            resultLast = resultNext;
-        } else if (resultLast != null) {
-            resultLast.next = resultNext;
-            resultLast = resultNext;
+            const resultNext = new ListNode(min);
+            if (resultHead == null) {
+                resultHead = resultNext;
+                resultLast = resultNext;
+            } else if (resultLast != null) {
+                resultLast.next = resultNext;
+                resultLast = resultNext;
+            }
         }
     }
 }
@@ -69,6 +70,6 @@ function createLists(lists: number[][]): Array<ListNode | null> {
     return lists.map(createList);
 }
 
-console.log(createArray(mergeKLists(createLists([[1,4,5],[1,3,4],[2,6]]))));
+console.log(createArray(mergeKLists(createLists([[1,4,5],[1,3,4],[2,6], []]))));
 console.log(createArray(mergeKLists(createLists([]))));
 console.log(createArray(mergeKLists(createLists([[]]))));
