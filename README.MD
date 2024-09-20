@@ -133,3 +133,9 @@ My score: 53 ms beats 81%, memory 51 MB beats 17%.
 
 ## 28. Find the Index of the First Occurrence in a String
 Use function String.indexOf from TypeScript built-in library
+
+## 29. Divide Two Integers
+The task description says "without using multiplication, division, and mod operator."
+### My Approach 0
+Use division operator even though the task says to avoid using it. The solution got accepted after I have added the weird edge case 2147483648.
+### My Approach 1
