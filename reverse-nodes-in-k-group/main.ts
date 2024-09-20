@@ -18,7 +18,6 @@ function reverseKGroup(head: ListNode | null, k: number): ListNode | null {
 	while (head) {
 		group.push(head.val);
 		if (group.length === k) {
-			console.log(group);
 			for (let i = group.length - 1; i >= 0; --i)
 				result.add(new ListNode(group[i]));
 			group.length = 0;
