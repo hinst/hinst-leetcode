@@ -1,57 +1,72 @@
-function createMatchedIndexes(s: string, wordArray: string[]) {
-	return new Array<Uint16Array>(...wordArray.map(word => {
-		const indexes: number[] = [];
-			for (
-				let textIndex = s.indexOf(word);
-				textIndex !== -1;
-				textIndex = s.indexOf(word, textIndex + 1)
-			)
-				indexes.push(textIndex);
-		return new Uint16Array(indexes);
-	}));
+class App {
+	constructor(private s: string, private words: string[]) {
+		this.matchedIndexes = App.createMatchedIndexes(s, words);
+		this.currentIndexes = new Uint16Array(words.length);
+		this.availableIndexes = new Set(words.map((_, index) => index));
+	}
+	readonly results = new Set<number>();
+	readonly matchedIndexes: Uint16Array[];
+	readonly availableIndexes = new Set<number>();
+	readonly currentIndexes: Uint16Array;
+	currentSize = 0;
+	firstCharacterIndex = -1;
+	sumCharacterIndex = 0;
+
+	static createMatchedIndexes(s: string, wordArray: string[]) {
+		return new Array<Uint16Array>(...wordArray.map(word => {
+			const indexes: number[] = [];
+				for (
+					let textIndex = s.indexOf(word);
+					textIndex !== -1;
+					textIndex = s.indexOf(word, textIndex + 1)
+				)
+					indexes.push(textIndex);
+			return new Uint16Array(indexes);
+		}));
+	}
+
+	check() {
+		if (this.currentSize === this.words.length)
+			this.results.add(this.firstCharacterIndex);
+		for (const availableIndex of new Uint16Array(this.availableIndexes)) {
+			this.availableIndexes.delete(availableIndex);
+			this.currentIndexes[this.currentSize++] = availableIndex;
+			for (const characterIndex of this.matchedIndexes[availableIndex]) {
+				const offset = this.words[availableIndex].length;
+				this.sumCharacterIndex += offset;
+				if (this.sumCharacterIndex === characterIndex)
+					this.check();
+				this.sumCharacterIndex -= offset;
+			}
+			--this.currentSize;
+			this.availableIndexes.add(availableIndex);
+		}
+	}
+
+	findSubstring(): number[] {
+		for (const matchedIndex of this.matchedIndexes)
+			if (!matchedIndex.length)
+				return [];
+		if (this.s === this.words.join(''))
+			return [0];
+		for (const availableIndex of new Uint16Array(this.availableIndexes)) {
+			this.availableIndexes.delete(availableIndex);
+			this.currentIndexes[this.currentSize++] = availableIndex;
+			for (const characterIndex of this.matchedIndexes[availableIndex]) {
+				this.sumCharacterIndex = characterIndex;
+				this.firstCharacterIndex = characterIndex;
+				if (!this.results.has(this.firstCharacterIndex))
+					this.check();
+			}
+			--this.currentSize;
+			this.availableIndexes.add(availableIndex);
+		}
+		return Array.from(this.results);
+	}
 }
 
 function findSubstring(s: string, wordArray: string[]): number[] {
-	const matchedIndexes = createMatchedIndexes(s, wordArray);
-	for (const matchedIndex of matchedIndexes)
-		if (!matchedIndex.length)
-			return [];
-	const availableIndexes = new Set(wordArray.map((_, index) => index));
-	const currentIndexes = new Uint16Array(wordArray.length);
-	let currentSize = 0;
-	const results = new Set<number>();
-	let firstCharacterIndex = -1;
-	let sumCharacterIndex = 0;
-	function check() {
-		if (currentSize === wordArray.length)
-			results.add(firstCharacterIndex);
-		for (const availableIndex of new Uint16Array(availableIndexes)) {
-			availableIndexes.delete(availableIndex);
-			currentIndexes[currentSize++] = availableIndex;
-			for (const characterIndex of matchedIndexes[availableIndex]) {
-				const offset = wordArray[availableIndex].length;
-				sumCharacterIndex += offset;
-				if (sumCharacterIndex === characterIndex)
-					check();
-				sumCharacterIndex -= offset;
-			}
-			--currentSize;
-			availableIndexes.add(availableIndex);
-		}
-	}
-	for (const availableIndex of new Uint16Array(availableIndexes)) {
-		availableIndexes.delete(availableIndex);
-		currentIndexes[currentSize++] = availableIndex;
-		for (const characterIndex of matchedIndexes[availableIndex]) {
-			sumCharacterIndex = characterIndex;
-			firstCharacterIndex = characterIndex;
-			if (!results.has(firstCharacterIndex))
-				check();
-		}
-		--currentSize;
-		availableIndexes.add(availableIndex);
-	}
-	return Array.from(results);
+	return new App(s, wordArray).findSubstring();
 }
 
 function main() {
