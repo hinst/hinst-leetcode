@@ -61,8 +61,11 @@ class App {
 		for (const characterIndex of matchedIndex) {
 			if (this.currentIndexes.length === 1)
 				this.results.add(characterIndex)
+			else if (this.results.has(characterIndex))
+				continue;
 			else {
 				let sumCharacterIndex = characterIndex;
+				const lastIndex = this.currentIndexes.length - 1;
 				for (let i = 1; i < this.currentIndexes.length; ++i) {
 					const currentIndex = this.currentIndexes[i];
 					const matchedIndex = this.matchedIndexes[currentIndex];
@@ -70,9 +73,8 @@ class App {
 					sumCharacterIndex += offest;
 					if (!matchedIndex.has(sumCharacterIndex))
 						break;
-					if (i === this.currentIndexes.length - 1) {
+					if (i === lastIndex)
 						this.results.add(characterIndex);
-					}
 				}
 			}
 		}
