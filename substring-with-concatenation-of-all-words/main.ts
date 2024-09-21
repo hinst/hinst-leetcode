@@ -1,30 +1,30 @@
 function findSubstring(s: string, wordArray: string[]): number[] {
-	const availableWords = new Set(wordArray);
+	const availableIndexes = new Set(wordArray.map((_, index) => index));
 	const currentWords: string[] = [];
-	const results: number[] = [];
+	const results = new Set<number>();
 	function check() {
 		if (currentWords.length === wordArray.length) {
 			const text = currentWords.join('');
 			const textIndex = s.indexOf(text);
 			if (textIndex !== -1)
-				results.push(textIndex);
+				results.add(textIndex);
 		} else
-			for (const availableWord of new Set(availableWords)) {
-				availableWords.delete(availableWord);
-				currentWords.push(availableWord);
+			for (const availableIndex of new Set(availableIndexes)) {
+				availableIndexes.delete(availableIndex);
+				currentWords.push(wordArray[availableIndex]);
 				check();
 				currentWords.pop();
-				availableWords.add(availableWord);
+				availableIndexes.add(availableIndex);
 			}
 	}
 	check();
-	return results;
+	return Array.from(results);
 }
 
 let s: string;
 let words: string[];
 
-s = "barfoothefoobarman", words = ["foo","bar"];
+s = "foobarfoobar", words = ["foo","bar"];
 console.log(findSubstring(s, words));
 
 s = "barfoofoobarthefoobarman", words = ["bar","foo","the"];
