@@ -1,3 +1,38 @@
+/**Source: https://en.wikipedia.org/wiki/Heap%27s_algorithm */
+class Permutator {
+	constructor(
+		private A: Uint16Array,
+		private output: (A: Uint16Array) => void
+	) {
+	}
+
+	private generate(k: number) {
+		if (k === 1)
+			this.output(this.A);
+		else {
+			// Generate permutations with k-th unaltered
+			// Initially k = length(A)
+			this.generate(k - 1)
+
+			// Generate permutations for k-th swapped with each k-1 initial
+			for (let i = 0; i < k-1; i += 1) {
+				// Swap choice dependent on parity of k (even or odd)
+				if (k % 2 === 0)
+					this.swap(i, k-1); // zero-indexed, the k-th is at k-1
+				else
+					this.swap(0, k-1);
+				this.generate(k - 1)
+			}
+		}
+	}
+
+	private swap(a: number, b: number) {
+		const buffer = this.A[a];
+		this.A[a] = this.A[b];
+		this.A[b] = buffer;
+	}
+}
+
 class App {
 	constructor(s: string, private words: string[]) {
 		this.matchedIndexes = App.createMatchedIndexes(s, words);
