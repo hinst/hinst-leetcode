@@ -1,4 +1,9 @@
 function findSubstring(s: string, wordArray: string[]): number[] {
+	// If an individual word has no matches, then the combined text has no chance to have a match
+	for (const word of wordArray)
+		if (s.indexOf(word) === -1)
+			return [];
+
 	const availableIndexes = new Set(wordArray.map((_, index) => index));
 	const currentWords: string[] = [];
 	const results = new Set<number>();
