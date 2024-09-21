@@ -33,17 +33,30 @@ class Permutator {
 	}
 }
 
+function getIterable(a: number | Set<number>) {
+	return typeof a === 'number' ? [a] : a;
+}
+
+function getSize(a: number | Set<number>) {
+	return typeof a === 'number' ? 1 : a.size;
+}
+
+function checkHas(a: number | Set<number>, value: number) {
+	return typeof a === 'number' ? a === value : a.has(value);
+}
+
 class App {
 	constructor(s: string, private words: string[]) {
 		this.matchedIndexes = App.createMatchedIndexes(s, words);
 		this.currentIndexes = new Uint16Array(this.words.map((_, index) => index));
 	}
+
 	private readonly results = new Set<number>();
-	private readonly matchedIndexes: Set<number>[];
+	private readonly matchedIndexes: Array<number | Set<number>>;
 	private readonly currentIndexes: Uint16Array;
 
-	private static createMatchedIndexes(s: string, wordArray: string[]): Set<number>[] {
-		return new Array<Set<number>>(...wordArray.map(word => {
+	private static createMatchedIndexes(s: string, wordArray: string[]): Array<number | Set<number>> {
+		return new Array<number | Set<number>>(...wordArray.map(word => {
 			const indexes = new Set<number>();
 			for (
 				let textIndex = s.indexOf(word);
@@ -51,14 +64,14 @@ class App {
 				textIndex = s.indexOf(word, textIndex + 1)
 			)
 				indexes.add(textIndex);
-			return indexes;
+			return indexes.size > 1 ? indexes : indexes.values().next().value;
 		}));
 	}
 
 	private check() {
 		const firstIndex = this.currentIndexes[0];
 		const matchedIndex = this.matchedIndexes[firstIndex];
-		for (const characterIndex of matchedIndex) {
+		for (const characterIndex of getIterable(matchedIndex)) {
 			if (this.currentIndexes.length === 1)
 				this.results.add(characterIndex)
 			else if (this.results.has(characterIndex))
@@ -71,7 +84,7 @@ class App {
 					const matchedIndex = this.matchedIndexes[currentIndex];
 					const offest = this.words[currentIndex].length;
 					sumCharacterIndex += offest;
-					if (!matchedIndex.has(sumCharacterIndex))
+					if (!checkHas(matchedIndex, sumCharacterIndex))
 						break;
 					if (i === lastIndex)
 						this.results.add(characterIndex);
@@ -82,9 +95,9 @@ class App {
 
 	findSubstring(): number[] {
 		for (const matchedIndex of this.matchedIndexes)
-			if (!matchedIndex.size)
+			if (getSize(matchedIndex) === 0)
 				return [];
-		const permutator = new Permutator(this.currentIndexes, this.check.bind(this));
+		const permutator = new Permutator(this.currentIndexes, () => {});
 		permutator.generate(this.words.length);
 		return Array.from(this.results);
 	}
@@ -100,7 +113,8 @@ function main() {
 	let s: string;
 	let words: string[];
 
-	s = "mississippi"; words = ["is"];
+	s = "pjzkrkevzztxductzzxmxsvwjkxpvukmfjywwetvfnujhweiybwvvsrfequzkhossmootkmyxgjgfordrpapjuunmqnxxdrqrfgkrsjqbszgiqlcfnrpjlcwdrvbumtotzylshdvccdmsqoadfrpsvnwpizlwszrtyclhgilklydbmfhuywotjmktnwrfvizvnmfvvqfiokkdprznnnjycttprkxpuykhmpchiksyucbmtabiqkisgbhxngmhezrrqvayfsxauampdpxtafniiwfvdufhtwajrbkxtjzqjnfocdhekumttuqwovfjrgulhekcpjszyynadxhnttgmnxkduqmmyhzfnjhducesctufqbumxbamalqudeibljgbspeotkgvddcwgxidaiqcvgwykhbysjzlzfbupkqunuqtraxrlptivshhbihtsigtpipguhbhctcvubnhqipncyxfjebdnjyetnlnvmuxhzsdahkrscewabejifmxombiamxvauuitoltyymsarqcuuoezcbqpdaprxmsrickwpgwpsoplhugbikbkotzrtqkscekkgwjycfnvwfgdzogjzjvpcvixnsqsxacfwndzvrwrycwxrcismdhqapoojegggkocyrdtkzmiekhxoppctytvphjynrhtcvxcobxbcjjivtfjiwmduhzjokkbctweqtigwfhzorjlkpuuliaipbtfldinyetoybvugevwvhhhweejogrghllsouipabfafcxnhukcbtmxzshoyyufjhzadhrelweszbfgwpkzlwxkogyogutscvuhcllphshivnoteztpxsaoaacgxyaztuixhunrowzljqfqrahosheukhahhbiaxqzfmmwcjxountkevsvpbzjnilwpoermxrtlfroqoclexxisrdhvfsindffslyekrzwzqkpeocilatftymodgztjgybtyheqgcpwogdcjlnlesefgvimwbxcbzvaibspdjnrpqtyeilkcspknyylbwndvkffmzuriilxagyerjptbgeqgebiaqnvdubrtxibhvakcyotkfonmseszhczapxdlauexehhaireihxsplgdgmxfvaevrbadbwjbdrkfbbjjkgcztkcbwagtcnrtqryuqixtzhaakjlurnumzyovawrcjiwabuwretmdamfkxrgqgcdgbrdbnugzecbgyxxdqmisaqcyjkqrntxqmdrczxbebemcblftxplafnyoxqimkhcykwamvdsxjezkpgdpvopddptdfbprjustquhlazkjfluxrzopqdstulybnqvyknrchbphcarknnhhovweaqawdyxsqsqahkepluypwrzjegqtdoxfgzdkydeoxvrfhxusrujnmjzqrrlxglcmkiykldbiasnhrjbjekystzilrwkzhontwmehrfsrzfaqrbbxncphbzuuxeteshyrveamjsfiaharkcqxefghgceeixkdgkuboupxnwhnfigpkwnqdvzlydpidcljmflbccarbiegsmweklwngvygbqpescpeichmfidgsjmkvkofvkuehsmkkbocgejoiqcnafvuokelwuqsgkyoekaroptuvekfvmtxtqshcwsztkrzwrpabqrrhnlerxjojemcxel";
+	words = ["dhvf","sind","ffsl","yekr","zwzq","kpeo","cila","tfty","modg","ztjg","ybty","heqg","cpwo","gdcj","lnle","sefg","vimw","bxcb"];
 	console.log(findSubstring(s, words));
 	console.warn('---');
 }
