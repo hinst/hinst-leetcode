@@ -1,27 +1,27 @@
 class App {
-	constructor(private s: string, private words: string[]) {
+	constructor(s: string, private words: string[]) {
 		this.matchedIndexes = App.createMatchedIndexes(s, words);
 		this.currentIndexes = new Uint16Array(words.length);
 		this.availableIndexes = new Set(words.map((_, index) => index));
 	}
 	private readonly results = new Set<number>();
-	private readonly matchedIndexes: Uint16Array[];
+	private readonly matchedIndexes: Set<number>[];
 	private readonly availableIndexes = new Set<number>();
 	private readonly currentIndexes: Uint16Array;
 	private currentSize = 0;
 	private firstCharacterIndex = -1;
 	private sumCharacterIndex = 0;
 
-	private static createMatchedIndexes(s: string, wordArray: string[]) {
-		return new Array<Uint16Array>(...wordArray.map(word => {
-			const indexes: number[] = [];
-				for (
-					let textIndex = s.indexOf(word);
-					textIndex !== -1;
-					textIndex = s.indexOf(word, textIndex + 1)
-				)
-					indexes.push(textIndex);
-			return new Uint16Array(indexes);
+	private static createMatchedIndexes(s: string, wordArray: string[]): Set<number>[] {
+		return new Array<Set<number>>(...wordArray.map(word => {
+			const indexes = new Set<number>();
+			for (
+				let textIndex = s.indexOf(word);
+				textIndex !== -1;
+				textIndex = s.indexOf(word, textIndex + 1)
+			)
+				indexes.add(textIndex);
+			return indexes;
 		}));
 	}
 
@@ -33,10 +33,8 @@ class App {
 			this.currentIndexes[this.currentSize++] = availableIndex;
 			const offset = this.words[availableIndex].length;
 			this.sumCharacterIndex += offset;
-			for (const characterIndex of this.matchedIndexes[availableIndex]) {
-				if (this.sumCharacterIndex === characterIndex)
-					this.check();
-			}
+			if (this.matchedIndexes[availableIndex].has(this.sumCharacterIndex))
+				this.check();
 			this.sumCharacterIndex -= offset;
 			--this.currentSize;
 			this.availableIndexes.add(availableIndex);
@@ -45,7 +43,7 @@ class App {
 
 	findSubstring(): number[] {
 		for (const matchedIndex of this.matchedIndexes)
-			if (!matchedIndex.length)
+			if (!matchedIndex.size)
 				return [];
 		for (const availableIndex of new Uint16Array(this.availableIndexes)) {
 			this.availableIndexes.delete(availableIndex);
