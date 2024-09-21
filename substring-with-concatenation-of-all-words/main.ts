@@ -17,18 +17,19 @@ function findSubstring(s: string, wordArray: string[]): number[] {
 		if (!matchedIndex.length)
 			return [];
 	const availableIndexes = new Set(wordArray.map((_, index) => index));
-	const currentIndexes: number[] = [];
+	const currentIndexes = new Uint16Array(wordArray.length);
+	let currentSize = 0;
 	const results = new Set<number>();
 	let sumCharacterIndex = 0;
 	function check(firstCharacterIndex?: number) {
-		if (currentIndexes.length === wordArray.length && firstCharacterIndex !== undefined)
+		if (currentSize === wordArray.length && firstCharacterIndex !== undefined)
 			results.add(firstCharacterIndex);
-		for (const availableIndex of new Set(availableIndexes)) {
+		for (const availableIndex of new Uint16Array(availableIndexes)) {
 			availableIndexes.delete(availableIndex);
-			currentIndexes.push(availableIndex);
+			currentIndexes[currentSize++] = availableIndex;
 			for (const characterIndex of matchedIndexes[availableIndex]) {
 				let offset: number | undefined;
-				if (currentIndexes.length !== 1)
+				if (currentSize !== 1)
 					offset = wordArray[availableIndex].length;
 				if (offset !== undefined)
 					sumCharacterIndex += offset;
@@ -41,7 +42,7 @@ function findSubstring(s: string, wordArray: string[]): number[] {
 				if (offset !== undefined)
 					sumCharacterIndex -= offset;
 			}
-			currentIndexes.pop();
+			--currentSize;
 			availableIndexes.add(availableIndex);
 		}
 	}
