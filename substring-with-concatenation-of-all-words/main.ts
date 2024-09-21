@@ -45,7 +45,8 @@ function findSubstring(s: string, wordArray: string[]): number[] {
 		for (const characterIndex of matchedIndexes[availableIndex]) {
 			sumCharacterIndex = characterIndex;
 			firstCharacterIndex = characterIndex;
-			check();
+			if (!results.has(firstCharacterIndex))
+				check();
 		}
 		--currentSize;
 		availableIndexes.add(availableIndex);
