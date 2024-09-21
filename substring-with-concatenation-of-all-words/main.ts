@@ -59,16 +59,20 @@ class App {
 		const firstIndex = this.currentIndexes[0];
 		const matchedIndex = this.matchedIndexes[firstIndex];
 		for (const characterIndex of matchedIndex) {
-			let sumCharacterIndex = characterIndex;
-			for (let i = 1; i < this.currentIndexes.length; ++i) {
-				const currentIndex = this.currentIndexes[i];
-				const matchedIndex = this.matchedIndexes[currentIndex];
-				const offest = this.words[currentIndex].length;
-				sumCharacterIndex += offest;
-				if (!matchedIndex.has(sumCharacterIndex))
-					break;
-				if (i === this.currentIndexes.length - 1) {
-					this.results.add(characterIndex);
+			if (this.currentIndexes.length === 1)
+				this.results.add(characterIndex)
+			else {
+				let sumCharacterIndex = characterIndex;
+				for (let i = 1; i < this.currentIndexes.length; ++i) {
+					const currentIndex = this.currentIndexes[i];
+					const matchedIndex = this.matchedIndexes[currentIndex];
+					const offest = this.words[currentIndex].length;
+					sumCharacterIndex += offest;
+					if (!matchedIndex.has(sumCharacterIndex))
+						break;
+					if (i === this.currentIndexes.length - 1) {
+						this.results.add(characterIndex);
+					}
 				}
 			}
 		}
@@ -94,7 +98,7 @@ function main() {
 	let s: string;
 	let words: string[];
 
-	s = "barfoothefoobarman"; words = ["foo","bar"];
+	s = "mississippi"; words = ["is"];
 	console.log(findSubstring(s, words));
 	console.warn('---');
 }
