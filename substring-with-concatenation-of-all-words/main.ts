@@ -12,48 +12,45 @@ function findSubstring(s: string, wordArray: string[]): number[] {
 	for (const matchedSet of matchedIndexes)
 		if (!matchedSet.size)
 			return [];
-
 	const availableIndexes = new Set(wordArray.map((_, index) => index));
 	const currentIndexes: number[] = [];
 	const results = new Set<number>();
-	function check() {
-		if (currentIndexes.length === wordArray.length) {
-			const startingPoints = matchedIndexes[currentIndexes[0]];
-			for (const startingPoint of startingPoints) {
-				let matched = true;
-				let sumIndex = startingPoint;
-				for (let i = 1; i < currentIndexes.length; ++i) {
-					sumIndex += wordArray[currentIndexes[0]].length;
-					if (!matchedIndexes[currentIndexes[i]].has(sumIndex))
-						matched = false;
+	let sumCharacterIndex = 0;
+	function check(firstCharacterIndex?: number) {
+		if (currentIndexes.length === wordArray.length && firstCharacterIndex !== undefined)
+			results.add(firstCharacterIndex);
+		for (const availableIndex of new Set(availableIndexes)) {
+			availableIndexes.delete(availableIndex);
+			currentIndexes.push(availableIndex);
+			for (const characterIndex of matchedIndexes[availableIndex]) {
+				let offset: number | undefined;
+				if (currentIndexes.length !== 1)
+					offset = wordArray[availableIndex].length;
+				if (offset !== undefined)
+					sumCharacterIndex += offset;
+				else {
+					sumCharacterIndex = characterIndex;
+					firstCharacterIndex = characterIndex;
 				}
-				if (matched)
-					results.add(startingPoint);
+				if (sumCharacterIndex === characterIndex)
+					check(firstCharacterIndex);
+				if (offset !== undefined)
+					sumCharacterIndex -= offset;
 			}
-		} else
-			for (const availableIndex of new Set(availableIndexes)) {
-				availableIndexes.delete(availableIndex);
-				currentIndexes.push(availableIndex);
-				check();
-				currentIndexes.pop();
-				availableIndexes.add(availableIndex);
-			}
+			currentIndexes.pop();
+			availableIndexes.add(availableIndex);
+		}
 	}
 	check();
 	return Array.from(results);
 }
 
-let s: string;
-let words: string[];
+function main() {
+	let s: string;
+	let words: string[];
 
-s = "foobarfoobar", words = ["foo","bar"];
-console.log(findSubstring(s, words));
-console.warn('---');
-
-s = "barfoofoobarthefoobarman", words = ["bar","foo","the"];
-console.log(findSubstring(s, words));
-console.warn('---');
-
-s = "wordgoodgoodgoodbestword"; words = ["word","good","best","good"];
-console.log(findSubstring(s, words));
-console.warn('---');
+	s = "barfoothefoobarman", words = ["foo","bar"]
+	console.log(findSubstring(s, words));
+	console.warn('---');
+}
+main();
