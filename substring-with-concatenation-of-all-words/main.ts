@@ -20,9 +20,10 @@ function findSubstring(s: string, wordArray: string[]): number[] {
 	const currentIndexes = new Uint16Array(wordArray.length);
 	let currentSize = 0;
 	const results = new Set<number>();
+	let firstCharacterIndex = -1;
 	let sumCharacterIndex = 0;
-	function check(firstCharacterIndex?: number) {
-		if (currentSize === wordArray.length && firstCharacterIndex !== undefined)
+	function check() {
+		if (currentSize === wordArray.length)
 			results.add(firstCharacterIndex);
 		for (const availableIndex of new Uint16Array(availableIndexes)) {
 			availableIndexes.delete(availableIndex);
@@ -38,7 +39,7 @@ function findSubstring(s: string, wordArray: string[]): number[] {
 					firstCharacterIndex = characterIndex;
 				}
 				if (sumCharacterIndex === characterIndex)
-					check(firstCharacterIndex);
+					check();
 				if (offset !== undefined)
 					sumCharacterIndex -= offset;
 			}
