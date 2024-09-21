@@ -4,15 +4,15 @@ class App {
 		this.currentIndexes = new Uint16Array(words.length);
 		this.availableIndexes = new Set(words.map((_, index) => index));
 	}
-	readonly results = new Set<number>();
-	readonly matchedIndexes: Uint16Array[];
-	readonly availableIndexes = new Set<number>();
-	readonly currentIndexes: Uint16Array;
-	currentSize = 0;
-	firstCharacterIndex = -1;
-	sumCharacterIndex = 0;
+	private readonly results = new Set<number>();
+	private readonly matchedIndexes: Uint16Array[];
+	private readonly availableIndexes = new Set<number>();
+	private readonly currentIndexes: Uint16Array;
+	private currentSize = 0;
+	private firstCharacterIndex = -1;
+	private sumCharacterIndex = 0;
 
-	static createMatchedIndexes(s: string, wordArray: string[]) {
+	private static createMatchedIndexes(s: string, wordArray: string[]) {
 		return new Array<Uint16Array>(...wordArray.map(word => {
 			const indexes: number[] = [];
 				for (
@@ -25,19 +25,19 @@ class App {
 		}));
 	}
 
-	check() {
+	private check() {
 		if (this.currentSize === this.words.length)
 			this.results.add(this.firstCharacterIndex);
 		for (const availableIndex of new Uint16Array(this.availableIndexes)) {
 			this.availableIndexes.delete(availableIndex);
 			this.currentIndexes[this.currentSize++] = availableIndex;
+			const offset = this.words[availableIndex].length;
+			this.sumCharacterIndex += offset;
 			for (const characterIndex of this.matchedIndexes[availableIndex]) {
-				const offset = this.words[availableIndex].length;
-				this.sumCharacterIndex += offset;
 				if (this.sumCharacterIndex === characterIndex)
 					this.check();
-				this.sumCharacterIndex -= offset;
 			}
+			this.sumCharacterIndex -= offset;
 			--this.currentSize;
 			this.availableIndexes.add(availableIndex);
 		}
