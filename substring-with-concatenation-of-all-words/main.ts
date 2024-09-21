@@ -5,8 +5,11 @@ function findSubstring(s: string, wordArray: string[]): number[] {
 	function check() {
 		if (currentWords.length === wordArray.length) {
 			const text = currentWords.join('');
-			const textIndex = s.indexOf(text);
-			if (textIndex !== -1)
+			for (
+				let textIndex = s.indexOf(text);
+				textIndex !== -1;
+				textIndex = s.indexOf(text, textIndex + 1)
+			)
 				results.add(textIndex);
 		} else
 			for (const availableIndex of new Set(availableIndexes)) {
