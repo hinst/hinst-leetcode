@@ -28,9 +28,7 @@ class App {
 	private check() {
 		if (this.currentSize === this.words.length)
 			this.results.add(this.firstCharacterIndex);
-		for (let availableIndex = 0; availableIndex < this.words.length; ++availableIndex) {
-			if (!this.availableIndexes.has(availableIndex))
-				continue;
+		for (const availableIndex of new Uint16Array(this.availableIndexes)) {
 			this.availableIndexes.delete(availableIndex);
 			this.currentIndexes[this.currentSize++] = availableIndex;
 			const offset = this.words[availableIndex].length;
@@ -48,8 +46,6 @@ class App {
 			if (!matchedIndex.size)
 				return [];
 		for (let availableIndex = 0; availableIndex < this.words.length; ++availableIndex) {
-			if (!this.availableIndexes.has(availableIndex))
-				continue;
 			this.availableIndexes.delete(availableIndex);
 			this.currentIndexes[this.currentSize++] = availableIndex;
 			for (const characterIndex of this.matchedIndexes[availableIndex]) {
