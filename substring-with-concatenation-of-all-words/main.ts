@@ -1,16 +1,20 @@
-function findSubstring(s: string, wordArray: string[]): number[] {
-	const matchedIndexes = new Array<Set<number>>(...wordArray.map(word => {
-		const indexes = new Set<number>();
+function createMatchedIndexes(s: string, wordArray: string[]) {
+	return new Array<Uint16Array>(...wordArray.map(word => {
+		const indexes: number[] = [];
 			for (
 				let textIndex = s.indexOf(word);
 				textIndex !== -1;
 				textIndex = s.indexOf(word, textIndex + 1)
 			)
-				indexes.add(textIndex);
-		return indexes;
+				indexes.push(textIndex);
+		return new Uint16Array(indexes);
 	}));
-	for (const matchedSet of matchedIndexes)
-		if (!matchedSet.size)
+}
+
+function findSubstring(s: string, wordArray: string[]): number[] {
+	const matchedIndexes = createMatchedIndexes(s, wordArray);
+	for (const matchedIndex of matchedIndexes)
+		if (!matchedIndex.length)
 			return [];
 	const availableIndexes = new Set(wordArray.map((_, index) => index));
 	const currentIndexes: number[] = [];
