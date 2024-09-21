@@ -2,13 +2,13 @@
 class Permutator {
 	constructor(
 		private A: Uint16Array,
-		private output: (A: Uint16Array) => void
+		private output: () => void,
 	) {
 	}
 
-	private generate(k: number) {
+	generate(k: number) {
 		if (k === 1)
-			this.output(this.A);
+			this.output();
 		else {
 			// Generate permutations with k-th unaltered
 			// Initially k = length(A)
@@ -36,16 +36,11 @@ class Permutator {
 class App {
 	constructor(s: string, private words: string[]) {
 		this.matchedIndexes = App.createMatchedIndexes(s, words);
-		this.currentIndexes = new Uint16Array(words.length);
-		this.availableIndexes = new Set(words.map((_, index) => index));
+		this.currentIndexes = new Uint16Array(this.words.map((_, index) => index));
 	}
 	private readonly results = new Set<number>();
 	private readonly matchedIndexes: Set<number>[];
-	private readonly availableIndexes = new Set<number>();
 	private readonly currentIndexes: Uint16Array;
-	private currentSize = 0;
-	private firstCharacterIndex = -1;
-	private sumCharacterIndex = 0;
 
 	private static createMatchedIndexes(s: string, wordArray: string[]): Set<number>[] {
 		return new Array<Set<number>>(...wordArray.map(word => {
@@ -61,20 +56,21 @@ class App {
 	}
 
 	private check() {
-		if (this.currentSize === this.words.length)
-			this.results.add(this.firstCharacterIndex);
-		for (let availableIndex = 0; availableIndex < this.words.length; ++availableIndex) {
-			if (!this.availableIndexes.has(availableIndex))
-				continue;
-			this.availableIndexes.delete(availableIndex);
-			this.currentIndexes[this.currentSize++] = availableIndex;
-			const offset = this.words[availableIndex].length;
-			this.sumCharacterIndex += offset;
-			if (this.matchedIndexes[availableIndex].has(this.sumCharacterIndex))
-				this.check();
-			this.sumCharacterIndex -= offset;
-			--this.currentSize;
-			this.availableIndexes.add(availableIndex);
+		const firstIndex = this.currentIndexes[0];
+		const matchedIndex = this.matchedIndexes[firstIndex];
+		for (const characterIndex of matchedIndex) {
+			let sumCharacterIndex = characterIndex;
+			for (let i = 1; i < this.currentIndexes.length; ++i) {
+				const currentIndex = this.currentIndexes[i];
+				const matchedIndex = this.matchedIndexes[currentIndex];
+				const offest = this.words[currentIndex].length;
+				sumCharacterIndex += offest;
+				if (!matchedIndex.has(sumCharacterIndex))
+					break;
+				if (i === this.currentIndexes.length - 1) {
+					this.results.add(characterIndex);
+				}
+			}
 		}
 	}
 
@@ -82,20 +78,8 @@ class App {
 		for (const matchedIndex of this.matchedIndexes)
 			if (!matchedIndex.size)
 				return [];
-		for (let availableIndex = 0; availableIndex < this.words.length; ++availableIndex) {
-			if (!this.availableIndexes.has(availableIndex))
-				continue;
-			this.availableIndexes.delete(availableIndex);
-			this.currentIndexes[this.currentSize++] = availableIndex;
-			for (const characterIndex of this.matchedIndexes[availableIndex]) {
-				this.sumCharacterIndex = characterIndex;
-				this.firstCharacterIndex = characterIndex;
-				if (!this.results.has(this.firstCharacterIndex))
-					this.check();
-			}
-			--this.currentSize;
-			this.availableIndexes.add(availableIndex);
-		}
+		const permutator = new Permutator(this.currentIndexes, this.check.bind(this));
+		permutator.generate(this.words.length);
 		return Array.from(this.results);
 	}
 }
@@ -110,8 +94,7 @@ function main() {
 	let s: string;
 	let words: string[];
 
-	s = "abababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababab";
-	words = ["ab","ba","ab","ba","ab","ba","ab","ba","ab","ba","ab","ba","ab","ba","ab","ba","ab","ba","ab","ba","ab","ba","ab","ba","ab","ba","ab","ba","ab","ba","ab","ba","ab","ba","ab","ba","ab","ba","ab","ba","ab","ba","ab","ba","ab","ba","ab","ba","ab","ba","ab","ba","ab","ba","ab","ba","ab","ba","ab","ba","ab","ba","ab","ba","ab","ba","ab","ba","ab","ba","ab","ba","ab","ba","ab","ba","ab","ba","ab","ba","ab","ba","ab","ba","ab","ba","ab","ba","ab","ba","ab","ba","ab","ba","ab","ba","ab","ba","ab","ba","ab","ba","ab","ba","ab","ba","ab","ba","ab","ba","ab","ba","ab","ba","ab","ba","ab","ba","ab","ba","ab","ba","ab","ba","ab","ba","ab","ba","ab","ba","ab","ba","ab","ba","ab","ba","ab","ba","ab","ba","ab","ba","ab","ba","ab","ba","ab","ba","ab","ba","ab","ba","ab","ba","ab","ba","ab","ba","ab","ba","ab","ba","ab","ba","ab","ba","ab","ba","ab","ba","ab","ba","ab","ba","ab","ba","ab","ba","ab","ba","ab","ba","ab","ba","ab","ba","ab","ba","ab","ba","ab","ba","ab","ba","ab","ba","ab","ba","ab","ba"];
+	s = "barfoothefoobarman"; words = ["foo","bar"];
 	console.log(findSubstring(s, words));
 	console.warn('---');
 }
