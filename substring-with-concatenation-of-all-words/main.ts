@@ -29,25 +29,27 @@ function findSubstring(s: string, wordArray: string[]): number[] {
 			availableIndexes.delete(availableIndex);
 			currentIndexes[currentSize++] = availableIndex;
 			for (const characterIndex of matchedIndexes[availableIndex]) {
-				let offset: number | undefined;
-				if (currentSize !== 1)
-					offset = wordArray[availableIndex].length;
-				if (offset !== undefined)
-					sumCharacterIndex += offset;
-				else {
-					sumCharacterIndex = characterIndex;
-					firstCharacterIndex = characterIndex;
-				}
+				const offset = wordArray[availableIndex].length;
+				sumCharacterIndex += offset;
 				if (sumCharacterIndex === characterIndex)
 					check();
-				if (offset !== undefined)
-					sumCharacterIndex -= offset;
+				sumCharacterIndex -= offset;
 			}
 			--currentSize;
 			availableIndexes.add(availableIndex);
 		}
 	}
-	check();
+	for (const availableIndex of new Uint16Array(availableIndexes)) {
+		availableIndexes.delete(availableIndex);
+		currentIndexes[currentSize++] = availableIndex;
+		for (const characterIndex of matchedIndexes[availableIndex]) {
+			sumCharacterIndex = characterIndex;
+			firstCharacterIndex = characterIndex;
+			check();
+		}
+		--currentSize;
+		availableIndexes.add(availableIndex);
+	}
 	return Array.from(results);
 }
 
