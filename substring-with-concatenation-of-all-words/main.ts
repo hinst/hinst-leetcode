@@ -47,8 +47,6 @@ class App {
 		for (const matchedIndex of this.matchedIndexes)
 			if (!matchedIndex.length)
 				return [];
-		if (this.s === this.words.join(''))
-			return [0];
 		for (const availableIndex of new Uint16Array(this.availableIndexes)) {
 			this.availableIndexes.delete(availableIndex);
 			this.currentIndexes[this.currentSize++] = availableIndex;
@@ -65,8 +63,10 @@ class App {
 	}
 }
 
-function findSubstring(s: string, wordArray: string[]): number[] {
-	return new App(s, wordArray).findSubstring();
+function findSubstring(s: string, words: string[]): number[] {
+	if (s === words.join(''))
+		return [0];
+	return new App(s, words).findSubstring();
 }
 
 function main() {
