@@ -1,3 +1,27 @@
+class Permutator {
+	static shouldSwap(s: number[], start: number, curr: number) {
+		for (let i = start; i < curr; ++i)
+			if (s[i] == s[curr])
+				return false
+		return true
+	}
+
+	static findPerms(s: number[], index: number, n: number, res: (s: number[]) => void) {
+		if (index >= n) {
+			res(s);
+			return;
+		}
+		for (let i = index; i < n; ++i) {
+			const check = Permutator.shouldSwap(s, index, i);
+			if (check) {
+				[s[index], s[i]] = [s[i], s[index]];
+				Permutator.findPerms(s, index+1, n, res);
+				[s[index], s[i]] = [s[i], s[index]];
+			}
+		}
+	}
+}
+
 class App {
 	constructor(s: string, private words: string[]) {
 		this.matchedIndexes = App.createMatchedIndexes(s, words);
