@@ -1,22 +1,25 @@
 class Permutator<T> {
-	private shouldSwap(s: T[], start: number, curr: number) {
+	constructor(public readonly s: T[], public res: () => void) {
+	}
+
+	private shouldSwap(start: number, curr: number) {
 		for (let i = start; i < curr; ++i)
-			if (s[i] == s[curr])
+			if (this.s[i] == this.s[curr])
 				return false
 		return true
 	}
 
-	findPerms(s: T[], index: number, n: number, res: (s: T[]) => void) {
+	findPerms(index: number, n: number) {
 		if (index >= n) {
-			res(s);
+			this.res();
 			return;
 		}
 		for (let i = index; i < n; ++i) {
-			const check = this.shouldSwap(s, index, i);
+			const check = this.shouldSwap(index, i);
 			if (check) {
-				[s[index], s[i]] = [s[i], s[index]];
-				this.findPerms(s, index+1, n, res);
-				[s[index], s[i]] = [s[i], s[index]];
+				[this.s[index], this.s[i]] = [this.s[i], this.s[index]];
+				this.findPerms(index+1, n);
+				[this.s[index], this.s[i]] = [this.s[i], this.s[index]];
 			}
 		}
 	}
@@ -98,8 +101,14 @@ function main() {
 	let words: string[];
 
 	s = Data.s; words = Data.words;
-	const permutator = new Permutator<string>();
-	permutator.findPerms(words, 0, words.length, output => console.log(output.join('-')));
+	let counter = 0;
+	const permutator = new Permutator<string>(words, () => {});
+	permutator.res = () => {
+		++counter;
+		if (counter % 10_000_000 === 0)
+			console.log(counter, permutator.s.join('-'));
+	}
+	permutator.findPerms(0, words.length);
 	return;
 	console.log(findSubstring(s, words));
 	console.warn('---');
