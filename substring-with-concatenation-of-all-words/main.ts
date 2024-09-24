@@ -1,6 +1,12 @@
-class Permutator<T> {
-	constructor(public readonly s: T[], public res: () => void) {
+class Permutator {
+	constructor(s: Uint16Array) {
+		this.s = s;
+		this.n = s.length;
 	}
+
+	public readonly s: Uint16Array
+	public res: () => void = () => {};
+	private readonly n: number;
 
 	private shouldSwap(start: number, curr: number) {
 		for (let i = start; i < curr; ++i)
@@ -9,16 +15,16 @@ class Permutator<T> {
 		return true
 	}
 
-	findPerms(index: number, n: number) {
-		if (index >= n) {
+	findPerms(index: number) {
+		if (index >= this.n) {
 			this.res();
 			return;
 		}
-		for (let i = index; i < n; ++i) {
+		for (let i = index; i < this.n; ++i) {
 			const check = this.shouldSwap(index, i);
 			if (check) {
 				[this.s[index], this.s[i]] = [this.s[i], this.s[index]];
-				this.findPerms(index+1, n);
+				this.findPerms(index+1);
 				[this.s[index], this.s[i]] = [this.s[i], this.s[index]];
 			}
 		}
@@ -26,11 +32,13 @@ class Permutator<T> {
 }
 
 class App {
-	constructor(s: string, private words: string[]) {
+	constructor(s: string, words: string[]) {
+		this.words = words;
 		this.matchedIndexes = App.createMatchedIndexes(s, words);
 		this.currentIndexes = new Uint16Array(words.length);
 		this.availableIndexes = new Set(words.map((_, index) => index));
 	}
+	private readonly words: string[];
 	private readonly results = new Set<number>();
 	private readonly matchedIndexes: Set<number>[];
 	private readonly availableIndexes = new Set<number>();
@@ -100,15 +108,18 @@ function main() {
 	let s: string;
 	let words: string[];
 
-	s = Data.s; words = Data.words;
+	s = Data.s; words = Data.words.slice(0,40);
+	const intWords = new Uint16Array(words.length);
+	for (let i = 0; i < words.length; ++i)
+		intWords[i] = words.indexOf(words[i]);
 	let counter = 0;
-	const permutator = new Permutator<string>(words, () => {});
+	const permutator = new Permutator(intWords);
 	permutator.res = () => {
 		++counter;
-		if (counter % 10_000_000 === 0)
-			console.log(counter, permutator.s.join('-'));
+		if (counter % 100_000_000 === 0)
+			console.log(counter, permutator.s.join(''));
 	}
-	permutator.findPerms(0, words.length);
+	permutator.findPerms(0);
 	return;
 	console.log(findSubstring(s, words));
 	console.warn('---');
