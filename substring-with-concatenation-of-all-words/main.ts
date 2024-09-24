@@ -1,4 +1,4 @@
-class Permutator {
+class Permutations {
 	constructor(sequence: Uint16Array) {
 		this.sequence = sequence;
 		this.sequenceLength = sequence.length;
@@ -17,8 +17,6 @@ class Permutator {
 	}
 
 	findPerms(index: number) {
-		if (!this.checkResponse(index))
-			return;
 		if (index >= this.sequenceLength) {
 			this.postResponse();
 			return;
@@ -39,16 +37,13 @@ class App {
 		this.words = words;
 		this.matchedIndexes = App.createMatchedIndexes(s, words);
 		this.currentIndexes = new Uint16Array(words.length);
-		this.availableIndexes = new Set(words.map((_, index) => index));
+		for (let i = 0; i < words.length; ++i)
+			this.currentIndexes[i] = words.indexOf(words[i]);
 	}
 	private readonly words: string[];
 	private readonly results = new Set<number>();
 	private readonly matchedIndexes: Set<number>[];
-	private readonly availableIndexes = new Set<number>();
 	private readonly currentIndexes: Uint16Array;
-	private currentSize = 0;
-	private firstCharacterIndex = -1;
-	private sumCharacterIndex = 0;
 
 	private static createMatchedIndexes(s: string, wordArray: string[]): Set<number>[] {
 		return new Array<Set<number>>(...wordArray.map(word => {
@@ -63,38 +58,35 @@ class App {
 		}));
 	}
 
-	private check() {
-		if (this.currentSize === this.words.length)
-			this.results.add(this.firstCharacterIndex);
-		for (const availableIndex of new Uint16Array(this.availableIndexes)) {
-			this.availableIndexes.delete(availableIndex);
-			this.currentIndexes[this.currentSize++] = availableIndex;
-			const offset = this.words[availableIndex].length;
-			this.sumCharacterIndex += offset;
-			if (this.matchedIndexes[availableIndex].has(this.sumCharacterIndex))
-				this.check();
-			this.sumCharacterIndex -= offset;
-			--this.currentSize;
-			this.availableIndexes.add(availableIndex);
+	private check(limit: number): boolean {
+		const firstIndex = this.currentIndexes[0];
+		const matchedIndex = this.matchedIndexes[firstIndex];
+		for (const characterIndex of matchedIndex) {
+			if (limit === 1)
+				return true;
+			else {
+				let sumCharacterIndex = characterIndex;
+				const lastIndex = limit;
+				for (let i = 1; i < limit; ++i) {
+					const currentIndex = this.currentIndexes[i];
+					const matchedIndex = this.matchedIndexes[currentIndex];
+					const offset = this.words[currentIndex].length;
+					sumCharacterIndex += offset;
+					if (!matchedIndex.has(sumCharacterIndex))
+						break;
+					if (i === lastIndex)
+						return true;
+				}
+			}
 		}
+		return false;
 	}
 
 	findSubstring(): number[] {
-		for (const matchedIndex of this.matchedIndexes)
-			if (!matchedIndex.size)
-				return [];
-		for (let availableIndex = 0; availableIndex < this.words.length; ++availableIndex) {
-			this.availableIndexes.delete(availableIndex);
-			this.currentIndexes[this.currentSize++] = availableIndex;
-			for (const characterIndex of this.matchedIndexes[availableIndex]) {
-				this.sumCharacterIndex = characterIndex;
-				this.firstCharacterIndex = characterIndex;
-				if (!this.results.has(this.firstCharacterIndex))
-					this.check();
-			}
-			--this.currentSize;
-			this.availableIndexes.add(availableIndex);
-		}
+		const permutations = new Permutations(this.currentIndexes);
+		permutations.checkResponse = this.check.bind(this);
+		permutations.postResponse = () => this.results.add(this.currentIndexes);
+		permutations.findPerms(0);
 		return Array.from(this.results);
 	}
 }
@@ -111,19 +103,7 @@ function main() {
 	let s: string;
 	let words: string[];
 
-	s = Data.s; words = Data.words.slice(0,40);
-	const intWords = new Uint16Array(words.length);
-	for (let i = 0; i < words.length; ++i)
-		intWords[i] = words.indexOf(words[i]);
-	let counter = 0;
-	const permutator = new Permutator(intWords);
-	permutator.postResponse = () => {
-		++counter;
-		if (counter % 100_000_000 === 0)
-			console.log(counter, permutator.sequence.join(''));
-	}
-	permutator.findPerms(0);
-	return;
+	s = "barfoothefoobarman"; words = ["foo","bar"];
 	console.log(findSubstring(s, words));
 	console.warn('---');
 }
