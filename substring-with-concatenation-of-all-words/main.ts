@@ -1,31 +1,34 @@
 class Permutator {
-	constructor(s: Uint16Array) {
-		this.s = s;
-		this.n = s.length;
+	constructor(sequence: Uint16Array) {
+		this.sequence = sequence;
+		this.sequenceLength = sequence.length;
 	}
 
-	public readonly s: Uint16Array
-	public res: () => void = () => {};
-	private readonly n: number;
+	public readonly sequence: Uint16Array;
+	public checkResponse: (index: number) => boolean = () => true;
+	public postResponse: () => void = () => {};
+	private readonly sequenceLength: number;
 
 	private shouldSwap(start: number, curr: number) {
 		for (let i = start; i < curr; ++i)
-			if (this.s[i] == this.s[curr])
+			if (this.sequence[i] == this.sequence[curr])
 				return false
 		return true
 	}
 
 	findPerms(index: number) {
-		if (index >= this.n) {
-			this.res();
+		if (!this.checkResponse(index))
+			return;
+		if (index >= this.sequenceLength) {
+			this.postResponse();
 			return;
 		}
-		for (let i = index; i < this.n; ++i) {
+		for (let i = index; i < this.sequenceLength; ++i) {
 			const check = this.shouldSwap(index, i);
 			if (check) {
-				[this.s[index], this.s[i]] = [this.s[i], this.s[index]];
+				[this.sequence[index], this.sequence[i]] = [this.sequence[i], this.sequence[index]];
 				this.findPerms(index+1);
-				[this.s[index], this.s[i]] = [this.s[i], this.s[index]];
+				[this.sequence[index], this.sequence[i]] = [this.sequence[i], this.sequence[index]];
 			}
 		}
 	}
@@ -114,10 +117,10 @@ function main() {
 		intWords[i] = words.indexOf(words[i]);
 	let counter = 0;
 	const permutator = new Permutator(intWords);
-	permutator.res = () => {
+	permutator.postResponse = () => {
 		++counter;
 		if (counter % 100_000_000 === 0)
-			console.log(counter, permutator.s.join(''));
+			console.log(counter, permutator.sequence.join(''));
 	}
 	permutator.findPerms(0);
 	return;
