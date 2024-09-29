@@ -47,8 +47,7 @@ class App {
 	private readonly results = new Set<number>();
 	private readonly matchedIndexes: Set<number>[];
 	private readonly currentWordIndexes: Uint16Array;
-	private startCharacterIndexes: number[] = [];
-	private currentCharacterIndexes: number[] = [];
+	private walkCharacterIndexes: number[][] = [];
 
 	private static createMatchedIndexes(s: string, wordArray: string[]): Set<number>[] {
 		return new Array<Set<number>>(...wordArray.map(word => {
@@ -64,33 +63,37 @@ class App {
 	}
 
 	private check(limit: number): number[] {
-		const currentWordIndex = this.currentWordIndexes[limit - 1];
+		const before = limit - 2;
+		const current = limit - 1;
+		const currentWordIndex = this.currentWordIndexes[current];
 		const matchedIndex = this.matchedIndexes[currentWordIndex];
 		let results: number[] = [];
 		if (limit === 1) {
-			this.startCharacterIndexes = Array.from(matchedIndex);
-			this.currentCharacterIndexes = [...this.startCharacterIndexes];
-			results = this.startCharacterIndexes;
+			this.walkCharacterIndexes = new Array(this.words.length);
+			this.walkCharacterIndexes[0] = Array.from(matchedIndex);
+			for (let i = 1; i < this.walkCharacterIndexes.length; ++i)
+				this.walkCharacterIndexes[i] = new Array(matchedIndex.size);
+			results = this.walkCharacterIndexes[0];
 		} else {
-			for (let i = 0; i < this.currentCharacterIndexes.length; ++i) {
-				if (this.currentCharacterIndexes[i] === -1)
-					continue;
-				const nextCharacterIndex = this.currentCharacterIndexes[i] + this.words[currentWordIndex].length;
-				if (matchedIndex.has(nextCharacterIndex))
-					this.currentCharacterIndexes[i] = nextCharacterIndex;
+			const previousIndexes = this.walkCharacterIndexes[before];
+			const nextIndexes = this.walkCharacterIndexes[current];
+			for (let i = 0; i < previousIndexes.length; ++i) {
+				const nextCharacterIndex = previousIndexes[i] + this.words[currentWordIndex].length;
+				if (previousIndexes[i] !== -1)
+					nextIndexes[i] = matchedIndex.has(nextCharacterIndex) ? nextCharacterIndex : -1;
 				else
-					this.currentCharacterIndexes[i] = -1;
+					nextIndexes[i] = -1;
 			}
-			results = this.startCharacterIndexes.filter((_, i) => this.currentCharacterIndexes[i] !== -1);
+			results = this.walkCharacterIndexes[0].filter((_, i) => nextIndexes[i] !== -1);
 		}
-		if (true)
+		if (false)
 		console.log(
 			' '.repeat(limit),
 			limit,
 			Array.from(this.currentWordIndexes)
 				.map((currentIndex, i) => i < limit ? this.words[currentIndex] : '_')
 				.join(''),
-			this.startCharacterIndexes.map((index, i) => this.currentCharacterIndexes[i] !== -1 ? index : '_').join()
+			this.walkCharacterIndexes[0].map((index, i) => this.walkCharacterIndexes[limit - 1][i] !== -1 ? index : '_').join()
 		);
 		return results;
 	}
@@ -118,8 +121,7 @@ function main() {
 	let s: string;
 	let words: string[];
 
-	s = "barfoofoobarthefoobarman"; words = ["bar","foo","the"];
-	console.log(s);
+	s = Data.s; words = Data.words;
 	console.log('ANSWER', findSubstring(s, words), '---------');
 }
 main();
