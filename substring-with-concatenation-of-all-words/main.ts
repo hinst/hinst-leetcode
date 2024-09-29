@@ -87,6 +87,8 @@ class Permutations {
 	private readonly sequenceLength: number;
 
 	private checkSwap(start: number, curr: number) {
+		if (start === 0 && curr === 0)
+			return true;
 		if (!this.checkCanSwap(start, curr))
 			return false;
 		for (let i = start; i < curr; ++i)
@@ -136,8 +138,11 @@ class App {
 	private maxMultiMatch: number = Number.MIN_SAFE_INTEGER;
 
 	private createMatchedIndexes(s: string, wordArray: string[]): QuickSet[] {
-		const matchSet = new Array<QuickSet>(...wordArray.map((word, wordIndex) => {
-			let indexes: QuickSet | undefined = undefined;
+		const matchMap = new Map<string, QuickSet>();
+		const matchSet = wordArray.map(word => {
+			let indexes: QuickSet | undefined = matchMap.get(word);
+			if (indexes !== undefined)
+				return indexes;
 			for (
 				let textIndex = s.indexOf(word);
 				textIndex !== -1;
@@ -152,9 +157,21 @@ class App {
 				this.minWordLength = word.length;
 			if (this.maxMultiMatch < getQuickSetLength(indexes))
 				this.maxMultiMatch = getQuickSetLength(indexes);
+			matchMap.set(word, indexes);
 			return indexes;
-		}));
+		});
 		return matchSet;
+	}
+
+	private printDebugInfo(limit: number) {
+		console.log(
+			' '.repeat(limit),
+			limit,
+			Array.from(this.currentWordIndexes)
+				.map((currentIndex, i) => i < limit ? this.words[currentIndex] : '_')
+				.join(''),
+			Array.from(this.walkCharacterIndexes[0]).map((index, i) => this.walkCharacterIndexes[limit - 1][i] !== MAX_UINT16 ? index : '_').join(),
+		);
 	}
 
 	private check(limit: number, build: boolean): boolean | Uint16Array {
@@ -164,15 +181,6 @@ class App {
 		const matchedIndex = this.matchedIndexes[currentWordIndex];
 		if (limit === 1) {
 			this.walkCharacterLength = quickSetCopy(this.walkCharacterIndexes[0], matchedIndex);
-			if (false)
-				console.log(
-					' '.repeat(limit),
-					limit,
-					Array.from(this.currentWordIndexes)
-						.map((currentIndex, i) => i < limit ? this.words[currentIndex] : '_')
-						.join(''),
-					Array.from(this.walkCharacterIndexes[0]).map((index, i) => this.walkCharacterIndexes[limit - 1][i] !== MAX_UINT16 ? index : '_').join(),
-				);
 			return build
 				? this.walkCharacterIndexes[0].slice(0, this.walkCharacterLength)
 				: this.walkCharacterLength > 0 && !this.walkCharacterIndexes[0].every(index => this.results.has(index));
@@ -213,15 +221,6 @@ class App {
 				} else
 					nextIndexes[i] = MAX_UINT16;
 			}
-			if (false)
-				console.log(
-					' '.repeat(limit),
-					limit,
-					Array.from(this.currentWordIndexes)
-						.map((currentIndex, i) => i < limit ? this.words[currentIndex] : '_')
-						.join(''),
-					Array.from(this.walkCharacterIndexes[0]).map((index, i) => this.walkCharacterIndexes[limit - 1][i] !== MAX_UINT16 ? index : '_').join(),
-				);
 			return build
 				? this.walkCharacterIndexes[0].filter((_, i) => i < this.walkCharacterLength && nextIndexes[i] !== MAX_UINT16)
 				: haveNext;
@@ -257,7 +256,7 @@ function main() {
 	let s: string;
 	let words: string[];
 
-	s = Data.s; words = Data.words;
+	s = 'a'; words = ['a'];
 	console.time('done');
 	console.log(findSubstring(s, words));
 	console.timeEnd('done');
