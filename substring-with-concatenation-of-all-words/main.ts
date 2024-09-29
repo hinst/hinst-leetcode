@@ -52,9 +52,11 @@ class Permutations {
 }
 
 class App {
-	constructor(s: string, words: string[]) {
-		this.words = words;
-		this.matchedIndexes = App.createMatchedIndexes(s, words);
+	constructor(
+		private readonly s: string,
+		private readonly words: string[],
+	) {
+		this.matchedIndexes = this.createMatchedIndexes(s, words);
 		this.currentWordIndexes = new Uint16Array(words.length);
 		for (let i = 0; i < words.length; ++i)
 			this.currentWordIndexes[i] = words.indexOf(words[i]);
@@ -62,13 +64,13 @@ class App {
 			.map(() => new Array<number>());
 	}
 
-	private readonly words: string[];
 	private readonly results = new Set<number>();
 	private readonly matchedIndexes: QuickSet[];
 	private readonly currentWordIndexes: Uint16Array;
 	private readonly walkCharacterIndexes: number[][];
+	private minWordLength: number = Number.MAX_SAFE_INTEGER;
 
-	private static createMatchedIndexes(s: string, wordArray: string[]): QuickSet[] {
+	private createMatchedIndexes(s: string, wordArray: string[]): QuickSet[] {
 		return new Array<QuickSet>(...wordArray.map(word => {
 			let indexes: QuickSet | undefined = undefined;
 			for (
@@ -77,6 +79,8 @@ class App {
 				textIndex = s.indexOf(word, textIndex + 1)
 			)
 				indexes = quickSetAdd(indexes, textIndex);
+			if (word.length < this.minWordLength)
+				this.minWordLength = word.length;
 			return indexes || new Set<number>();
 		}));
 	}
@@ -98,14 +102,21 @@ class App {
 			const nextIndexes = this.walkCharacterIndexes[current];
 			const currentWordLength = this.words[currentWordIndex].length;
 			let haveNext = false;
+			const remainingWordCount = this.words.length - limit;
+			const requiredLength = remainingWordCount * this.minWordLength;
 			for (let i = 0; i < previousIndexes.length; ++i) {
-				const nextCharacterIndex = previousIndexes[i] + currentWordLength;
-				if (previousIndexes[i] == -1 || !quickSetHas(matchedIndex, nextCharacterIndex))
+				if (previousIndexes[i] == -1) {
 					nextIndexes[i] = -1;
-				else {
+					continue;
+				}
+				const nextCharacterIndex = previousIndexes[i] + currentWordLength;
+				const remainingLength = this.s.length - nextCharacterIndex;
+				const haveSpace = requiredLength <= remainingLength;
+				if (haveSpace && quickSetHas(matchedIndex, nextCharacterIndex)) {
 					nextIndexes[i] = nextCharacterIndex;
 					haveNext = true;
-				}
+				} else
+					nextIndexes[i] = -1;
 			}
 			return build
 				? this.walkCharacterIndexes[0].filter((_, i) => nextIndexes[i] !== -1)
