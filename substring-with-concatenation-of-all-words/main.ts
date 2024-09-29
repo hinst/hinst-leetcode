@@ -91,6 +91,7 @@ class App {
 
 	private readonly results = new Set<number>();
 	private readonly matchedIndexes: QuickSet[];
+	private readonly matchMap = new Map<number, number>();
 	private readonly currentWordIndexes: Uint16Array;
 	private readonly walkCharacterIndexes: Uint16Array[];
 	private walkCharacterLength: number = 0;
@@ -99,7 +100,7 @@ class App {
 	private maxMultiMatch: number = Number.MIN_SAFE_INTEGER;
 
 	private createMatchedIndexes(s: string, wordArray: string[]): QuickSet[] {
-		return new Array<QuickSet>(...wordArray.map(word => {
+		const matchSet = new Array<QuickSet>(...wordArray.map((word, wordIndex) => {
 			let indexes: QuickSet | undefined = undefined;
 			for (
 				let textIndex = s.indexOf(word);
@@ -110,6 +111,7 @@ class App {
 				const textEndIndex = textIndex + word.length;
 				if (this.maxMatchPosition < textEndIndex)
 					this.maxMatchPosition = textEndIndex;
+				this.matchMap.set(wordIndex, textIndex);
 			}
 			if (word.length < this.minWordLength)
 				this.minWordLength = word.length;
@@ -117,6 +119,7 @@ class App {
 				this.maxMultiMatch = getQuickSetLength(indexes);
 			return indexes;
 		}));
+		return matchSet;
 	}
 
 	private check(limit: number, build: boolean): boolean | Uint16Array {
@@ -153,7 +156,15 @@ class App {
 				const nextCharacterIndex = previousIndexes[i] + currentWordLength;
 				const remainingLength = this.maxMatchPosition - nextCharacterIndex;
 				const haveSpace = requiredLength <= remainingLength;
-				if (haveSpace && quickSetHas(matchedIndex, nextCharacterIndex)) {
+				if (!haveSpace) {
+					nextIndexes[i] = MAX_UINT16;
+					continue;
+				}
+				// const haveRemainingWords = true;
+				// for (let i = limit; i < this.currentWordIndexes.length; ++i) {
+				// 	const futureIndex = this.currentWordIndexes[i];
+				// }
+				if (quickSetHas(matchedIndex, nextCharacterIndex)) {
 					nextIndexes[i] = nextCharacterIndex;
 					haveNext = true;
 				} else
