@@ -1,7 +1,7 @@
 class Permutations {
 	constructor(
 		private readonly sequence: Uint16Array,
-		private readonly checkResponse: (index: number) => number[],
+		private readonly checkResponse: (index: number, build: boolean) => number[] | boolean,
 		public readonly postResponse: (index: number) => void,
 	) {
 		this.sequenceLength = sequence.length;
@@ -18,11 +18,11 @@ class Permutations {
 
 	findPerms(index: number) {
 		if (index >= this.sequenceLength) {
-			const characterIndexes = this.checkResponse(index);
+			const characterIndexes = this.checkResponse(index, true) as number[];
 			for (const characterIndex of characterIndexes)
 				this.postResponse(characterIndex);
 		}
-		const isViable = index === 0 || this.checkResponse(index).length !== 0;
+		const isViable = index === 0 || this.checkResponse(index, false);
 		for (let i = index; i < this.sequenceLength; ++i) {
 			const shouldSwap = this.checkSwap(index, i);
 			if (shouldSwap && isViable) {
@@ -41,13 +41,14 @@ class App {
 		this.currentWordIndexes = new Uint16Array(words.length);
 		for (let i = 0; i < words.length; ++i)
 			this.currentWordIndexes[i] = words.indexOf(words[i]);
+		this.walkCharacterIndexes = new Array(this.words.length);
 	}
 
 	private readonly words: string[];
 	private readonly results = new Set<number>();
 	private readonly matchedIndexes: Set<number>[];
 	private readonly currentWordIndexes: Uint16Array;
-	private walkCharacterIndexes: number[][] = [];
+	private readonly walkCharacterIndexes: number[][];
 
 	private static createMatchedIndexes(s: string, wordArray: string[]): Set<number>[] {
 		return new Array<Set<number>>(...wordArray.map(word => {
@@ -62,30 +63,34 @@ class App {
 		}));
 	}
 
-	private check(limit: number): number[] {
+	private check(limit: number, build: boolean): boolean | number[] {
 		const before = limit - 2;
 		const current = limit - 1;
 		const currentWordIndex = this.currentWordIndexes[current];
 		const matchedIndex = this.matchedIndexes[currentWordIndex];
-		let results: number[] = [];
 		if (limit === 1) {
-			this.walkCharacterIndexes = new Array(this.words.length);
 			this.walkCharacterIndexes[0] = Array.from(matchedIndex);
 			for (let i = 1; i < this.walkCharacterIndexes.length; ++i)
 				this.walkCharacterIndexes[i] = new Array(matchedIndex.size);
-			results = this.walkCharacterIndexes[0];
+			return build ? this.walkCharacterIndexes[0] : this.walkCharacterIndexes[0].length > 0;
 		} else {
 			const previousIndexes = this.walkCharacterIndexes[before];
 			const nextIndexes = this.walkCharacterIndexes[current];
+			const currentWordLength = this.words[currentWordIndex].length;
+			let haveNext = false;
 			for (let i = 0; i < previousIndexes.length; ++i) {
-				const nextCharacterIndex = previousIndexes[i] + this.words[currentWordIndex].length;
-				nextIndexes[i] = previousIndexes[i] == -1 ?
-					-1
-					: matchedIndex.has(nextCharacterIndex) ? nextCharacterIndex : -1;
+				const nextCharacterIndex = previousIndexes[i] + currentWordLength;
+				if (previousIndexes[i] == -1 || !matchedIndex.has(nextCharacterIndex))
+					nextIndexes[i] = -1;
+				else {
+					nextIndexes[i] = nextCharacterIndex;
+					haveNext = true;
+				}
 			}
-			results = this.walkCharacterIndexes[0].filter((_, i) => nextIndexes[i] !== -1);
+			return build
+				? this.walkCharacterIndexes[0].filter((_, i) => nextIndexes[i] !== -1)
+				: haveNext;
 		}
-		return results;
 	}
 
 	findSubstring(): number[] {
