@@ -7,14 +7,37 @@ function quickSetHas(set: QuickSet, item: number): boolean {
 	return typeof set === 'number' ? set === item : set.has(item);
 }
 
-function quickSetHasAfter(set: QuickSet, value: number): boolean {
+/** Check whether set contains any value equal or greater than borderValue */
+function quickSetHasAfterValue(set: QuickSet, borderValue: number): boolean {
 	if (set === undefined)
 		return false;
 	else if (typeof set === 'number')
-		return value <= set;
+		return borderValue <= set;
 	for (const item of set)
-		if (value <= item)
+		if (borderValue <= item)
 			return true;
+	return false;
+}
+
+/** Check whether bSet has any value equal or greater than any value from aSet */
+function quickSetHasAfter(aSet: QuickSet, bSet: QuickSet): boolean {
+	if (aSet === undefined)
+		return false;
+	else if (bSet === undefined)
+		return false;
+	else if (typeof aSet === 'number' && typeof bSet === 'number')
+		return aSet <= bSet;
+	else if (typeof aSet === 'number')
+		return quickSetHasAfterValue(bSet, aSet);
+	else if (typeof bSet === 'number') {
+		for (const aItem of aSet) {
+			if (aItem <= bSet)
+				return true;
+		}
+	} else for (const aItem of aSet)
+		for (const bItem of bSet)
+			if (aItem <= bItem)
+				return true;
 	return false;
 }
 
@@ -55,6 +78,7 @@ class Permutations {
 	constructor(
 		private readonly sequence: Uint16Array,
 		private readonly checkResponse: (index: number, build: boolean) => boolean | Uint16Array,
+		private readonly checkCanSwap: (aIndex: number, bIndex: number) => boolean,
 		public readonly postResponse: (index: number) => void,
 	) {
 		this.sequenceLength = sequence.length;
@@ -63,6 +87,8 @@ class Permutations {
 	private readonly sequenceLength: number;
 
 	private checkSwap(start: number, curr: number) {
+		if (!this.checkCanSwap(start, curr))
+			return false;
 		for (let i = start; i < curr; ++i)
 			if (this.sequence[i] == this.sequence[curr])
 				return false
@@ -174,7 +200,7 @@ class App {
 				let haveRemainingWords = true;
 				for (let i = limit; i < this.currentWordIndexes.length; ++i) {
 					const futureIndex = this.currentWordIndexes[i];
-					if (!quickSetHasAfter(this.matchedIndexes[futureIndex], nextCharacterIndex)) {
+					if (!quickSetHasAfterValue(this.matchedIndexes[futureIndex], nextCharacterIndex)) {
 						haveRemainingWords = false;
 						break;
 					}
@@ -208,6 +234,12 @@ class App {
 		const permutations = new Permutations(
 			this.currentWordIndexes,
 			this.check.bind(this),
+			(aIndex, bIndex) => {
+				const newLeft = this.matchedIndexes[this.currentWordIndexes[bIndex]];
+				const newRight = this.matchedIndexes[this.currentWordIndexes[aIndex]];
+				const canSwap =  quickSetHasAfter(newLeft, newRight);
+				return canSwap;
+			},
 			index => this.results.add(index)
 		);
 		permutations.findPerms(0);
