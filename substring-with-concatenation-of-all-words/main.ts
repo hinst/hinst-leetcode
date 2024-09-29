@@ -19,13 +19,12 @@ class Permutations {
 	findPerms(index: number) {
 		if (index >= this.sequenceLength) {
 			const characterIndexes = this.checkResponse(index);
-			for (const characterIndex of characterIndexes) {
+			for (const characterIndex of characterIndexes)
 				this.postResponse(characterIndex);
-			}
 		}
+		const isViable = index === 0 || this.checkResponse(index).length !== 0;
 		for (let i = index; i < this.sequenceLength; ++i) {
 			const shouldSwap = this.checkSwap(index, i);
-			const isViable = index === 0 || this.checkResponse(index).length !== 0;
 			if (shouldSwap && isViable) {
 				[this.sequence[index], this.sequence[i]] = [this.sequence[i], this.sequence[index]];
 				this.findPerms(index+1);
