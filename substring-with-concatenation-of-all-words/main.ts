@@ -197,18 +197,18 @@ class App {
 					nextIndexes[i] = MAX_UINT16;
 					continue;
 				}
-				let haveRemainingWords = true;
-				for (let i = limit; i < this.currentWordIndexes.length; ++i) {
-					const futureIndex = this.currentWordIndexes[i];
-					if (!quickSetHasAfterValue(this.matchedIndexes[futureIndex], nextCharacterIndex)) {
-						haveRemainingWords = false;
-						break;
-					}
-				}
-				if (!haveRemainingWords) {
-					nextIndexes[i] = MAX_UINT16;
-					continue;
-				}
+				// let haveRemainingWords = true;
+				// for (let i = limit; i < this.currentWordIndexes.length; ++i) {
+				// 	const futureIndex = this.currentWordIndexes[i];
+				// 	if (!quickSetHasAfterValue(this.matchedIndexes[futureIndex], nextCharacterIndex)) {
+				// 		haveRemainingWords = false;
+				// 		break;
+				// 	}
+				// }
+				// if (!haveRemainingWords) {
+				// 	nextIndexes[i] = MAX_UINT16;
+				// 	continue;
+				// }
 				if (quickSetHas(matchedIndex, nextCharacterIndex)) {
 					nextIndexes[i] = nextCharacterIndex;
 					haveNext = true;
