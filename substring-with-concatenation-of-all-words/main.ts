@@ -38,14 +38,17 @@ class App {
 	constructor(s: string, words: string[]) {
 		this.words = words;
 		this.matchedIndexes = App.createMatchedIndexes(s, words);
-		this.currentIndexes = new Uint16Array(words.length);
+		this.currentWordIndexes = new Uint16Array(words.length);
 		for (let i = 0; i < words.length; ++i)
-			this.currentIndexes[i] = words.indexOf(words[i]);
+			this.currentWordIndexes[i] = words.indexOf(words[i]);
 	}
+
 	private readonly words: string[];
 	private readonly results = new Set<number>();
 	private readonly matchedIndexes: Set<number>[];
-	private readonly currentIndexes: Uint16Array;
+	private readonly currentWordIndexes: Uint16Array;
+	private startCharacterIndexes: number[] = [];
+	private currentCharacterIndexes: number[] = [];
 
 	private static createMatchedIndexes(s: string, wordArray: string[]): Set<number>[] {
 		return new Array<Set<number>>(...wordArray.map(word => {
@@ -61,42 +64,40 @@ class App {
 	}
 
 	private check(limit: number): number[] {
-		const firstIndex = this.currentIndexes[0];
-		const matchedIndex = this.matchedIndexes[firstIndex];
-		const results: number[] = [];
-		for (const characterIndex of matchedIndex) {
-			if (limit === 1)
-				results.push(characterIndex);
-			else {
-				let sumCharacterIndex = characterIndex;
-				const lastIndex = limit - 1;
-				for (let i = 1; i < limit; ++i) {
-					const currentIndex = this.currentIndexes[i];
-					const matchedIndex = this.matchedIndexes[currentIndex];
-					const offset = this.words[currentIndex].length;
-					sumCharacterIndex += offset;
-					if (!matchedIndex.has(sumCharacterIndex))
-						break;
-					if (i === lastIndex)
-						results.push(characterIndex);
-				}
+		const currentWordIndex = this.currentWordIndexes[limit - 1];
+		const matchedIndex = this.matchedIndexes[currentWordIndex];
+		let results: number[] = [];
+		if (limit === 1) {
+			this.startCharacterIndexes = Array.from(matchedIndex);
+			this.currentCharacterIndexes = [...this.startCharacterIndexes];
+			results = this.startCharacterIndexes;
+		} else {
+			for (let i = 0; i < this.currentCharacterIndexes.length; ++i) {
+				if (this.currentCharacterIndexes[i] === -1)
+					continue;
+				const nextCharacterIndex = this.currentCharacterIndexes[i] + this.words[currentWordIndex].length;
+				if (matchedIndex.has(nextCharacterIndex))
+					this.currentCharacterIndexes[i] = nextCharacterIndex;
+				else
+					this.currentCharacterIndexes[i] = -1;
 			}
+			results = this.startCharacterIndexes.filter((_, i) => this.currentCharacterIndexes[i] !== -1);
 		}
-		if (false)
+		if (true)
 		console.log(
 			' '.repeat(limit),
 			limit,
-			Array.from(this.currentIndexes)
+			Array.from(this.currentWordIndexes)
 				.map((currentIndex, i) => i < limit ? this.words[currentIndex] : '_')
 				.join(''),
-			results
+			this.startCharacterIndexes.map((index, i) => this.currentCharacterIndexes[i] !== -1 ? index : '_').join()
 		);
 		return results;
 	}
 
 	findSubstring(): number[] {
 		const permutations = new Permutations(
-			this.currentIndexes,
+			this.currentWordIndexes,
 			this.check.bind(this),
 			index => this.results.add(index)
 		);
@@ -117,7 +118,8 @@ function main() {
 	let s: string;
 	let words: string[];
 
-	s = Data.s; words = Data.words;
+	s = "barfoofoobarthefoobarman"; words = ["bar","foo","the"];
+	console.log(s);
 	console.log('ANSWER', findSubstring(s, words), '---------');
 }
 main();
