@@ -1,3 +1,4 @@
+const MAX_UINT16 = 65535;
 type QuickSet = Set<number> | number | undefined;
 
 function quickSetHas(set: QuickSet, item: number): boolean {
@@ -7,7 +8,7 @@ function quickSetHas(set: QuickSet, item: number): boolean {
 }
 
 function quickSetAdd(set: QuickSet | undefined, item: number): QuickSet {
-	if (typeof set === 'undefined')
+	if (set === undefined)
 		return item;
 	if (typeof set === 'number')
 		set = new Set<number>([set]);
@@ -15,10 +16,34 @@ function quickSetAdd(set: QuickSet | undefined, item: number): QuickSet {
 	return set;
 }
 
+function getQuickSetLength(set: QuickSet): number {
+	return set === undefined
+		? 0
+		: typeof set === 'number'
+			? 1
+			: set.size;
+}
+
+function quickSetCopy(array: Uint16Array, set: QuickSet): number {
+	if (set === undefined)
+		return 0;
+	else if (typeof set === 'number') {
+		array[0] = set;
+		return 1;
+	} else {
+		let index = 0;
+		set.forEach(item => {
+			array[index] = item;
+			++index;
+		});
+		return set.size;
+	}
+}
+
 class Permutations {
 	constructor(
 		private readonly sequence: Uint16Array,
-		private readonly checkResponse: (index: number, build: boolean) => number[] | boolean,
+		private readonly checkResponse: (index: number, build: boolean) => boolean | Uint16Array,
 		public readonly postResponse: (index: number) => void,
 	) {
 		this.sequenceLength = sequence.length;
@@ -35,7 +60,7 @@ class Permutations {
 
 	findPerms(index: number) {
 		if (index >= this.sequenceLength) {
-			const characterIndexes = this.checkResponse(index, true) as number[];
+			const characterIndexes = this.checkResponse(index, true) as Uint16Array;
 			for (const characterIndex of characterIndexes)
 				this.postResponse(characterIndex);
 		}
@@ -61,14 +86,16 @@ class App {
 		for (let i = 0; i < words.length; ++i)
 			this.currentWordIndexes[i] = words.indexOf(words[i]);
 		this.walkCharacterIndexes = new Array(this.words.length).fill([])
-			.map(() => new Array<number>());
+			.map(() => new Uint16Array(this.maxMultiMatch));
 	}
 
 	private readonly results = new Set<number>();
 	private readonly matchedIndexes: QuickSet[];
 	private readonly currentWordIndexes: Uint16Array;
-	private readonly walkCharacterIndexes: number[][];
+	private readonly walkCharacterIndexes: Uint16Array[];
+	private walkCharacterLength: number = 0;
 	private minWordLength: number = Number.MAX_SAFE_INTEGER;
+	private maxMultiMatch: number = Number.MIN_SAFE_INTEGER;
 
 	private createMatchedIndexes(s: string, wordArray: string[]): QuickSet[] {
 		return new Array<QuickSet>(...wordArray.map(word => {
@@ -81,21 +108,19 @@ class App {
 				indexes = quickSetAdd(indexes, textIndex);
 			if (word.length < this.minWordLength)
 				this.minWordLength = word.length;
+			if (this.maxMultiMatch < getQuickSetLength(indexes))
+				this.maxMultiMatch = getQuickSetLength(indexes);
 			return indexes;
 		}));
 	}
 
-	private check(limit: number, build: boolean): boolean | number[] {
+	private check(limit: number, build: boolean): boolean | Uint16Array {
 		const before = limit - 2;
 		const current = limit - 1;
 		const currentWordIndex = this.currentWordIndexes[current];
 		const matchedIndex = this.matchedIndexes[currentWordIndex];
 		if (limit === 1) {
-			this.walkCharacterIndexes[0] = typeof matchedIndex === 'undefined'
-				? []
-				: typeof matchedIndex === 'number'
-					? [matchedIndex]
-					: Array.from(matchedIndex);
+			this.walkCharacterLength = quickSetCopy(this.walkCharacterIndexes[0], matchedIndex);
 			if (false)
 			console.log(
 				' '.repeat(limit),
@@ -103,9 +128,11 @@ class App {
 				Array.from(this.currentWordIndexes)
 					.map((currentIndex, i) => i < limit ? this.words[currentIndex] : '_')
 					.join(''),
-				this.walkCharacterIndexes[0].map((index, i) => this.walkCharacterIndexes[limit - 1][i] !== -1 ? index : '_').join(),
+				Array.from(this.walkCharacterIndexes[0]).map((index, i) => this.walkCharacterIndexes[limit - 1][i] !== MAX_UINT16 ? index : '_').join(),
 			);
-			return build ? this.walkCharacterIndexes[0] : this.walkCharacterIndexes[0].length > 0;
+			return build
+				? this.walkCharacterIndexes[0].slice(0, this.walkCharacterLength)
+				: this.walkCharacterLength > 0;
 		} else {
 			const previousIndexes = this.walkCharacterIndexes[before];
 			const nextIndexes = this.walkCharacterIndexes[current];
@@ -113,9 +140,9 @@ class App {
 			let haveNext = false;
 			const remainingWordCount = this.words.length - limit;
 			const requiredLength = remainingWordCount * this.minWordLength;
-			for (let i = 0; i < previousIndexes.length; ++i) {
-				if (previousIndexes[i] == -1) {
-					nextIndexes[i] = -1;
+			for (let i = 0; i < this.walkCharacterLength; ++i) {
+				if (previousIndexes[i] == MAX_UINT16) {
+					nextIndexes[i] = MAX_UINT16;
 					continue;
 				}
 				const nextCharacterIndex = previousIndexes[i] + currentWordLength;
@@ -125,7 +152,7 @@ class App {
 					nextIndexes[i] = nextCharacterIndex;
 					haveNext = true;
 				} else
-					nextIndexes[i] = -1;
+					nextIndexes[i] = MAX_UINT16;
 			}
 			if (false)
 			console.log(
@@ -134,10 +161,10 @@ class App {
 				Array.from(this.currentWordIndexes)
 					.map((currentIndex, i) => i < limit ? this.words[currentIndex] : '_')
 					.join(''),
-				this.walkCharacterIndexes[0].map((index, i) => this.walkCharacterIndexes[limit - 1][i] !== -1 ? index : '_').join(),
+				Array.from(this.walkCharacterIndexes[0]).map((index, i) => this.walkCharacterIndexes[limit - 1][i] !== MAX_UINT16 ? index : '_').join(),
 			);
 			return build
-				? this.walkCharacterIndexes[0].filter((_, i) => nextIndexes[i] !== -1)
+				? this.walkCharacterIndexes[0].filter((_, i) => i < this.walkCharacterLength && nextIndexes[i] !== MAX_UINT16)
 				: haveNext;
 		}
 	}
@@ -165,7 +192,7 @@ function main() {
 	let s: string;
 	let words: string[];
 
-	s = "bacccaa"; words = ["cc","ba"];
+	s = Data.s; words = Data.words;
 	console.time('done');
 	console.log(findSubstring(s, words));
 	console.timeEnd('done');
