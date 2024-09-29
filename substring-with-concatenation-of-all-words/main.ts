@@ -81,7 +81,7 @@ class App {
 				indexes = quickSetAdd(indexes, textIndex);
 			if (word.length < this.minWordLength)
 				this.minWordLength = word.length;
-			return indexes || new Set<number>();
+			return indexes;
 		}));
 	}
 
@@ -96,7 +96,7 @@ class App {
 				: typeof matchedIndex === 'number'
 					? [matchedIndex]
 					: Array.from(matchedIndex);
-			if (true)
+			if (false)
 			console.log(
 				' '.repeat(limit),
 				limit,
@@ -127,7 +127,7 @@ class App {
 				} else
 					nextIndexes[i] = -1;
 			}
-			if (true)
+			if (false)
 			console.log(
 				' '.repeat(limit),
 				limit,
