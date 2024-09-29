@@ -96,6 +96,15 @@ class App {
 				: typeof matchedIndex === 'number'
 					? [matchedIndex]
 					: Array.from(matchedIndex);
+			if (true)
+			console.log(
+				' '.repeat(limit),
+				limit,
+				Array.from(this.currentWordIndexes)
+					.map((currentIndex, i) => i < limit ? this.words[currentIndex] : '_')
+					.join(''),
+				this.walkCharacterIndexes[0].map((index, i) => this.walkCharacterIndexes[limit - 1][i] !== -1 ? index : '_').join(),
+			);
 			return build ? this.walkCharacterIndexes[0] : this.walkCharacterIndexes[0].length > 0;
 		} else {
 			const previousIndexes = this.walkCharacterIndexes[before];
@@ -118,6 +127,15 @@ class App {
 				} else
 					nextIndexes[i] = -1;
 			}
+			if (true)
+			console.log(
+				' '.repeat(limit),
+				limit,
+				Array.from(this.currentWordIndexes)
+					.map((currentIndex, i) => i < limit ? this.words[currentIndex] : '_')
+					.join(''),
+				this.walkCharacterIndexes[0].map((index, i) => this.walkCharacterIndexes[limit - 1][i] !== -1 ? index : '_').join(),
+			);
 			return build
 				? this.walkCharacterIndexes[0].filter((_, i) => nextIndexes[i] !== -1)
 				: haveNext;
@@ -147,7 +165,7 @@ function main() {
 	let s: string;
 	let words: string[];
 
-	s = Data.s; words = Data.words;
+	s = "bacccaa"; words = ["cc","ba"];
 	console.time('done');
 	console.log(findSubstring(s, words));
 	console.timeEnd('done');
