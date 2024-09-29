@@ -83,6 +83,7 @@ class App {
 				}
 			}
 		}
+		if (false)
 		console.log(
 			' '.repeat(limit),
 			limit,
@@ -115,7 +116,7 @@ function main() {
 	let s: string;
 	let words: string[];
 
-	s = "AAAABBAABBCC"; words = ["AA","BB","CC"];
+	s = Data.s; words = Data.words;
 	console.log('ANSWER', findSubstring(s, words), '---------');
 }
 main();
