@@ -95,6 +95,7 @@ class App {
 	private readonly walkCharacterIndexes: Uint16Array[];
 	private walkCharacterLength: number = 0;
 	private minWordLength: number = Number.MAX_SAFE_INTEGER;
+	private maxMatchPosition: number = 0;
 	private maxMultiMatch: number = Number.MIN_SAFE_INTEGER;
 
 	private createMatchedIndexes(s: string, wordArray: string[]): QuickSet[] {
@@ -104,8 +105,12 @@ class App {
 				let textIndex = s.indexOf(word);
 				textIndex !== -1;
 				textIndex = s.indexOf(word, textIndex + 1)
-			)
+			) {
 				indexes = quickSetAdd(indexes, textIndex);
+				const textEndIndex = textIndex + word.length;
+				if (this.maxMatchPosition < textEndIndex)
+					this.maxMatchPosition = textEndIndex;
+			}
 			if (word.length < this.minWordLength)
 				this.minWordLength = word.length;
 			if (this.maxMultiMatch < getQuickSetLength(indexes))
@@ -122,14 +127,14 @@ class App {
 		if (limit === 1) {
 			this.walkCharacterLength = quickSetCopy(this.walkCharacterIndexes[0], matchedIndex);
 			if (false)
-			console.log(
-				' '.repeat(limit),
-				limit,
-				Array.from(this.currentWordIndexes)
-					.map((currentIndex, i) => i < limit ? this.words[currentIndex] : '_')
-					.join(''),
-				Array.from(this.walkCharacterIndexes[0]).map((index, i) => this.walkCharacterIndexes[limit - 1][i] !== MAX_UINT16 ? index : '_').join(),
-			);
+				console.log(
+					' '.repeat(limit),
+					limit,
+					Array.from(this.currentWordIndexes)
+						.map((currentIndex, i) => i < limit ? this.words[currentIndex] : '_')
+						.join(''),
+					Array.from(this.walkCharacterIndexes[0]).map((index, i) => this.walkCharacterIndexes[limit - 1][i] !== MAX_UINT16 ? index : '_').join(),
+				);
 			return build
 				? this.walkCharacterIndexes[0].slice(0, this.walkCharacterLength)
 				: this.walkCharacterLength > 0;
@@ -146,7 +151,7 @@ class App {
 					continue;
 				}
 				const nextCharacterIndex = previousIndexes[i] + currentWordLength;
-				const remainingLength = this.s.length - nextCharacterIndex;
+				const remainingLength = this.maxMatchPosition - nextCharacterIndex;
 				const haveSpace = requiredLength <= remainingLength;
 				if (haveSpace && quickSetHas(matchedIndex, nextCharacterIndex)) {
 					nextIndexes[i] = nextCharacterIndex;
@@ -155,14 +160,14 @@ class App {
 					nextIndexes[i] = MAX_UINT16;
 			}
 			if (false)
-			console.log(
-				' '.repeat(limit),
-				limit,
-				Array.from(this.currentWordIndexes)
-					.map((currentIndex, i) => i < limit ? this.words[currentIndex] : '_')
-					.join(''),
-				Array.from(this.walkCharacterIndexes[0]).map((index, i) => this.walkCharacterIndexes[limit - 1][i] !== MAX_UINT16 ? index : '_').join(),
-			);
+				console.log(
+					' '.repeat(limit),
+					limit,
+					Array.from(this.currentWordIndexes)
+						.map((currentIndex, i) => i < limit ? this.words[currentIndex] : '_')
+						.join(''),
+					Array.from(this.walkCharacterIndexes[0]).map((index, i) => this.walkCharacterIndexes[limit - 1][i] !== MAX_UINT16 ? index : '_').join(),
+				);
 			return build
 				? this.walkCharacterIndexes[0].filter((_, i) => i < this.walkCharacterLength && nextIndexes[i] !== MAX_UINT16)
 				: haveNext;
