@@ -41,7 +41,8 @@ class App {
 		this.currentWordIndexes = new Uint16Array(words.length);
 		for (let i = 0; i < words.length; ++i)
 			this.currentWordIndexes[i] = words.indexOf(words[i]);
-		this.walkCharacterIndexes = new Array(this.words.length);
+		this.walkCharacterIndexes = new Array(this.words.length).fill([])
+			.map(() => new Array<number>());
 	}
 
 	private readonly words: string[];
@@ -70,8 +71,6 @@ class App {
 		const matchedIndex = this.matchedIndexes[currentWordIndex];
 		if (limit === 1) {
 			this.walkCharacterIndexes[0] = Array.from(matchedIndex);
-			for (let i = 1; i < this.walkCharacterIndexes.length; ++i)
-				this.walkCharacterIndexes[i] = new Array(matchedIndex.size);
 			return build ? this.walkCharacterIndexes[0] : this.walkCharacterIndexes[0].length > 0;
 		} else {
 			const previousIndexes = this.walkCharacterIndexes[before];
