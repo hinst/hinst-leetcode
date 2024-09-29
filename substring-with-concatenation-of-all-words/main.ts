@@ -1,75 +1,81 @@
 const MAX_UINT16 = 65_535;
 
 class QuickSet {
-	private value?: number;
-	private set?: Set<number>;
-	private min?: number;
-	private max?: number;
+	/** value */
+	private v?: number;
+	/** set */
+	private s?: Set<number>;
+	/** min */
+	private L?: number;
+	/** max */
+	private B?: number;
 
 	add(item: number) {
-		if (this.set)
-			this.set.add(item);
-		else if (this.value !== undefined) {
-			this.set = new Set<number>();
-			this.set.add(this.value);
-			this.set.add(item);
+		if (this.s)
+			this.s.add(item);
+		else if (this.v !== undefined) {
+			this.s = new Set<number>();
+			this.s.add(this.v);
+			this.s.add(item);
 		} else
-			this.value = item;
-		if (this.min === undefined || this.min > item)
-			this.min = item;
-		if (this.max === undefined || this.max < item)
-			this.max = item;
+			this.v = item;
+		if (this.L === undefined || this.L > item)
+			this.L = item;
+		if (this.B === undefined || this.B < item)
+			this.B = item;
 	}
 
 	has(item: number): boolean {
-		if (this.set)
-			return this.set.has(item);
-		else if (this.value !== undefined)
-			return this.value === item;
+		if (this.s)
+			return this.s.has(item);
+		else if (this.v !== undefined)
+			return this.v === item;
 		return false;
 	}
 
 	getSize(): number {
-		if (this.set)
-			return this.set.size;
-		else if (this.value !== undefined)
+		if (this.s)
+			return this.s.size;
+		else if (this.v !== undefined)
 			return 1;
 		return 0;
 	}
 
 	copyIntoUint16Array(array: Uint16Array): number {
-		if (this.set) {
+		if (this.s) {
 			let i = 0;
-			for (const item of this.set) {
+			for (const item of this.s) {
 				array[i] = item;
 				++i;
 			}
 			return i;
-		} else if (this.value !== undefined) {
-			array[0] = this.value;
+		} else if (this.v !== undefined) {
+			array[0] = this.v;
 			return 1;
 		}
 		return 0;
 	}
 
 	hasAfterSet(borderSet: QuickSet): boolean {
-		if (this.min === undefined || borderSet.max === undefined)
+		if (this.L === undefined || borderSet.B === undefined)
 			return false;
-		return this.min <= borderSet.max;
+		return this.L <= borderSet.B;
 	}
 }
 
 class Permutations {
 	constructor(
-		private readonly sequence: Uint16Array,
+		/** sequence */
+		private readonly s: Uint16Array,
 		private readonly checkResponse: (index: number, build: boolean) => boolean | Uint16Array,
 		private readonly checkCanSwap: (aIndex: number, bIndex: number) => boolean,
 		public readonly postResponse: (index: number) => void,
 	) {
-		this.sequenceLength = sequence.length;
+		/** sequenceLength */
+		this.n = s.length;
 	}
 
-	private readonly sequenceLength: number;
+	private readonly n: number;
 
 	private checkSwap(start: number, curr: number) {
 		if (start === 0 && curr === 0)
@@ -77,27 +83,27 @@ class Permutations {
 		if (!this.checkCanSwap(start, curr))
 			return false;
 		for (let i = start; i < curr; ++i)
-			if (this.sequence[i] == this.sequence[curr])
+			if (this.s[i] == this.s[curr])
 				return false
 		return true
 	}
 
 	findPerms(index: number) {
-		if (index >= this.sequenceLength) {
+		if (index >= this.n) {
 			const characterIndexes = this.checkResponse(index, true) as Uint16Array;
 			for (const characterIndex of characterIndexes)
 				this.postResponse(characterIndex);
 		}
 		const isViable = index === 0 || this.checkResponse(index, false);
-		for (let i = index; i < this.sequenceLength; ++i) {
+		for (let i = index; i < this.n; ++i) {
 			const shouldSwap = this.checkSwap(index, i);
 			if (shouldSwap && isViable) {
-				const buffer = this.sequence[index];
-				this.sequence[index] = this.sequence[i];
-				this.sequence[i] = buffer;
+				const buffer = this.s[index];
+				this.s[index] = this.s[i];
+				this.s[i] = buffer;
 				this.findPerms(index+1);
-				this.sequence[i] = this.sequence[index];
-				this.sequence[index] = buffer;
+				this.s[i] = this.s[index];
+				this.s[index] = buffer;
 			}
 		}
 	}
@@ -152,17 +158,6 @@ class App {
 		});
 	}
 
-	private printDebugInfo(limit: number) {
-		console.log(
-			' '.repeat(limit),
-			limit,
-			Array.from(this.currentWordIndexes)
-				.map((currentIndex, i) => i < limit ? this.words[currentIndex] : '_')
-				.join(''),
-			Array.from(this.walkCharacterIndexes[0]).map((index, i) => this.walkCharacterIndexes[limit - 1][i] !== MAX_UINT16 ? index : '_').join(),
-		);
-	}
-
 	private check(limit: number, build: boolean): boolean | Uint16Array {
 		const before = limit - 2;
 		const current = limit - 1;
@@ -211,8 +206,7 @@ class App {
 			(aIndex, bIndex) => {
 				const newLeft = this.matchedIndexes[this.currentWordIndexes[bIndex]];
 				const newRight = this.matchedIndexes[this.currentWordIndexes[aIndex]];
-				const canSwap =  newLeft.hasAfterSet(newRight);
-				return canSwap;
+				return newLeft.hasAfterSet(newRight);
 			},
 			index => this.results.add(index)
 		);
