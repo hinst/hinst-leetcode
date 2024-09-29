@@ -1,10 +1,10 @@
 const MAX_UINT16 = 65_535;
 
 class QuickSet {
-	value?: number;
-	set?: Set<number>;
-	min?: number;
-	max?: number;
+	private value?: number;
+	private set?: Set<number>;
+	private min?: number;
+	private max?: number;
 
 	add(item: number) {
 		if (this.set)
