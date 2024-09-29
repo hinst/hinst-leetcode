@@ -92,9 +92,12 @@ class Permutations {
 		for (let i = index; i < this.sequenceLength; ++i) {
 			const shouldSwap = this.checkSwap(index, i);
 			if (shouldSwap && isViable) {
-				[this.sequence[index], this.sequence[i]] = [this.sequence[i], this.sequence[index]];
+				const buffer = this.sequence[index];
+				this.sequence[index] = this.sequence[i];
+				this.sequence[i] = buffer;
 				this.findPerms(index+1);
-				[this.sequence[index], this.sequence[i]] = [this.sequence[i], this.sequence[index]];
+				this.sequence[i] = this.sequence[index];
+				this.sequence[index] = buffer;
 			}
 		}
 	}
