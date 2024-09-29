@@ -137,7 +137,7 @@ class App {
 				);
 			return build
 				? this.walkCharacterIndexes[0].slice(0, this.walkCharacterLength)
-				: this.walkCharacterLength > 0;
+				: this.walkCharacterLength > 0 && !this.walkCharacterIndexes[0].every(index => this.results.has(index));
 		} else {
 			const previousIndexes = this.walkCharacterIndexes[before];
 			const nextIndexes = this.walkCharacterIndexes[current];
