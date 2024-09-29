@@ -7,6 +7,17 @@ function quickSetHas(set: QuickSet, item: number): boolean {
 	return typeof set === 'number' ? set === item : set.has(item);
 }
 
+function quickSetHasAfter(set: QuickSet, value: number): boolean {
+	if (set === undefined)
+		return false;
+	else if (typeof set === 'number')
+		return set === value;
+	for (const item of set)
+		if (value <= item)
+			return true;
+	return false;
+}
+
 function quickSetAdd(set: QuickSet | undefined, item: number): QuickSet {
 	if (set === undefined)
 		return item;
@@ -163,18 +174,16 @@ class App {
 				let haveRemainingWords = true;
 				for (let i = limit; i < this.currentWordIndexes.length; ++i) {
 					const futureIndex = this.currentWordIndexes[i];
-					let have = false;
-					for (const item of this.matchedIndexes[futureIndex])
-						if (nextCharacterIndex <= item)
-							have = true;
-					if (!have)
+					if (!quickSetHasAfter(this.matchedIndexes[futureIndex], nextCharacterIndex)) {
 						haveRemainingWords = false;
+						break;
+					}
 				}
 				if (!haveRemainingWords) {
 					nextIndexes[i] = MAX_UINT16;
 					continue;
 				}
-				if (matchedIndex.has(nextCharacterIndex)) {
+				if (quickSetHas(matchedIndex, nextCharacterIndex)) {
 					nextIndexes[i] = nextCharacterIndex;
 					haveNext = true;
 				} else
