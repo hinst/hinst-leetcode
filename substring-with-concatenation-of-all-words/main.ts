@@ -1,3 +1,20 @@
+type QuickSet = Set<number> | number | undefined;
+
+function quickSetHas(set: QuickSet, item: number): boolean {
+	if (set === undefined)
+		return false;
+	return typeof set === 'number' ? set === item : set.has(item);
+}
+
+function quickSetAdd(set: QuickSet | undefined, item: number): QuickSet {
+	if (typeof set === 'undefined')
+		return item;
+	if (typeof set === 'number')
+		set = new Set<number>([set]);
+	set.add(item);
+	return set;
+}
+
 class Permutations {
 	constructor(
 		private readonly sequence: Uint16Array,
@@ -47,20 +64,20 @@ class App {
 
 	private readonly words: string[];
 	private readonly results = new Set<number>();
-	private readonly matchedIndexes: Set<number>[];
+	private readonly matchedIndexes: QuickSet[];
 	private readonly currentWordIndexes: Uint16Array;
 	private readonly walkCharacterIndexes: number[][];
 
-	private static createMatchedIndexes(s: string, wordArray: string[]): Set<number>[] {
-		return new Array<Set<number>>(...wordArray.map(word => {
-			const indexes = new Set<number>();
+	private static createMatchedIndexes(s: string, wordArray: string[]): QuickSet[] {
+		return new Array<QuickSet>(...wordArray.map(word => {
+			let indexes: QuickSet | undefined = undefined;
 			for (
 				let textIndex = s.indexOf(word);
 				textIndex !== -1;
 				textIndex = s.indexOf(word, textIndex + 1)
 			)
-				indexes.add(textIndex);
-			return indexes;
+				indexes = quickSetAdd(indexes, textIndex);
+			return indexes || new Set<number>();
 		}));
 	}
 
@@ -70,7 +87,11 @@ class App {
 		const currentWordIndex = this.currentWordIndexes[current];
 		const matchedIndex = this.matchedIndexes[currentWordIndex];
 		if (limit === 1) {
-			this.walkCharacterIndexes[0] = Array.from(matchedIndex);
+			this.walkCharacterIndexes[0] = typeof matchedIndex === 'undefined'
+				? []
+				: typeof matchedIndex === 'number'
+					? [matchedIndex]
+					: Array.from(matchedIndex);
 			return build ? this.walkCharacterIndexes[0] : this.walkCharacterIndexes[0].length > 0;
 		} else {
 			const previousIndexes = this.walkCharacterIndexes[before];
@@ -79,7 +100,7 @@ class App {
 			let haveNext = false;
 			for (let i = 0; i < previousIndexes.length; ++i) {
 				const nextCharacterIndex = previousIndexes[i] + currentWordLength;
-				if (previousIndexes[i] == -1 || !matchedIndex.has(nextCharacterIndex))
+				if (previousIndexes[i] == -1 || !quickSetHas(matchedIndex, nextCharacterIndex))
 					nextIndexes[i] = -1;
 				else {
 					nextIndexes[i] = nextCharacterIndex;
