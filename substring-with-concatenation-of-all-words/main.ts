@@ -128,7 +128,6 @@ class App {
 
 	private readonly results = new Set<number>();
 	private readonly matchedIndexes: QuickSet[];
-	private readonly matchMap = new Map<number, number>();
 	private readonly currentWordIndexes: Uint16Array;
 	private readonly walkCharacterIndexes: Uint16Array[];
 	private walkCharacterLength: number = 0;
@@ -148,7 +147,6 @@ class App {
 				const textEndIndex = textIndex + word.length;
 				if (this.maxMatchPosition < textEndIndex)
 					this.maxMatchPosition = textEndIndex;
-				this.matchMap.set(wordIndex, textIndex);
 			}
 			if (word.length < this.minWordLength)
 				this.minWordLength = word.length;
