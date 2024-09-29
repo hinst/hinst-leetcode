@@ -1,12 +1,12 @@
 class Permutations {
-	constructor(sequence: Uint16Array) {
-		this.sequence = sequence;
+	constructor(
+		private readonly sequence: Uint16Array,
+		private readonly checkResponse: (index: number) => number[],
+		public readonly postResponse: (index: number) => void,
+	) {
 		this.sequenceLength = sequence.length;
 	}
 
-	public readonly sequence: Uint16Array;
-	public checkResponse: (index: number) => number[] = () => [];
-	public postResponse: (index: number) => void = () => {};
 	private readonly sequenceLength: number;
 
 	private checkSwap(start: number, curr: number) {
@@ -95,9 +95,11 @@ class App {
 	}
 
 	findSubstring(): number[] {
-		const permutations = new Permutations(this.currentIndexes);
-		permutations.checkResponse = this.check.bind(this);
-		permutations.postResponse = index => this.results.add(index);
+		const permutations = new Permutations(
+			this.currentIndexes,
+			this.check.bind(this),
+			index => this.results.add(index)
+		);
 		permutations.findPerms(0);
 		return Array.from(this.results);
 	}
