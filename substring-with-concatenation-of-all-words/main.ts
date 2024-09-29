@@ -79,22 +79,12 @@ class App {
 			const nextIndexes = this.walkCharacterIndexes[current];
 			for (let i = 0; i < previousIndexes.length; ++i) {
 				const nextCharacterIndex = previousIndexes[i] + this.words[currentWordIndex].length;
-				if (previousIndexes[i] !== -1)
-					nextIndexes[i] = matchedIndex.has(nextCharacterIndex) ? nextCharacterIndex : -1;
-				else
-					nextIndexes[i] = -1;
+				nextIndexes[i] = previousIndexes[i] == -1 ?
+					-1
+					: matchedIndex.has(nextCharacterIndex) ? nextCharacterIndex : -1;
 			}
 			results = this.walkCharacterIndexes[0].filter((_, i) => nextIndexes[i] !== -1);
 		}
-		if (false)
-		console.log(
-			' '.repeat(limit),
-			limit,
-			Array.from(this.currentWordIndexes)
-				.map((currentIndex, i) => i < limit ? this.words[currentIndex] : '_')
-				.join(''),
-			this.walkCharacterIndexes[0].map((index, i) => this.walkCharacterIndexes[limit - 1][i] !== -1 ? index : '_').join()
-		);
 		return results;
 	}
 
@@ -122,6 +112,8 @@ function main() {
 	let words: string[];
 
 	s = Data.s; words = Data.words;
-	console.log('ANSWER', findSubstring(s, words), '---------');
+	console.time('done');
+	console.log(findSubstring(s, words));
+	console.timeEnd('done');
 }
 main();
