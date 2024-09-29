@@ -5,11 +5,11 @@ class Permutations {
 	}
 
 	public readonly sequence: Uint16Array;
-	public checkResponse: (index: number) => boolean = () => true;
-	public postResponse: () => void = () => {};
+	public checkResponse: (index: number) => number[] = () => [];
+	public postResponse: (index: number) => void = () => {};
 	private readonly sequenceLength: number;
 
-	private shouldSwap(start: number, curr: number) {
+	private checkSwap(start: number, curr: number) {
 		for (let i = start; i < curr; ++i)
 			if (this.sequence[i] == this.sequence[curr])
 				return false
@@ -18,12 +18,15 @@ class Permutations {
 
 	findPerms(index: number) {
 		if (index >= this.sequenceLength) {
-			this.postResponse();
-			return;
+			const characterIndexes = this.checkResponse(index);
+			for (const characterIndex of characterIndexes) {
+				this.postResponse(characterIndex);
+			}
 		}
 		for (let i = index; i < this.sequenceLength; ++i) {
-			const check = this.shouldSwap(index, i);
-			if (check) {
+			const shouldSwap = this.checkSwap(index, i);
+			const isViable = index === 0 || this.checkResponse(index).length !== 0;
+			if (shouldSwap && isViable) {
 				[this.sequence[index], this.sequence[i]] = [this.sequence[i], this.sequence[index]];
 				this.findPerms(index+1);
 				[this.sequence[index], this.sequence[i]] = [this.sequence[i], this.sequence[index]];
@@ -58,15 +61,16 @@ class App {
 		}));
 	}
 
-	private check(limit: number): boolean {
+	private check(limit: number): number[] {
 		const firstIndex = this.currentIndexes[0];
 		const matchedIndex = this.matchedIndexes[firstIndex];
+		const results: number[] = [];
 		for (const characterIndex of matchedIndex) {
 			if (limit === 1)
-				return true;
+				results.push(characterIndex);
 			else {
 				let sumCharacterIndex = characterIndex;
-				const lastIndex = limit;
+				const lastIndex = limit - 1;
 				for (let i = 1; i < limit; ++i) {
 					const currentIndex = this.currentIndexes[i];
 					const matchedIndex = this.matchedIndexes[currentIndex];
@@ -75,17 +79,25 @@ class App {
 					if (!matchedIndex.has(sumCharacterIndex))
 						break;
 					if (i === lastIndex)
-						return true;
+						results.push(characterIndex);
 				}
 			}
 		}
-		return false;
+		console.log(
+			' '.repeat(limit),
+			limit,
+			Array.from(this.currentIndexes)
+				.map((currentIndex, i) => i < limit ? this.words[currentIndex] : '_')
+				.join(''),
+			results
+		);
+		return results;
 	}
 
 	findSubstring(): number[] {
 		const permutations = new Permutations(this.currentIndexes);
 		permutations.checkResponse = this.check.bind(this);
-		permutations.postResponse = () => this.results.add(this.currentIndexes);
+		permutations.postResponse = index => this.results.add(index);
 		permutations.findPerms(0);
 		return Array.from(this.results);
 	}
@@ -103,8 +115,7 @@ function main() {
 	let s: string;
 	let words: string[];
 
-	s = "barfoothefoobarman"; words = ["foo","bar"];
-	console.log(findSubstring(s, words));
-	console.warn('---');
+	s = "AAAABBAABBCC"; words = ["AA","BB","CC"];
+	console.log('ANSWER', findSubstring(s, words), '---------');
 }
 main();
