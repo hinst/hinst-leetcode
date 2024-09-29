@@ -1,62 +1,61 @@
-const MAX_UINT16 = 65535;
+const MAX_UINT16 = 65_535;
 
 class QuickSet {
-	v?: number;
-	s?: Set<number>;
-	mi?: number;
-	ma?: number;
+	value?: number;
+	set?: Set<number>;
+	min?: number;
+	max?: number;
 
 	add(item: number) {
-		if (this.s)
-			this.s.add(item);
-		else if (this.v !== undefined) {
-			this.s = new Set<number>();
-			this.s.add(this.v);
-			this.v = undefined;
-			this.s.add(item);
+		if (this.set)
+			this.set.add(item);
+		else if (this.value !== undefined) {
+			this.set = new Set<number>();
+			this.set.add(this.value);
+			this.set.add(item);
 		} else
-			this.v = item;
-		if (this.mi === undefined || this.mi > item)
-			this.mi = item;
-		if (this.ma === undefined || this.ma < item)
-			this.ma = item;
+			this.value = item;
+		if (this.min === undefined || this.min > item)
+			this.min = item;
+		if (this.max === undefined || this.max < item)
+			this.max = item;
 	}
 
 	has(item: number): boolean {
-		if (this.s)
-			return this.s.has(item);
-		else if (this.v !== undefined)
-			return this.v === item;
+		if (this.set)
+			return this.set.has(item);
+		else if (this.value !== undefined)
+			return this.value === item;
 		return false;
 	}
 
 	getSize(): number {
-		if (this.s)
-			return this.s.size;
-		else if (this.v !== undefined)
+		if (this.set)
+			return this.set.size;
+		else if (this.value !== undefined)
 			return 1;
 		return 0;
 	}
 
 	copyIntoUint16Array(array: Uint16Array): number {
-		if (this.s) {
+		if (this.set) {
 			let i = 0;
-			for (const item of this.s) {
+			for (const item of this.set) {
 				array[i] = item;
 				++i;
 			}
 			return i;
-		} else if (this.v !== undefined) {
-			array[0] = this.v;
+		} else if (this.value !== undefined) {
+			array[0] = this.value;
 			return 1;
 		}
 		return 0;
 	}
 
 	hasAfterSet(borderSet: QuickSet): boolean {
-		if (this.mi === undefined || borderSet.ma === undefined)
+		if (this.min === undefined || borderSet.max === undefined)
 			return false;
-		return this.mi <= borderSet.ma;
+		return this.min <= borderSet.max;
 	}
 }
 
