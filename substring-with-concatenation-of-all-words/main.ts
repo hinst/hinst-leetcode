@@ -129,10 +129,20 @@ class App {
 					nextIndexes[i] = MAX_UINT16;
 					continue;
 				}
-				// const haveRemainingWords = true;
-				// for (let i = limit; i < this.currentWordIndexes.length; ++i) {
-				// 	const futureIndex = this.currentWordIndexes[i];
-				// }
+				let haveRemainingWords = true;
+				for (let i = limit; i < this.currentWordIndexes.length; ++i) {
+					const futureIndex = this.currentWordIndexes[i];
+					let have = false;
+					for (const item of this.matchedIndexes[futureIndex])
+						if (nextCharacterIndex <= item)
+							have = true;
+					if (!have)
+						haveRemainingWords = false;
+				}
+				if (!haveRemainingWords) {
+					nextIndexes[i] = MAX_UINT16;
+					continue;
+				}
 				if (matchedIndex.has(nextCharacterIndex)) {
 					nextIndexes[i] = nextCharacterIndex;
 					haveNext = true;
