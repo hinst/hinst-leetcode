@@ -71,10 +71,10 @@ class Permutations {
 		private readonly checkCanSwap: (aIndex: number, bIndex: number) => boolean,
 		public readonly postResponse: (index: number) => void,
 	) {
-		/** sequenceLength */
 		this.n = s.length;
 	}
 
+	/** sequenceLength */
 	private readonly n: number;
 
 	private checkSwap(start: number, curr: number) {
