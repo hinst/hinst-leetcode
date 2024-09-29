@@ -1,43 +1,12 @@
 const MAX_UINT16 = 65535;
-type QuickSet = Set<number> | number | undefined;
 
-function quickSetHas(set: QuickSet, item: number): boolean {
-	if (set === undefined)
-		return false;
-	return typeof set === 'number' ? set === item : set.has(item);
-}
-
-function quickSetAdd(set: QuickSet | undefined, item: number): QuickSet {
-	if (set === undefined)
-		return item;
-	if (typeof set === 'number')
-		set = new Set<number>([set]);
-	set.add(item);
-	return set;
-}
-
-function getQuickSetLength(set: QuickSet): number {
-	return set === undefined
-		? 0
-		: typeof set === 'number'
-			? 1
-			: set.size;
-}
-
-function quickSetCopy(array: Uint16Array, set: QuickSet): number {
-	if (set === undefined)
-		return 0;
-	else if (typeof set === 'number') {
-		array[0] = set;
-		return 1;
-	} else {
-		let index = 0;
-		set.forEach(item => {
-			array[index] = item;
-			++index;
-		});
-		return set.size;
-	}
+function quickSetCopy(array: Uint16Array, set: Set<number>): number {
+	let index = 0;
+	set.forEach(item => {
+		array[index] = item;
+		++index;
+	});
+	return set.size;
 }
 
 class Permutations {
@@ -90,7 +59,7 @@ class App {
 	}
 
 	private readonly results = new Set<number>();
-	private readonly matchedIndexes: QuickSet[];
+	private readonly matchedIndexes: Set<number>[];
 	private readonly matchMap = new Map<number, number>();
 	private readonly currentWordIndexes: Uint16Array;
 	private readonly walkCharacterIndexes: Uint16Array[];
@@ -99,15 +68,15 @@ class App {
 	private maxMatchPosition: number = 0;
 	private maxMultiMatch: number = Number.MIN_SAFE_INTEGER;
 
-	private createMatchedIndexes(s: string, wordArray: string[]): QuickSet[] {
-		const matchSet = new Array<QuickSet>(...wordArray.map((word, wordIndex) => {
-			let indexes: QuickSet | undefined = undefined;
+	private createMatchedIndexes(s: string, wordArray: string[]): Set<number>[] {
+		const matchSet = new Array<Set<number>>(...wordArray.map((word, wordIndex) => {
+			let indexes: Set<number> = new Set();
 			for (
 				let textIndex = s.indexOf(word);
 				textIndex !== -1;
 				textIndex = s.indexOf(word, textIndex + 1)
 			) {
-				indexes = quickSetAdd(indexes, textIndex);
+				indexes.add(textIndex);
 				const textEndIndex = textIndex + word.length;
 				if (this.maxMatchPosition < textEndIndex)
 					this.maxMatchPosition = textEndIndex;
@@ -115,8 +84,8 @@ class App {
 			}
 			if (word.length < this.minWordLength)
 				this.minWordLength = word.length;
-			if (this.maxMultiMatch < getQuickSetLength(indexes))
-				this.maxMultiMatch = getQuickSetLength(indexes);
+			if (this.maxMultiMatch < indexes.size)
+				this.maxMultiMatch = indexes.size;
 			return indexes;
 		}));
 		return matchSet;
@@ -164,7 +133,7 @@ class App {
 				// for (let i = limit; i < this.currentWordIndexes.length; ++i) {
 				// 	const futureIndex = this.currentWordIndexes[i];
 				// }
-				if (quickSetHas(matchedIndex, nextCharacterIndex)) {
+				if (matchedIndex.has(nextCharacterIndex)) {
 					nextIndexes[i] = nextCharacterIndex;
 					haveNext = true;
 				} else
