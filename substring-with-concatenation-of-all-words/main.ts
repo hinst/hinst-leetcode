@@ -11,7 +11,7 @@ function quickSetHasAfter(set: QuickSet, value: number): boolean {
 	if (set === undefined)
 		return false;
 	else if (typeof set === 'number')
-		return set === value;
+		return value <= set;
 	for (const item of set)
 		if (value <= item)
 			return true;
