@@ -5,14 +5,10 @@ function find(s: string, index: number): number {
 	let sealedCount = 0;
 	let i: number;
 	for (i = index; i < s.length; ++i) {
-		switch (s[i]) {
-			case '(':
-				++level;
-				break;
-			case ')':
-				--level;
-				break;
-		}
+		if (s[i] === '(')
+			++level;
+		else
+			--level;
 		if (level < 0)
 			return count;
 		else {
