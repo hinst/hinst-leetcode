@@ -147,3 +147,5 @@ Initially I tried building all permutations recursively.
 Later I tried using "permutations with some identical elements" from https://rosettacode.org/wiki/Permutations_with_some_identical_elements.
 Interestingly enough, I advanced to test case 172 of 182 with relative ease. It's the last 12 test cases that were difficult to get running fast enough.
 At the end, I scored time: 2549 milliseconds, beats 7%; Memory: 225 MB, beats 5%.
+
+## 31. Next Permutation
