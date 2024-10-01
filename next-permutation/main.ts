@@ -1,30 +1,40 @@
 function nextPermutation(numbers: number[]): void {
-	let done = false;
-	for (let iLeft = numbers.length - 2; iLeft >= 0 ; --iLeft) {
-		const iNext = iLeft + 1;
-		// find min on the right?
-		if (numbers[iLeft] < numbers[iNext]) {
-			const rightNumbers = numbers.slice(iNext).sort((a, b) => a - b);
-			for (let i = 0; i < rightNumbers.length; ++i)
-				numbers[iNext + i] = rightNumbers[i];
-			const buffer = numbers[iLeft];
-			numbers[iLeft] = numbers[iNext];
-			numbers[iNext] = buffer;
-			done = true;
-			break;
-		}
+	const turningIndex = findTurningIndex(numbers);
+	console.log({turningIndex});
+	if (turningIndex !== -1) {
+		const turningValue = numbers[turningIndex];
+		for (let i = turningIndex + 1; i < numbers.length; ++i)
+			if (turningValue < numbers[i]) {
+				console.log({i});
+				swap(numbers, turningIndex, i);
+				break;
+			}
 	}
-	if (!done) {
-		const limit = Math.trunc(numbers.length / 2);
-		for (let i = 0; i < limit; ++i) {
-			const iRight = numbers.length - 1 - i;
-			const buffer = numbers[i];
-			numbers[i] = numbers[iRight];
-			numbers[iRight] = buffer;
-		}
-	}
+	console.log(numbers);
+	reverseArray(numbers, turningIndex + 1);
 }
 
-const nums = [1,2,3];
+function swap(numbers: number[], firstIndex: number, secondIndex: number) {
+	const buffer = numbers[firstIndex];
+	numbers[firstIndex] = numbers[secondIndex];
+	numbers[secondIndex] = buffer;
+}
+
+/** Find the first index in the array, where current value is less the next value.
+	Returns -1 if the turning point was not found */
+function findTurningIndex(numbers: number[]) {
+	for (let i = numbers.length - 2; i >= 0; --i)
+		if (numbers[i] < numbers[i + 1])
+			return i;
+	return -1;
+}
+
+function reverseArray(numbers: number[], start: number) {
+	for (let end = numbers.length - 1; start < end; ++start, --end)
+		swap(numbers, start, end);
+}
+
+const nums = [1,3,2];
+console.log(nums);
 nextPermutation(nums);
 console.log(nums);
