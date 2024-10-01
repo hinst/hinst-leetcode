@@ -1,16 +1,13 @@
 function nextPermutation(numbers: number[]): void {
 	const turningIndex = findTurningIndex(numbers);
-	console.log({turningIndex});
 	if (turningIndex !== -1) {
 		const turningValue = numbers[turningIndex];
-		for (let i = turningIndex + 1; i < numbers.length; ++i)
-			if (turningValue < numbers[i]) {
-				console.log({i});
-				swap(numbers, turningIndex, i);
+		for (let swappingIndex = numbers.length - 1; turningIndex < swappingIndex; --swappingIndex)
+			if (turningValue < numbers[swappingIndex]) {
+				swap(numbers, turningIndex, swappingIndex);
 				break;
 			}
 	}
-	console.log(numbers);
 	reverseArray(numbers, turningIndex + 1);
 }
 
