@@ -149,3 +149,15 @@ Interestingly enough, I advanced to test case 172 of 182 with relative ease. It'
 At the end, I scored time: 2549 milliseconds, beats 7%; Memory: 225 MB, beats 5%.
 
 ## 31. Next Permutation
+I first tried solving this task without looking at the explanation, but I did look at the hints.
+I somehow advanced all the way up to test case 189 of 266 with a solution that had only the first step right, but otherwise it was mostly incorrect.
+In the end, I had to read the explanation from the Editorial page. This time the page was available without paid subscription.
+I did my best to refactor the code, hoping that it would help me memorize the main algorithm.
+
+1. Find turning index: loop backwards and stop at the first `a < b` position.
+2. Find swapping index: loop backwards once more and stop at the first `a < item` position.
+3. Swap: turning value `a` from step 1, with `item` from step 2.
+4. Reverse the remaining portion of the array that comes after `a`.
+5. By the way, if there is no turning index, then nothing should be swapped and the whole array should be reversed.
+
+The fourth step is the most mind-boggling. Why we should reverse the remaining part of the array? Who knows, the proof seems far from obvious to me.
