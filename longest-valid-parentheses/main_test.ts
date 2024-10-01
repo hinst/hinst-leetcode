@@ -16,3 +16,7 @@ Deno.test(function longestValidParenthesesTest() {
 Deno.test(function longestValidParenthesesTest() {
   assertEquals(longestValidParentheses('()'), 2);
 });
+
+Deno.test(function longestValidParenthesesTest() {
+  assertEquals(longestValidParentheses('(())('), 4);
+});
