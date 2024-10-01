@@ -1,7 +1,9 @@
+/** Find length of the valid sequence which starts at index */
 function find(s: string, index: number): number {
 	let level = 0;
-	console.log(s.slice(index));
-	for (let i = index; i < s.length; ++i) {
+	let count = 0;
+	let i: number;
+	for (i = index; i < s.length; ++i) {
 		switch (s[i]) {
 			case '(':
 				++level;
@@ -11,12 +13,16 @@ function find(s: string, index: number): number {
 				break;
 		}
 		if (level < 0)
-			return i;
+			return count;
+		else
+			++count;
 	}
+	if (level === 0)
+		return count;
 	return 0;
 }
 
-export function longestValidParentheses(s: string): number {
+function longestValidParentheses(s: string): number {
 	let max = 0;
 	for (let i = 0; i < s.length; ++i) {
 		const current = find(s, i);
@@ -28,5 +34,7 @@ export function longestValidParentheses(s: string): number {
 	return max;
 }
 
-const s = ')()())';
-console.log(longestValidParentheses(s));
+
+export const longestValidParenthesesPublic = longestValidParentheses;
+const s = '(()';
+console.log('ANSWER', longestValidParentheses(s));
