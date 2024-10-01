@@ -3,14 +3,13 @@ function find(s: string, index: number): number {
 	let level = 0;
 	let count = 0;
 	let sealedCount = 0;
-	let i: number;
-	for (i = index; i < s.length; ++i) {
+	for (let i = index; i < s.length; ++i) {
 		if (s[i] === '(')
 			++level;
 		else
 			--level;
 		if (level < 0)
-			return count;
+			return sealedCount;
 		else {
 			++count;
 			if (level === 0)
@@ -26,6 +25,7 @@ function longestValidParentheses(s: string): number {
 		const count = find(s, i);
 		if (max < count)
 			max = count;
+		i += count;
 		if (max >= s.length - i)
 			break;
 	}
