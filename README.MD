@@ -142,3 +142,8 @@ Use division operator even though the task says to avoid using it. The solution 
 Accumulate sum in a loop until it reaches the target value. TypeScript was too slow to pass this test, so I rewrote the solution in Go.
 
 ## 30. Substring with Concatenation of All Words
+I spent in total 14 hours trying to solve this task without looking at the available solutions.
+Initially I tried building all permutations recursively.
+Later I tried using "permutations with some identical elements" from https://rosettacode.org/wiki/Permutations_with_some_identical_elements.
+Interestingly enough, I advanced to test case 172 of 182 with relative ease. It's the last 12 test cases that were difficult to get running fast enough.
+At the end, I scored time: 2549 milliseconds, beats 7%; Memory: 225 MB, beats 5%.

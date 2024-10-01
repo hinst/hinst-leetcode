@@ -63,6 +63,7 @@ class QuickSet {
 	}
 }
 
+/**Source: https://rosettacode.org/wiki/Permutations_with_some_identical_elements */
 class Permutations {
 	constructor(
 		/** sequence */
