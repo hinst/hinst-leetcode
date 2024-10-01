@@ -162,3 +162,5 @@ I did my best to refactor the code, hoping that it would help me memorize the ma
 
 The fourth step is the most mind-boggling. Why we should reverse the remaining part of the array? Who knows, the proof seems far from obvious to me.
 I could not write the code for the solution on my own, but on the bright side... I got nice runtime score: 42 ms beats 100%, memory 52 MB beats 41%.
+
+## 32. Longest Valid Parentheses
