@@ -164,3 +164,8 @@ The fourth step is the most mind-boggling. Why we should reverse the remaining p
 I could not write the code for the solution on my own, but on the bright side... I got nice runtime score: 42 ms beats 100%, memory 52 MB beats 41%.
 
 ## 32. Longest Valid Parentheses
+My score: time 849 ms beats 5%, memory 52 MB beats 58%.
+Apparently there exists a faster solution, but understanding them felt like a lot of effort, so I have decided to skip that step for now and keep my slow solution. Time to move on to the next task.
+
+## 33. Search in Rotated Sorted Array
+Weird enough, a solution using a simple loop over the array gets accepted. Perhaps there is no way to test TypeScript code precisely here because it takes longer for the Node.js runtime to start than it takes to loop through the array.
