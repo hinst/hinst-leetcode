@@ -16,8 +16,6 @@ function findTurningPosition(numbers: number[], left: number, right: number): nu
 function findInShifted(numbers: number[], left: number, right: number, offset: number, target: number): number {
 	function getTrueIndex(index: number) {
 		index += offset;
-		while (index < 0)
-			index += numbers.length;
 		while (index >= numbers.length)
 			index -= numbers.length;
 		return index;
@@ -25,12 +23,15 @@ function findInShifted(numbers: number[], left: number, right: number, offset: n
 	function getNumberAt(index: number) {
 		return numbers[getTrueIndex(index)];
 	}
-	if (left >= right || left + 1 === right)
-		return getNumberAt(left) === target
-			? getTrueIndex(left)
-			: getNumberAt(right) === target
-				? getTrueIndex(right)
-				: -1;
+	if (right <= left || left + 1 === right) {
+		const trueLeft = getTrueIndex(left);
+		if (numbers[trueLeft] === target)
+			return trueLeft;
+		const trueRight = getTrueIndex(right);
+		if (numbers[trueRight] === target)
+			return trueRight;
+		return -1;
+	}
 	const middle = Math.floor((left + right) / 2);
 	if (getNumberAt(middle) < target)
 		return findInShifted(numbers, middle, right, offset, target);
