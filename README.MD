@@ -169,3 +169,9 @@ Apparently there exists a faster solution, but understanding them felt like a lo
 
 ## 33. Search in Rotated Sorted Array
 Weird enough, a solution using a simple loop over the array gets accepted. Perhaps there is no way to test TypeScript code precisely here because it takes longer for the Node.js runtime to start than it takes to loop through the array.
+A few days later, I managed to write a solution using binary search and a hint from LeetCode community forum.
+There are two steps:
+1. Find the turning point in the array
+2. Find the number in sorted array using binary search and offset to calculate true item index
+
+In the end, I got score: time 51 ms, beats 87%, memory 52 MB, beats 8.78%. Wait, why is my memory score so low on the ladder? I am not sure.
