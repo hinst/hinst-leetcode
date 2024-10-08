@@ -181,4 +181,4 @@ Similar to the previous task, a solution with a straightforward loop is possible
 I have implemented binary search as designed, got score: time 52 milliseconds, beats 87%; memory 51 MB, beats 92%.
 
 ## 35. Search Insert Position
-Using binary search once again.
+Using binary search once again. Let's see if simple loop solution is possible here. Yes, it gets accepted.

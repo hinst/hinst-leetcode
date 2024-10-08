@@ -17,3 +17,10 @@ function searchInsert(items: number[], target: number): number {
 }
 
 console.log(searchInsert([1,3,5,6], 5));
+
+function searchInsertSimple(items: number[], target: number): number {
+	for (let i = 0; i < items.length; ++i)
+		if (items[i] >= target)
+			return i;
+	return items.length;
+}
