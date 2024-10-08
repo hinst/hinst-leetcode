@@ -175,3 +175,6 @@ There are two steps:
 2. Find the number in sorted array using binary search and offset to calculate true item index
 
 In the end, I got score: time 51 ms, beats 87%, memory 52 MB, beats 8.78%. Wait, why is my memory score so low on the ladder? I am not sure.
+
+## 34. Find First and Last Position of Element in Sorted Array
+Similar to the previous task, a solution with a straightforward loop is possible despite the fact that the description says you need a fast solution.
