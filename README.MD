@@ -182,3 +182,7 @@ I have implemented binary search as designed, got score: time 52 milliseconds, b
 
 ## 35. Search Insert Position
 Using binary search once again. Let's see if simple loop solution is possible here. Yes, it gets accepted.
+
+## 38. Count and Say
+This task seemed easy enough after I understood how the "run-length encoding" is supposed to work.
+My score: time 61 ms, beats 59%; memory 52 MB beats 64%.
