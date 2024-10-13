@@ -19,7 +19,7 @@ class SudokuSolver {
 			cache[digit] = false;
 	}
 
-	private check(skipPoint: Point): boolean {
+	private check(skipPoint: Point, skipOverall: Point): boolean {
 		for (let x = 0; x < 9; ++x) {
 			if (x === skipPoint.x)
 				continue;
@@ -46,6 +46,8 @@ class SudokuSolver {
 		}
 		for (let overallX = 0; overallX < 3; ++overallX)
 			for (let overallY = 0; overallY < 3; ++overallY) {
+				if (overallX === skipOverall.x && overallY == skipOverall.y)
+					continue;
 				this.clear(this.existingNumbersCache);
 				const offsetX = overallX * 3, limitX = offsetX + 3;
 				const offsetY = overallY * 3, limitY = offsetY + 3;
@@ -68,14 +70,20 @@ class SudokuSolver {
 			availableNumbers.delete(this.board[x][flexiblePoint.y]);
 		for (let y = 0; y < 9; ++y)
 			availableNumbers.delete(this.board[flexiblePoint.x][y]);
-		const offsetX = (Math.trunc(flexiblePoint.x / 3)) * 3;
-		const offsetY = (Math.trunc(flexiblePoint.y / 3)) * 3;
-		for (let x = offsetX; x < offsetX + 3; ++x)
-			for (let y = offsetY; y < offsetY + 3; ++y)
+		const overallPoint: Point = {
+			x: Math.trunc(flexiblePoint.x / 3),
+			y: Math.trunc(flexiblePoint.y / 3),
+		};
+		const offsetX = overallPoint.x * 3;
+		const offsetY = overallPoint.y * 3;
+		const limitX = offsetX + 2;
+		const limitY = offsetY + 2;
+		for (let x = offsetX; x < limitX; ++x)
+			for (let y = offsetY; y < limitY; ++y)
 				availableNumbers.delete(this.board[x][y]);
 		for (const digit of availableNumbers) {
 			this.board[flexiblePoint.x][flexiblePoint.y] = digit;
-			if (this.check(flexiblePoint)) {
+			if (this.check(flexiblePoint, overallPoint)) {
 				if (i === this.flexiblePointsLastIndex || this.solveNext(i + 1))
 					return true;
 			}
