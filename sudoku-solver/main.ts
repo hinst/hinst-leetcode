@@ -19,9 +19,9 @@ class SudokuSolver {
 			cache[digit] = false;
 	}
 
-	private check(skipPoint: Point, skipOverall: Point): boolean {
+	private check(skipPoint: Point, skipOverallY: number): boolean {
 		for (let x = 0; x < 9; ++x) {
-			if (x === skipPoint.x)
+			if (skipPoint.x < x)
 				continue;
 			this.clear(this.existingNumbersCache);
 			for (let y = 0; y < 9; y++) {
@@ -33,7 +33,7 @@ class SudokuSolver {
 			}
 		}
 		for (let y = 0; y < 9; ++y) {
-			if (y === skipPoint.y)
+			if (skipPoint.y < y)
 				continue;
 			this.clear(this.existingNumbersCache);
 			for (let x = 0; x < 9; x++) {
@@ -46,8 +46,8 @@ class SudokuSolver {
 		}
 		for (let overallX = 0; overallX < 3; ++overallX)
 			for (let overallY = 0; overallY < 3; ++overallY) {
-				if (overallX === skipOverall.x && overallY == skipOverall.y)
-					continue;
+				if (skipOverallY < overallY)
+					break;
 				this.clear(this.existingNumbersCache);
 				const offsetX = overallX * 3, limitX = offsetX + 3;
 				const offsetY = overallY * 3, limitY = offsetY + 3;
@@ -70,12 +70,10 @@ class SudokuSolver {
 			availableNumbers.delete(this.board[x][flexiblePoint.y]);
 		for (let y = 0; y < 9; ++y)
 			availableNumbers.delete(this.board[flexiblePoint.x][y]);
-		const overallPoint: Point = {
-			x: Math.trunc(flexiblePoint.x / 3),
-			y: Math.trunc(flexiblePoint.y / 3),
-		};
-		const offsetX = overallPoint.x * 3;
-		const offsetY = overallPoint.y * 3;
+		const overallX = Math.trunc(flexiblePoint.x / 3);
+		const overallY = Math.trunc(flexiblePoint.y / 3);
+		const offsetX = overallX * 3;
+		const offsetY = overallY * 3;
 		const limitX = offsetX + 2;
 		const limitY = offsetY + 2;
 		for (let x = offsetX; x < limitX; ++x)
@@ -83,7 +81,7 @@ class SudokuSolver {
 				availableNumbers.delete(this.board[x][y]);
 		for (const digit of availableNumbers) {
 			this.board[flexiblePoint.x][flexiblePoint.y] = digit;
-			if (this.check(flexiblePoint, overallPoint)) {
+			if (this.check(flexiblePoint, overallY)) {
 				if (i === this.flexiblePointsLastIndex || this.solveNext(i + 1))
 					return true;
 			}
