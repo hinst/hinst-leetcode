@@ -5,7 +5,6 @@ class SudokuSolver {
 	private flexiblePoints: Point[] = [];
 	private flexiblePointsLastIndex: number;
 	private existingNumbersCache: Record<string, boolean> = {};
-	private takenNumbersCache: Record<string, boolean> = {};
 
 	constructor(private board: string[][]) {
 		for (let x = 0; x < 9; ++x)
@@ -60,21 +59,12 @@ class SudokuSolver {
 
 	solveNext(i: number = 0) {
 		const flexiblePoint = this.flexiblePoints[i];
-		const takenNumbers: Record<string, boolean> = {};
-		this.clear(takenNumbers);
-		for (let x = 0; x < 9; ++x) {
-			const item = this.board[x][flexiblePoint.y];
-			if (item !== '.')
-				takenNumbers[item] = true;
-		}
-		for (let y = 0; y < 9; ++y) {
-			const item = this.board[flexiblePoint.x][y];
-			if (item !== '.')
-				takenNumbers[item] = true;
-		}
-		for (const digit of DIGITS) {
-			if (takenNumbers[digit])
-				continue;
+		const availableNumbers = new Set<string>(DIGITS);
+		for (let x = 0; x < 9; ++x)
+			availableNumbers.delete(this.board[x][flexiblePoint.y]);
+		for (let y = 0; y < 9; ++y)
+			availableNumbers.delete(this.board[flexiblePoint.x][y]);
+		for (const digit of availableNumbers) {
 			this.board[flexiblePoint.x][flexiblePoint.y] = digit;
 			if (this.check()) {
 				if (i === this.flexiblePointsLastIndex || this.solveNext(i + 1))
