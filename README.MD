@@ -192,3 +192,5 @@ My score: time 64 ms, beats 86%; memory: 52 MB, beats 94%.
 ## 38. Count and Say
 This task seemed easy enough after I understood how the "run-length encoding" is supposed to work.
 My score: time 61 ms, beats 59%; memory 52 MB beats 64%.
+
+## 39. Combination Sum
