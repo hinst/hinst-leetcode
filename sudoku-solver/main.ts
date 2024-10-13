@@ -48,22 +48,20 @@ function solveSudoku(board: string[][]): void {
 		for (let y = 0; y < 9; ++y)
 			if (board[x][y] === '.')
 				flexiblePoints.push({x, y});
-	console.log(flexiblePoints);
 	const flexiblePointsLastIndex = flexiblePoints.length - 1;
 	function solveNext(i: number) {
 		const flexiblePoint = flexiblePoints[i];
-		console.log(i, flexiblePoint);
 		for (const digit of DIGITS) {
 			board[flexiblePoint.x][flexiblePoint.y] = digit;
 			if (checkSudoku(board)) {
-				console.log(digit);
-				printBoard(board);
-				if (i === flexiblePointsLastIndex) {
-					return;
-				} else
-					solveNext(i + 1);
+				if (i === flexiblePointsLastIndex)
+					return true;
+				else if (solveNext(i + 1))
+					return true;
 			}
 		}
+		board[flexiblePoint.x][flexiblePoint.y] = '.';
+		return false;
 	}
 	solveNext(0);
 }
@@ -78,3 +76,4 @@ export const solveSudokuExported = solveSudoku;
 const boardInput = [["5","3",".",".","7",".",".",".","."],["6",".",".","1","9","5",".",".","."],[".","9","8",".",".",".",".","6","."],["8",".",".",".","6",".",".",".","3"],["4",".",".","8",".","3",".",".","1"],["7",".",".",".","2",".",".",".","6"],[".","6",".",".",".",".","2","8","."],[".",".",".","4","1","9",".",".","5"],[".",".",".",".","8",".",".","7","9"]];
 
 solveSudoku(boardInput);
+printBoard(boardInput);
