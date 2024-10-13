@@ -183,6 +183,10 @@ I have implemented binary search as designed, got score: time 52 milliseconds, b
 ## 35. Search Insert Position
 Using binary search once again. Let's see if simple loop solution is possible here. Yes, it gets accepted.
 
+## 36. Valid Sudoku
+This seems to be a rather straightforward task: use loops to check rows and 3x3 segments.
+My score: time 64 ms, beats 86%; memory: 52 MB, beats 94%.
+
 ## 38. Count and Say
 This task seemed easy enough after I understood how the "run-length encoding" is supposed to work.
 My score: time 61 ms, beats 59%; memory 52 MB beats 64%.
