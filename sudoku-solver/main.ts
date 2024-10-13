@@ -1,5 +1,5 @@
 type Point = { x: number, y: number };
-const DIGITS = '123456789';
+const DIGITS = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 class SudokuSolver {
 	private readonly flexiblePoints: Point[] = [];
@@ -7,10 +7,10 @@ class SudokuSolver {
 	private readonly existingNumbersCache: Record<string, boolean> = {};
 	private readonly overallOffsets: { x: number, y: number, xL: number, yL: number }[] = [];
 
-	constructor(private board: string[][]) {
+	constructor(private board: number[][]) {
 		for (let x = 0; x < 9; ++x)
 			for (let y = 0; y < 9; ++y)
-				if (board[x][y] === '.')
+				if (board[x][y] === 0)
 					this.flexiblePoints.push({x, y});
 		this.flexiblePointsLastIndex = this.flexiblePoints.length - 1;
 		for (let overallX = 0; overallX < 3; ++overallX) {
@@ -22,7 +22,6 @@ class SudokuSolver {
 				this.overallOffsets.push({x, y, xL, yL});
 			}
 		}
-		console.log(this.overallOffsets);
 	}
 
 	private clear(cache: Record<string, boolean>) {
@@ -39,7 +38,7 @@ class SudokuSolver {
 				const item = this.board[x][y];
 				if (this.existingNumbersCache[item])
 					return false;
-				if (item !== '.')
+				if (item !== 0)
 					this.existingNumbersCache[item] = true;
 			}
 		}
@@ -51,7 +50,7 @@ class SudokuSolver {
 				const item = this.board[x][y];
 				if (this.existingNumbersCache[item])
 					return false;
-				if (item !== '.')
+				if (item !== 0)
 					this.existingNumbersCache[item] = true;
 			}
 		}
@@ -66,7 +65,7 @@ class SudokuSolver {
 					const item = this.board[x][y];
 					if (this.existingNumbersCache[item])
 						return false;
-					if (item !== '.')
+					if (item !== 0)
 						this.existingNumbersCache[item] = true;
 				}
 		}
@@ -75,7 +74,7 @@ class SudokuSolver {
 
 	solveNext(i: number = 0) {
 		const flexiblePoint = this.flexiblePoints[i];
-		const availableNumbers = new Set<string>(DIGITS);
+		const availableNumbers = new Set<number>(DIGITS);
 		for (let x = 0; x < 9; ++x)
 			availableNumbers.delete(this.board[x][flexiblePoint.y]);
 		for (let y = 0; y < 9; ++y)
@@ -96,14 +95,18 @@ class SudokuSolver {
 					return true;
 			}
 		}
-		this.board[flexiblePoint.x][flexiblePoint.y] = '.';
+		this.board[flexiblePoint.x][flexiblePoint.y] = 0;
 		return false;
 	}
 }
 
 /** Do not return anything, modify board in-place instead. */
 function solveSudoku(board: string[][]): void {
-	new SudokuSolver(board).solveNext();
+	const numberBoard = board.map(column => column.map(item => item === '.' ? 0 : parseInt(item)));
+	new SudokuSolver(numberBoard).solveNext();
+	for (let x = 0; x < 9; ++x)
+		for (let y = 0; y < 9; ++y)
+			board[x][y] = numberBoard[x][y].toString();
 }
 
 function printBoard(board: string[][]) {
