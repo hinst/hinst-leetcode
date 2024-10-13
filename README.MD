@@ -194,3 +194,5 @@ This task seemed easy enough after I understood how the "run-length encoding" is
 My score: time 61 ms, beats 59%; memory 52 MB beats 64%.
 
 ## 39. Combination Sum
+I got lucky and got optimal solution within around 40 minutes.
+My score: time 69 ms, beats 94%; memory 54 MB, beats 82%.
