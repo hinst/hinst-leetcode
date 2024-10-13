@@ -5,6 +5,7 @@ class SudokuSolver {
 	private flexiblePoints: Point[] = [];
 	private flexiblePointsLastIndex: number;
 	private existingNumbersCache: Record<string, boolean> = {};
+	private takenNumbersCache: Record<string, boolean> = {};
 
 	constructor(private board: string[][]) {
 		for (let x = 0; x < 9; ++x)
@@ -14,14 +15,14 @@ class SudokuSolver {
 		this.flexiblePointsLastIndex = this.flexiblePoints.length - 1;
 	}
 
-	private clear() {
+	private clear(cache: Record<string, boolean>) {
 		for (const digit of DIGITS)
-			this.existingNumbersCache[digit] = false;
+			cache[digit] = false;
 	}
 
 	private check(): boolean {
 		for (let x = 0; x < 9; ++x) {
-			this.clear();
+			this.clear(this.existingNumbersCache);
 			for (let y = 0; y < 9; y++) {
 				const item = this.board[x][y];
 				if (this.existingNumbersCache[item])
@@ -31,7 +32,7 @@ class SudokuSolver {
 			}
 		}
 		for (let y = 0; y < 9; ++y) {
-			this.clear();
+			this.clear(this.existingNumbersCache);
 			for (let x = 0; x < 9; x++) {
 				const item = this.board[x][y];
 				if (this.existingNumbersCache[item])
@@ -42,7 +43,7 @@ class SudokuSolver {
 		}
 		for (let overallX = 0; overallX < 3; ++overallX)
 			for (let overallY = 0; overallY < 3; ++overallY) {
-				this.clear();
+				this.clear(this.existingNumbersCache);
 				const offsetX = overallX * 3, limitX = offsetX + 3;
 				const offsetY = overallY * 3, limitY = offsetY + 3;
 				for (let x = offsetX; x < limitX; ++x)
@@ -59,7 +60,21 @@ class SudokuSolver {
 
 	solveNext(i: number = 0) {
 		const flexiblePoint = this.flexiblePoints[i];
+		const takenNumbers: Record<string, boolean> = {};
+		this.clear(takenNumbers);
+		for (let x = 0; x < 9; ++x) {
+			const item = this.board[x][flexiblePoint.y];
+			if (item !== '.')
+				takenNumbers[item] = true;
+		}
+		for (let y = 0; y < 9; ++y) {
+			const item = this.board[flexiblePoint.x][y];
+			if (item !== '.')
+				takenNumbers[item] = true;
+		}
 		for (const digit of DIGITS) {
+			if (takenNumbers[digit])
+				continue;
 			this.board[flexiblePoint.x][flexiblePoint.y] = digit;
 			if (this.check()) {
 				if (i === this.flexiblePointsLastIndex || this.solveNext(i + 1))
