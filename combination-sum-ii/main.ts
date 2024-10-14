@@ -7,12 +7,12 @@ function convertSequence(sequence: boolean[], candidates: number[]): number[] {
 }
 
 function getHash(sequence: boolean[], candidates: number[]) {
-	let multiplier = 1;
 	let sum = 0;
+	let index = 1;
 	for (let i = 0; i < sequence.length; ++i) {
 		if (sequence[i]) {
-			sum += candidates[i] * multiplier;
-			multiplier *= 50;
+			index += index;
+			sum += candidates[i] << index;
 		}
 	}
 	return sum;

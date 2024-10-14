@@ -188,6 +188,9 @@ This seems to be a rather straightforward task: use loops to check rows and 3x3 
 My score: time 64 ms, beats 86%; memory: 52 MB, beats 94%.
 
 ## 37. Sudoku Solver
+Using recursion and reusing the code from the previous task, I have managed to pass all test cases without looking at the available solutions online.
+Initially I had duration score: 1000 ms. After multiple rounds of optimizations, I reduced my duration down to 217 ms. This was still pretty far from the best durations, but I did not feel like trying to improve my duration further.
+My score: time 217 ms, beats 11%; memory 60 MB beats 7%.
 
 ## 38. Count and Say
 This task seemed easy enough after I understood how the "run-length encoding" is supposed to work.
@@ -196,3 +199,6 @@ My score: time 61 ms, beats 59%; memory 52 MB beats 64%.
 ## 39. Combination Sum
 I got lucky and got optimal solution within around 40 minutes.
 My score: time 69 ms, beats 94%; memory 54 MB, beats 82%.
+
+## 40. Combination Sum II
+Initially I reused my approach from the previous task and passed almost all test 176 cases, except those coming at the end with many repetitions. I guess the next step is to optimize the program from repeating items in the input array.
