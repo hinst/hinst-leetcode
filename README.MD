@@ -202,3 +202,4 @@ My score: time 69 ms, beats 94%; memory 54 MB, beats 82%.
 
 ## 40. Combination Sum II
 Initially I reused my approach from the previous task and passed almost all test 176 cases, except those coming at the end with many repetitions. I guess the next step is to optimize the program from repeating items in the input array.
+Next day I made another attempt at solving this task and it turned out that the key to solving it is reusing the code from the previous task. We group equal elements from the input into stacks to keep arrays such as [1, 1, 1, ... x100] from slowing us down.

@@ -1,71 +1,60 @@
-function convertSequence(sequence: boolean[], candidates: number[]): number[] {
+function convertSequence(sequence: number[], candidates: number[]): number[] {
 	const result: number[] = [];
 	for (let i = 0; i < sequence.length; ++i)
-		if (sequence[i])
+		for (let count = 0; count < sequence[i]; ++count)
 			result.push(candidates[i]);
 	return result;
 }
 
-function getHash(sequence: boolean[], candidates: number[]) {
+function combinationSum(candidates: number[], limits: number[], target: number): number[][] {
+	candidates.sort((a, b) => a - b);
+	const sequence = new Array(candidates.length).fill(0);
 	let sum = 0;
-	let index = 1;
-	for (let i = 0; i < sequence.length; ++i) {
-		if (sequence[i]) {
-			index += index;
-			sum += candidates[i] << index;
+	const results: number[][] = [];
+	function find(index: number) {
+		for (let i = 0; i <= limits[index]; ++i) {
+			sequence[index] = i;
+			const delta = candidates[index] * i;
+			sum += delta;
+			let isDeadEnd = false;
+			if (sum < target) {
+				if (index < candidates.length - 1)
+					find(index + 1);
+			} else if (sum === target) {
+				results.push(sequence.slice());
+			} else
+				isDeadEnd = true;
+			sum -= delta;
+			if (isDeadEnd)
+				break;
 		}
+		sequence[index] = 0;
 	}
-	return sum;
+	find(0);
+	return results;
 }
 
-function combinationSumSame(candidates: number[], target: number): number[][] {
-	const count = target / candidates[0];
-	if (Math.trunc(count) === count && count <= candidates.length)
-		return [candidates.slice(0, count)];
-	else
-		return [];
-}
-
-function isSame(candidates: number[]): boolean {
-	if (candidates.length === 0)
-		return true;
-	const first = candidates[0];
-	for (let i = 1; i < candidates.length; ++i)
-		if (first !== candidates[i])
-			return false;
-	return true;
+function getCounted(candidates: number[]): [number[], number[]] {
+	const map = new Map<number, number>();
+	for (const item of candidates)
+		map.set(item, (map.get(item) || 0) + 1)
+	return [Array.from(map.keys()), Array.from(map.values())];
 }
 
 function combinationSum2(candidates: number[], target: number): number[][] {
 	candidates.sort((a, b) => a - b);
-	if (isSame(candidates))
-		return combinationSumSame(candidates, target);
-	const sequence: boolean[] = new Array(candidates.length).fill(false);
-	const results = new Map<number, number[]>();
-	let sum = 0;
-	function find(index: number) {
-		// console.log(index, convertSequence(sequence, candidates));
-		sequence[index] = true;
-		sum += candidates[index];
-		if (sum === target) {
-			const hash = getHash(sequence, candidates);
-			if (!results.has(hash))
-				results.set(hash, convertSequence(sequence, candidates));
-		} if (sum < target && index < candidates.length - 1)
-			find(index + 1);
-		sum -= candidates[index];
-		sequence[index] = false;
-		if (sum < target && index < candidates.length - 1)
-			find(index + 1);
-	}
-	find(0);
-	return Array.from(results.values());
+	const [countedCandidates, limits] = getCounted(candidates);
+	const countedResults = combinationSum(countedCandidates, limits, target);
+	const results: number[][] = [];
+	for (const countedResult of countedResults)
+		results.push(convertSequence(countedResult, countedCandidates));
+	return results;
 }
 
 export const combinationSum2Exported = combinationSum2;
 
 if (import.meta.main) {
 	console.time('complete');
-	console.log(combinationSum2([1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1], 30));
+	console.log(combinationSum2([10,1,2,7,6,1,5], 8));
 	console.timeEnd('complete');
 }
