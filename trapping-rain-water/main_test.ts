@@ -8,3 +8,7 @@ Deno.test(function addTest() {
 Deno.test(function addTest() {
 	assertEquals(trapExported([4,2,0,3,2,5]), 9);
 });
+
+Deno.test(function addTest() {
+	assertEquals(trapExported([5,4,1,2]), 1);
+});

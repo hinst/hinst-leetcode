@@ -8,7 +8,6 @@ function trap(heights: number[]): number {
 	}
 	const availableHeights = Array.from(availableHeightSet);
 	availableHeights.sort((a, b) => a - b);
-	console.log(availableHeights);
 	let totalWaterVolume = 0;
 	for (let heightIndex = availableHeights.length - 1; heightIndex >= 0; --heightIndex) {
 		const currentHeight = Math.max(1, availableHeights[heightIndex]);
@@ -28,7 +27,6 @@ function trap(heights: number[]): number {
 		const previousHeight = availableHeights[heightIndex + 1];
 		if (previousHeight) {
 			const multiplier = previousHeight - currentHeight;
-			console.log({currentHeight, previousHeight, multiplier, waterVolume, totalWaterVolume});
 			waterVolume *= multiplier;
 		}
 		totalWaterVolume += waterVolume;
