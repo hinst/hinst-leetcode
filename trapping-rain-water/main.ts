@@ -6,18 +6,17 @@ function trap(heights: number[]): number {
 	let waterVolume = 0;
 	for (let y = maxHeight; y >= 1; --y) {
 		let isInside = false;
+		let lastInside = 0;
 		for (let x = 0; x < heights.length; ++x) {
 			if (heights[x] < y) {
 				if (isInside)
 					++waterVolume;
-			} else
+			} else {
 				isInside = true;
+				lastInside = x;
+			}
 		}
-		for (let x = heights.length - 1; x >= 0; --x)
-			if (heights[x] < y)
-				waterVolume--;
-			else
-				break;
+		waterVolume -= (heights.length - 1 - lastInside);
 	}
 	return waterVolume;
 }
