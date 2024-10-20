@@ -1,21 +1,16 @@
 function firstMissingPositive(numbers: number[]): number {
-	numbers.sort((a, b) => a - b);
-	for (let i = 0; i < numbers.length; ++i) {
-		const item = numbers[i];
-		const nextItem = numbers[i + 1];
-		if (item === 0 && nextItem !== 0 && nextItem !== 1)
-			return 1;
-		if (item > 0) {
-			if ((i === 0 || numbers[i - 1] < 0) && item > 1)
-				return 1;
-			else {
-				const nextValue = item + 1;
-				if (nextItem !== nextValue && nextItem !== item)
-					return nextValue;
-			}
+	const numberSet = new Set(numbers);
+	if (!numberSet.has(1))
+		return 1;
+	let result = Number.MAX_SAFE_INTEGER;
+	for (const item of numbers) {
+		if (item > 0 && item < result) {
+			const next = item + 1;
+			if (!numberSet.has(next))
+				result = next;
 		}
 	}
-	return 1;
+	return result;
 }
 
 export const firstMissingPositiveExported = firstMissingPositive;
