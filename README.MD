@@ -209,3 +209,5 @@ It took about one hour to get get my code to pass all test cases, however I used
 With the sorting approach, I got the following score: time 44 ms, beats 99%; memory 60 MB, beats 55%.
 Next, I updated my code to use the built-in Set() from JavaScript. The new code turned out to be shorter: reduced from 19 lines to 14 lines. Score: time 38 ms, beats 99%; memory 72 MB beats 11%.
 Too bad my second approach likely ignores the other requirement: "uses O(1) auxiliary space."
+
+## 42. Trapping Rain Water
