@@ -12,3 +12,7 @@ Deno.test(function firstMissingPositiveTest() {
 Deno.test(function firstMissingPositiveTest() {
 	assertEquals(firstMissingPositiveExported([7,8,9,11,12]), 1);
 });
+
+Deno.test(function firstMissingPositiveTest() {
+	assertEquals(firstMissingPositiveExported([0,2,2,1,1]), 3);
+});
