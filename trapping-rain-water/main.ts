@@ -6,13 +6,10 @@ function trap(heights: number[]): number {
 		if (maxHeight < height)
 			maxHeight = height;
 	}
-	const availableHeights = Array.from(availableHeightSet);
-	availableHeights.sort((a, b) => a - b);
-	console.log(availableHeights);
+	const availableHeights = Array.from(availableHeightSet).sort((a, b) => a - b);
 	let totalWaterVolume = 0;
 	for (let heightIndex = availableHeights.length - 1; heightIndex >= 0; --heightIndex) {
 		const currentHeight = availableHeights[heightIndex];
-		console.log({currentHeight});
 		let isInside = false;
 		let lastInside = 0;
 		let waterVolume = 0;
@@ -27,9 +24,7 @@ function trap(heights: number[]): number {
 		}
 		waterVolume -= (heights.length - 1 - lastInside);
 		const nextHeight = availableHeights[heightIndex - 1] || 0;
-		console.log({currentHeight, nextHeight, waterVolume, totalWaterVolume, lastInside});
 		const multiplier = currentHeight - nextHeight;
-		console.log({multiplier});
 		waterVolume *= multiplier;
 		totalWaterVolume += waterVolume;
 	}
