@@ -1,11 +1,5 @@
 function trap(heights: number[]): number {
-	let maxHeight = 0;
-	const availableHeightSet = new Set<number>();
-	for (const height of heights) {
-		availableHeightSet.add(height);
-		if (maxHeight < height)
-			maxHeight = height;
-	}
+	const availableHeightSet = new Set<number>(heights);
 	const availableHeights = Array.from(availableHeightSet).sort((a, b) => a - b);
 	let totalWaterVolume = 0;
 	for (let heightIndex = availableHeights.length - 1; heightIndex >= 0; --heightIndex) {
