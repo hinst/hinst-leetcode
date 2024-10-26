@@ -8,9 +8,11 @@ function trap(heights: number[]): number {
 	}
 	const availableHeights = Array.from(availableHeightSet);
 	availableHeights.sort((a, b) => a - b);
+	console.log(availableHeights);
 	let totalWaterVolume = 0;
 	for (let heightIndex = availableHeights.length - 1; heightIndex >= 0; --heightIndex) {
-		const currentHeight = Math.max(1, availableHeights[heightIndex]);
+		const currentHeight = availableHeights[heightIndex];
+		console.log({currentHeight});
 		let isInside = false;
 		let lastInside = 0;
 		let waterVolume = 0;
@@ -24,11 +26,11 @@ function trap(heights: number[]): number {
 			}
 		}
 		waterVolume -= (heights.length - 1 - lastInside);
-		const previousHeight = availableHeights[heightIndex + 1];
-		if (previousHeight) {
-			const multiplier = previousHeight - currentHeight;
-			waterVolume *= multiplier;
-		}
+		const nextHeight = availableHeights[heightIndex - 1] || 0;
+		console.log({currentHeight, nextHeight, waterVolume, totalWaterVolume, lastInside});
+		const multiplier = currentHeight - nextHeight;
+		console.log({multiplier});
+		waterVolume *= multiplier;
 		totalWaterVolume += waterVolume;
 	}
 	return totalWaterVolume;
@@ -42,7 +44,7 @@ function printHeights(heights: number[]) {
 		if (maxHeight < height)
 			maxHeight = height;
 	}
-	for (let y = maxHeight; y >=1; --y) {
+	for (let y = maxHeight; y >= 1; --y) {
 		let text = '';
 		for (let x = 0; x < heights.length; ++x) {
 			text += heights[x] < y ? '.' : 'o';
@@ -51,7 +53,6 @@ function printHeights(heights: number[]) {
 	}
 }
 
-// Learn more at https://docs.deno.com/runtime/manual/examples/module_metadata#concepts
 if (import.meta.main) {
 	printHeights([4,2,0,3,2,5]);
 	console.log(trap([4,2,0,3,2,5]));
