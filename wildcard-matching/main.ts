@@ -1,12 +1,7 @@
-const CHEATS = new Map<string, boolean>();
-CHEATS.set("abbabaaabbabbaababbabbbbbabbbabbbabaaaaababababbbabababaabbababaabbbbbbaaaabababbbaabbbbaabbbbababababbaabbaababaabbbababababbbbaaabbbbbabaaaabbababbbbaababaabbababbbbbababbbabaaaaaaaabbbbbaabaaababaaaabb" + '\0' + "**aa*****ba*a*bb**aa*ab****a*aaaaaa***a*aaaa**bbabb*b*b**aaaaaaaaa*a********ba*bbb***a*ba*bb*bb**a*b*bb", false);
-
 const CACHE = new Map<number, boolean>();
 
 function isMatch(s: string, pattern: string): boolean {
-	const cheated = CHEATS.get(s + '\0' + pattern);
-	if (cheated !== undefined)
-		return cheated;
+	CACHE.clear();
 
 	pattern = optimizePattern(pattern);
 
@@ -54,7 +49,7 @@ function trimPattern(s: string, pattern: string): {s: string, pattern: string, p
 }
 
 function checkCached(s: string, sIndex: number, pattern: string, patternIndex: number, remainingLetterCount: number): boolean {
-	const cacheKey = sIndex + patternIndex * 4000;
+	const cacheKey = sIndex + patternIndex * 10_000;
 	const cachedResult = CACHE.get(cacheKey);
 	if (cachedResult !== undefined)
 		return cachedResult;
@@ -90,8 +85,8 @@ export const isMatchExported = isMatch;
 
 // Learn more at https://docs.deno.com/runtime/manual/examples/module_metadata#concepts
 if (import.meta.main) {
-	const s = "baababbaaaaabbababbbbbabaabaabaaabbaabbbbbbaabbbaaabbabbaabaaaaabaabbbaabbabababaaababbaaabaababbabaababbaababaabbbaaaaabbabbabababbbbaaaaaabaabbbbaababbbaabbaabbbbbbbbabbbabababbabababaaababbaaababaabb";
-	const pattern = "*ba***b***a*ab**b***bb*b***ab**aa***baba*b***bb**a*abbb*aa*b**baba**aa**b*b*a****aabbbabba*b*abaaa*aa**b";
+	const s = "aa";
+	const pattern = "*";
 	console.time('isMatch');
 	console.log(isMatch(s, pattern));
 	console.timeEnd('isMatch');
