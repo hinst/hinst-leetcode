@@ -1,4 +1,13 @@
 function isMatch(s: string, pattern: string): boolean {
+	pattern = optimizePattern(pattern);
+	let letterCount = 0;
+	for (const character of pattern)
+		if (character !== '*')
+			++letterCount;
+	return check(s, 0, pattern, 0, letterCount);
+}
+
+function optimizePattern(pattern: string): string {
 	let optimizedPattern = '';
 	let previousCharacter = '_';
 	for (const character of pattern) {
@@ -7,22 +16,23 @@ function isMatch(s: string, pattern: string): boolean {
 			optimizedPattern += character;
 		previousCharacter = character;
 	}
-	return check(s, 0, optimizedPattern, 0);
+	return optimizedPattern;
 }
 
-function check(s: string, sIndex: number, pattern: string, patternIndex: number): boolean {
+function check(s: string, sIndex: number, pattern: string, patternIndex: number, remainingLetterCount: number): boolean {
 	if (sIndex === s.length && patternIndex === pattern.length)
 		return true;
 	if (pattern[patternIndex] === '?')
-		return s[sIndex] != null && check(s, sIndex + 1, pattern, patternIndex + 1);
+		return s[sIndex] != null && check(s, sIndex + 1, pattern, patternIndex + 1, remainingLetterCount - 1);
 	if (pattern[patternIndex] === '*') {
 		const nextPatternIndex = patternIndex + 1;
-		for (let i = sIndex; i <= s.length; ++i)
-			if (check(s, i, pattern, nextPatternIndex))
+		for (let i = sIndex; i <= s.length - remainingLetterCount; ++i) {
+			if (check(s, i, pattern, nextPatternIndex, remainingLetterCount))
 				return true;
+		}
 	}
 	return s[sIndex] === pattern[patternIndex] &&
-		check(s, sIndex + 1, pattern, patternIndex + 1);
+		check(s, sIndex + 1, pattern, patternIndex + 1, remainingLetterCount - 1);
 }
 
 export const isMatchExported = isMatch;
