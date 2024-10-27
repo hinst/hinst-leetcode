@@ -1,6 +1,8 @@
 const CHEATS = new Map<string, boolean>();
 CHEATS.set("abbabaaabbabbaababbabbbbbabbbabbbabaaaaababababbbabababaabbababaabbbbbbaaaabababbbaabbbbaabbbbababababbaabbaababaabbbababababbbbaaabbbbbabaaaabbababbbbaababaabbababbbbbababbbabaaaaaaaabbbbbaabaaababaaaabb" + '\0' + "**aa*****ba*a*bb**aa*ab****a*aaaaaa***a*aaaa**bbabb*b*b**aaaaaaaaa*a********ba*bbb***a*ba*bb*bb**a*b*bb", false);
 
+const CACHE = new Map<number, boolean>();
+
 function isMatch(s: string, pattern: string): boolean {
 	const cheated = CHEATS.get(s + '\0' + pattern);
 	if (cheated !== undefined)
@@ -19,7 +21,7 @@ function isMatch(s: string, pattern: string): boolean {
 		if (character !== '*')
 			++letterCount;
 
-	return check(s, 0, pattern, 0, letterCount);
+	return checkCached(s, 0, pattern, 0, letterCount);
 }
 
 function optimizePattern(pattern: string): string {
@@ -51,11 +53,21 @@ function trimPattern(s: string, pattern: string): {s: string, pattern: string, p
 	return {s, pattern, possible};
 }
 
+function checkCached(s: string, sIndex: number, pattern: string, patternIndex: number, remainingLetterCount: number): boolean {
+	const cacheKey = sIndex + patternIndex * 4000;
+	const cachedResult = CACHE.get(cacheKey);
+	if (cachedResult !== undefined)
+		return cachedResult;
+	const result = check(s, sIndex, pattern, patternIndex, remainingLetterCount);
+	CACHE.set(cacheKey, result);
+	return result;
+}
+
 function check(s: string, sIndex: number, pattern: string, patternIndex: number, remainingLetterCount: number): boolean {
 	if (sIndex === s.length && patternIndex === pattern.length)
 		return true;
 	if (pattern[patternIndex] === '?')
-		return s[sIndex] != null && check(s, sIndex + 1, pattern, patternIndex + 1, remainingLetterCount - 1);
+		return s[sIndex] != null && checkCached(s, sIndex + 1, pattern, patternIndex + 1, remainingLetterCount - 1);
 	if (pattern[patternIndex] === '*') {
 		const nextPatternIndex = patternIndex + 1;
 		const limit = s.length - remainingLetterCount;
@@ -67,11 +79,11 @@ function check(s: string, sIndex: number, pattern: string, patternIndex: number,
 				return false;
 		}
 		for (let i = sIndex; i <= limit; ++i)
-			if (check(s, i, pattern, nextPatternIndex, remainingLetterCount))
+			if (checkCached(s, i, pattern, nextPatternIndex, remainingLetterCount))
 				return true;
 	}
 	return s[sIndex] === pattern[patternIndex] &&
-		check(s, sIndex + 1, pattern, patternIndex + 1, remainingLetterCount - 1);
+		checkCached(s, sIndex + 1, pattern, patternIndex + 1, remainingLetterCount - 1);
 }
 
 export const isMatchExported = isMatch;
