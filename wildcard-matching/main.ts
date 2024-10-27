@@ -52,6 +52,7 @@ function trimPattern(s: string, pattern: string): {s: string, pattern: string, p
 }
 
 function check(s: string, sIndex: number, pattern: string, patternIndex: number, remainingLetterCount: number): boolean {
+	// console.log(s.slice(sIndex), ' ', pattern.slice(patternIndex));
 	if (sIndex === s.length && patternIndex === pattern.length)
 		return true;
 	if (pattern[patternIndex] === '?')
@@ -59,6 +60,11 @@ function check(s: string, sIndex: number, pattern: string, patternIndex: number,
 	if (pattern[patternIndex] === '*') {
 		const nextPatternIndex = patternIndex + 1;
 		const limit = s.length - remainingLetterCount;
+		if (patternIndex === pattern.length - 1)
+			return true;
+		else if (pattern[nextPatternIndex] !== '?')
+			while (s[sIndex] !== pattern[nextPatternIndex] && sIndex < s.length)
+				++sIndex;
 		for (let i = sIndex; i <= limit; ++i)
 			if (check(s, i, pattern, nextPatternIndex, remainingLetterCount))
 				return true;
@@ -73,5 +79,7 @@ export const isMatchExported = isMatch;
 if (import.meta.main) {
 	const s = "baababbaaaaabbababbbbbabaabaabaaabbaabbbbbbaabbbaaabbabbaabaaaaabaabbbaabbabababaaababbaaabaababbabaababbaababaabbbaaaaabbabbabababbbbaaaaaabaabbbbaababbbaabbaabbbbbbbbabbbabababbabababaaababbaaababaabb";
 	const pattern = "*ba***b***a*ab**b***bb*b***ab**aa***baba*b***bb**a*abbb*aa*b**baba**aa**b*b*a****aabbbabba*b*abaaa*aa**b";
+	console.time('isMatch');
 	console.log(isMatch(s, pattern));
+	console.timeEnd('isMatch');
 }
