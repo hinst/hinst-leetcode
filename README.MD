@@ -235,4 +235,6 @@ My code passed all test cases after I added cache.
 My score: duration 21 ms, beats 90%; memory 59 MB, beats 72%.
 
 ## 45. Jump Game II
-Initially I wrote a straightforward recursive function for jumping and passed up to 74 / 110 test case, got time limit exceeded
+Initially I wrote a straightforward recursive function for jumping and passed up to 74 / 110 test case, got time limit exceeded.
+Afterwards I added cache: map of index->result and passed all test cases.
+My score: duration 193 ms, beats 10%; memory 60 MB, beats 5%.
