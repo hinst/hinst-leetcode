@@ -3,8 +3,7 @@ const ZERO_CHARACTER_CODE = '0'.charCodeAt(0);
 function multiply(number1: string, number2: string): string {
 	let result = '0';
 	for (let i = number2.length - 1; i >= 0; --i) {
-		const character2 = number2[i];
-		const digit2 = character2.charCodeAt(0) - ZERO_CHARACTER_CODE;
+		const digit2 = number2.charCodeAt(i) - ZERO_CHARACTER_CODE;
 		let intermediateResult = '0';
 		for (let digit = 0; digit < digit2; ++digit) {
 			intermediateResult = add(intermediateResult, number1);
@@ -22,10 +21,8 @@ function add(number1: string, number2: string): string {
 	let index2 = number2.length - 1;
 	let leftover = 0;
 	while (index1 >= 0 || index2 >= 0) {
-		const character1 = index1 >= 0 ? number1[index1] : '0';
-		const digit1 = character1.charCodeAt(0) - ZERO_CHARACTER_CODE;
-		const character2 = index2 >= 0 ? number2[index2] : '0';
-		const digit2 = character2.charCodeAt(0) - ZERO_CHARACTER_CODE;
+		const digit1 = index1 >= 0 ? number1.charCodeAt(index1) - ZERO_CHARACTER_CODE : 0;
+		const digit2 = index2 >= 0 ? number2.charCodeAt(index2) - ZERO_CHARACTER_CODE : 0;
 		let sum = digit1 + digit2 + leftover;
 		leftover = 0;
 		if (sum >= 10) {
