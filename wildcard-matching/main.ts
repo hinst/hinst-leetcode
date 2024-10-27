@@ -58,10 +58,10 @@ function check(s: string, sIndex: number, pattern: string, patternIndex: number,
 		return s[sIndex] != null && check(s, sIndex + 1, pattern, patternIndex + 1, remainingLetterCount - 1);
 	if (pattern[patternIndex] === '*') {
 		const nextPatternIndex = patternIndex + 1;
-		for (let i = sIndex; i <= s.length - remainingLetterCount; ++i) {
+		const limit = s.length - remainingLetterCount;
+		for (let i = sIndex; i <= limit; ++i)
 			if (check(s, i, pattern, nextPatternIndex, remainingLetterCount))
 				return true;
-		}
 	}
 	return s[sIndex] === pattern[patternIndex] &&
 		check(s, sIndex + 1, pattern, patternIndex + 1, remainingLetterCount - 1);
@@ -71,7 +71,7 @@ export const isMatchExported = isMatch;
 
 // Learn more at https://docs.deno.com/runtime/manual/examples/module_metadata#concepts
 if (import.meta.main) {
-	const s = "abbabaaabbabbaababbabbbbbabbbabbbabaaaaababababbbabababaabbababaabbbbbbaaaabababbbaabbbbaabbbbababababbaabbaababaabbbababababbbbaaabbbbbabaaaabbababbbbaababaabbababbbbbababbbabaaaaaaaabbbbbaabaaababaaaabb";
-	const pattern = "**aa*****ba*a*bb**aa*ab****a*aaaaaa***a*aaaa**bbabb*b*b**aaaaaaaaa*a********ba*bbb***a*ba*bb*bb**a*b*bb";
+	const s = "baababbaaaaabbababbbbbabaabaabaaabbaabbbbbbaabbbaaabbabbaabaaaaabaabbbaabbabababaaababbaaabaababbabaababbaababaabbbaaaaabbabbabababbbbaaaaaabaabbbbaababbbaabbaabbbbbbbbabbbabababbabababaaababbaaababaabb";
+	const pattern = "*ba***b***a*ab**b***bb*b***ab**aa***baba*b***bb**a*abbb*aa*b**baba**aa**b*b*a****aabbbabba*b*abaaa*aa**b";
 	console.log(isMatch(s, pattern));
 }
