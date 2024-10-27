@@ -216,3 +216,5 @@ Initially I iterated from max height down to 0, but that approach turned out to 
 Later I optimized my approach: only iterate through available heights, therefore heights [0, 1000] would be processed without going through all the intermediate 999 heights.
 As a result, my code passed but got low score: duration 1087 ms, beats 5%; memory 56 MB, beats 11%.
 The article explaining this task is locked behind a paywall.
+
+## 43. Multiply Strings
