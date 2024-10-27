@@ -1,9 +1,17 @@
 function isMatch(s: string, pattern: string): boolean {
 	pattern = optimizePattern(pattern);
+
+	const trimResult = trimPattern(s, pattern);
+	if (!trimResult.possible)
+		return false;
+	s = trimResult.s;
+	pattern = trimResult.pattern;
+
 	let letterCount = 0;
 	for (const character of pattern)
 		if (character !== '*')
 			++letterCount;
+
 	return check(s, 0, pattern, 0, letterCount);
 }
 
@@ -17,6 +25,23 @@ function optimizePattern(pattern: string): string {
 		previousCharacter = character;
 	}
 	return optimizedPattern;
+}
+
+function trimPattern(s: string, pattern: string): {s: string, pattern: string, possible: boolean} {
+	let iString = s.length - 1;
+	let iPattern = pattern.length - 1;
+	let possible = true;
+	while (iString >= 0 && iPattern >= 0 && pattern[iPattern] !== '*') {
+		if (pattern[iPattern] !== '?')
+			possible = s[iString] === pattern[iPattern];
+		if (!possible)
+			break;
+		--iString;
+		--iPattern;
+	}
+	pattern = pattern.slice(0, iPattern + 1);
+	s = s.slice(0, iString + 1);
+	return {s, pattern, possible};
 }
 
 function check(s: string, sIndex: number, pattern: string, patternIndex: number, remainingLetterCount: number): boolean {
