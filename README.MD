@@ -218,3 +218,5 @@ As a result, my code passed but got low score: duration 1087 ms, beats 5%; memor
 The article explaining this task is locked behind a paywall.
 
 ## 43. Multiply Strings
+I still remember how this task was discussed on a lesson at school. As I was writing code for this task, I realized that instead of multiplying number1 by a digit, I can add number1 in a loop from 1 to digit. It might be not the fastest approach, but it worked.
+My score: duration 41 ms, beats 20%; memory 57 MB, beats 30%.
