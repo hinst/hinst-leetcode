@@ -233,3 +233,6 @@ However, I still got time limit exceeded at test case 1718 of 1811.
 The last optimization was adding a cache: map of number+number to boolean, to avoid checking indexes that were already checked earlier.
 My code passed all test cases after I added cache.
 My score: duration 21 ms, beats 90%; memory 59 MB, beats 72%.
+
+## 45. Jump Game II
+Initially I wrote a straightforward recursive function for jumping and passed up to 74 / 110 test case, got time limit exceeded
