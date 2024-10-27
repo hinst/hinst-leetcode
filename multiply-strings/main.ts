@@ -1,7 +1,18 @@
 const ZERO_CHARACTER_CODE = '0'.charCodeAt(0);
 
 function multiply(number1: string, number2: string): string {
-	const result = '0';
+	let result = '0';
+	for (let i = number2.length - 1; i >= 0; --i) {
+		const character2 = number2[i];
+		const digit2 = character2.charCodeAt(0) - ZERO_CHARACTER_CODE;
+		let intermediateResult = '0';
+		for (let digit = 0; digit < digit2; ++digit) {
+			intermediateResult = add(intermediateResult, number1);
+		}
+		if (intermediateResult !== '0')
+			intermediateResult += '0'.repeat(number2.length - 1 - i);
+		result = add(result, intermediateResult);
+	}
 	return result;
 }
 
@@ -33,8 +44,6 @@ function add(number1: string, number2: string): string {
 export const multiplyExported = multiply;
 export const addExported = add;
 
-// Learn more at https://docs.deno.com/runtime/manual/examples/module_metadata#concepts
 if (import.meta.main) {
-	console.log(add('5', '5'));
-	// console.log(multiply('123', '456'));
+	console.log(multiply('123', '456'));
 }

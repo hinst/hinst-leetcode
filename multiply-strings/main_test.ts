@@ -1,5 +1,5 @@
 import { assertEquals } from '@std/assert';
-import { addExported } from './main.ts';
+import { addExported, multiplyExported } from './main.ts';
 
 Deno.test(function add() {
 	assertEquals(addExported('2', '3'), '5');
@@ -12,4 +12,7 @@ Deno.test(function add() {
 });
 Deno.test(function add() {
 	assertEquals(addExported('1', '999'), '1000');
+});
+Deno.test(function multiply() {
+	assertEquals(multiplyExported('123', '456'), '56088');
 });
