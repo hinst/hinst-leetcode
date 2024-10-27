@@ -1,5 +1,13 @@
 function isMatch(s: string, pattern: string): boolean {
-	return check(s, 0, pattern, 0);
+	let optimizedPattern = '';
+	let previousCharacter = '_';
+	for (const character of pattern) {
+		const isRepeating = character === '*' && previousCharacter === '*';
+		if (!isRepeating)
+			optimizedPattern += character;
+		previousCharacter = character;
+	}
+	return check(s, 0, optimizedPattern, 0);
 }
 
 function check(s: string, sIndex: number, pattern: string, patternIndex: number): boolean {
