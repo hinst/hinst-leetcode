@@ -52,7 +52,6 @@ function trimPattern(s: string, pattern: string): {s: string, pattern: string, p
 }
 
 function check(s: string, sIndex: number, pattern: string, patternIndex: number, remainingLetterCount: number): boolean {
-	// console.log(s.slice(sIndex), ' ', pattern.slice(patternIndex));
 	if (sIndex === s.length && patternIndex === pattern.length)
 		return true;
 	if (pattern[patternIndex] === '?')
@@ -62,9 +61,11 @@ function check(s: string, sIndex: number, pattern: string, patternIndex: number,
 		const limit = s.length - remainingLetterCount;
 		if (patternIndex === pattern.length - 1)
 			return true;
-		else if (pattern[nextPatternIndex] !== '?')
-			while (s[sIndex] !== pattern[nextPatternIndex] && sIndex < s.length)
-				++sIndex;
+		else if (pattern[nextPatternIndex] !== '?') {
+			sIndex = s.indexOf(pattern[nextPatternIndex], sIndex);
+			if (sIndex === -1)
+				return false;
+		}
 		for (let i = sIndex; i <= limit; ++i)
 			if (check(s, i, pattern, nextPatternIndex, remainingLetterCount))
 				return true;
