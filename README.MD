@@ -240,3 +240,5 @@ Afterwards I added cache: map of index->result and passed all test cases.
 My score: duration 193 ms, beats 10%; memory 60 MB, beats 5%.
 
 ## 46. Permutations
+I believe I already encountered tasks on LeetCode where permutations were involved. With the previous experience, this task was easy.
+My score: duration 1 ms, beats 85%; memory 54 MB, beats 62%.
