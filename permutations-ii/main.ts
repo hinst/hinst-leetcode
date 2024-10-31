@@ -2,13 +2,20 @@ function permuteUnique(numbers: number[], index = 0, results: number[][] = []): 
 	if (index === numbers.length)
 		results.push(numbers.slice());
 	for (let i = index; i < numbers.length; ++i) {
-		if (i !== index && numbers[index] === numbers[i])
-			continue;
-		swap(numbers, index, i);
-		permuteUnique(numbers, index + 1, results);
-		swap(numbers, index, i);
+		if (checkSwap(numbers, index, i)) {
+			swap(numbers, index, i);
+			permuteUnique(numbers, index + 1, results);
+			swap(numbers, index, i);
+		}
 	}
 	return results;
+}
+
+function checkSwap(numbers: number[], a: number, b: number) {
+	for (let i = a; i < b; ++i)
+		if (numbers[i] === numbers[b])
+			return false;
+	return true;
 }
 
 function swap(numbers: number[], a: number, b: number) {
