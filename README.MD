@@ -247,3 +247,5 @@ My score: duration 1 ms, beats 85%; memory 54 MB, beats 62%.
 I used my code from the previous task and added function `shouldSwap` from https://rosettacode.org/wiki/Permutations_with_some_identical_elements#Go.
 This little change was enough to pass all test cases and earn a high score.
 My score: duration 3 ms, beats 80%; memory 53 MB, beats 98%.
+
+## 48. Rotate Image
