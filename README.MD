@@ -249,3 +249,7 @@ This little change was enough to pass all test cases and earn a high score.
 My score: duration 3 ms, beats 80%; memory 53 MB, beats 98%.
 
 ## 48. Rotate Image
+I remember this task was discussed during one programming lesson when I was in school.
+As far as I remember, I was unable to solve this task back then.
+Today it took me around 1 hour to complete my code for this task.
+My score: duration 0 ms, beats 100%; memory 51 MB, beats 44%.
