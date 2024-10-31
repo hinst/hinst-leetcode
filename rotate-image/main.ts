@@ -3,12 +3,28 @@
  */
 function rotate(matrix: number[][]): void {
 	const countOfLayers = Math.trunc(matrix.length / 2);
+	function get(a: {y: number, x: number}) {
+		return matrix[a.y][a.x];
+	}
 	for (let layer = 0; layer < countOfLayers; ++layer) {
 		const a = layer;
 		const b = matrix.length - layer;
-		for (let x = a; x < b; ++x) {
+		let counter = 0;
+		for (let x = a; x < b; ++x, ++counter) {
 			const item = matrix[layer][x];
-			console.log(item);
+			const itemIndex = { y: layer, x: x };
+			const right = matrix[layer + counter][b - 1];
+			const rightIndex = { y: layer + counter, x: b - 1 };
+			const bottom = matrix[matrix.length - layer - 1][b - counter - 1];
+			const bottomIndex = { y: matrix.length - layer - 1, x: b - counter - 1 };
+			const left = matrix[matrix.length - layer - counter - 1][a];
+			const leftIndex = { y: matrix.length - layer - counter - 1, x: a };
+			console.log({item, right, bottom, left});
+			const itemValue = get(itemIndex);
+			const rightValue = get(rightIndex);
+			const bottomValue = get(bottomIndex);
+			const leftValue = get(leftIndex);
+			console.log({itemValue, rightValue, bottomValue, leftValue});
 		}
 	}
 };
