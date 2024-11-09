@@ -1,6 +1,14 @@
 function groupAnagrams(strings: string[]): string[][] {
-	const results: string[][] = [];
-	return results;
+	const groups = new Map<string, string[]>();
+	for (const word of strings) {
+		const key = Array.from(word).sort().join();
+		const group = groups.get(key);
+		if (!group)
+			groups.set(key, [word]);
+		else
+			group.push(word);
+	}
+	return Array.from(groups.values());
 }
 
 // Learn more at https://docs.deno.com/runtime/manual/examples/module_metadata#concepts

@@ -255,3 +255,6 @@ Today it took me around 1 hour to complete my code for this task.
 My score: duration 0 ms, beats 100%; memory 51 MB, beats 44%.
 
 ## 49. Group Anagrams
+At first I thought that this task is about "mirroring" the supplied words (which seemed difficult),
+but then I realized that the task is about letter reordering (which seems easy).
+My score: duration 40 ms, beats 41%; memory 63 MB, beats 55%.
