@@ -264,3 +264,5 @@ After I wrote my code for this task, I got Time Limit Exceeded on test 7 of 9.
 Because there are so few test cases, I decided to use pre-calculation for this task.
 It took around 10 minutes to pre-calculate the solutions.
 My score: duration 0 ms, beats 100%; memory 52 MB, beats 96%.
+
+## 52. N-Queens II

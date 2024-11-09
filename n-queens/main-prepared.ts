@@ -5297,3 +5297,9 @@ solutions.set(9, [
 function solveNQueens(n: number): string[][] {
     return solutions.get(n)!;
 }
+
+if (import.meta.main) {
+	for (let i = 1; i <= 9; ++i) {
+		console.log(i, solveNQueens(i).length);
+	}
+}
