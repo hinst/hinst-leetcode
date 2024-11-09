@@ -29,7 +29,7 @@ function solveNQueens(n: number): string[][] {
 			resultChains.add(key);
 		}
 		if (availablePlacesSet.size === 0)
-			return false;
+			return;
 		const availablePlacesArray = Array.from(availablePlacesSet);
 		for (const availablePlace of availablePlacesArray) {
 			currentChain.push(availablePlace);
@@ -69,6 +69,12 @@ function solveNQueens(n: number): string[][] {
 
 // Learn more at https://docs.deno.com/runtime/manual/examples/module_metadata#concepts
 if (import.meta.main) {
-	const variants = solveNQueens(parseInt(Deno.args[0]));
-	console.log(variants.length);
+	let text = Deno.readTextFileSync('./main-prepared-template.ts');
+	const answers: string[] = [];
+	for (let i = 1; i <= 9; ++i) {
+		const variants = solveNQueens(i);
+		answers.push('solutions.set(' + i + ', ' + JSON.stringify(variants, undefined, '\t'), ');');
+	}
+	text = text.replace('//placeholder//', answers.join('\n'));
+	Deno.writeTextFileSync('./main-prepared.ts', text);
 }
