@@ -253,3 +253,5 @@ I remember this task was discussed during one programming lesson when I was in s
 As far as I remember, I was unable to solve this task back then.
 Today it took me around 1 hour to complete my code for this task.
 My score: duration 0 ms, beats 100%; memory 51 MB, beats 44%.
+
+## 49. Group Anagrams
