@@ -258,3 +258,9 @@ My score: duration 0 ms, beats 100%; memory 51 MB, beats 44%.
 At first I thought that this task is about "mirroring" the supplied words (which seemed difficult),
 but then I realized that the task is about letter reordering (which seems easy).
 My score: duration 40 ms, beats 41%; memory 63 MB, beats 55%.
+
+## 51. N-Queens
+After I wrote my code for this task, I got Time Limit Exceeded on test 7 of 9.
+Because there are so few test cases, I decided to use pre-calculation for this task.
+It took around 10 minutes to pre-calculate the solutions.
+My score: duration 0 ms, beats 100%; memory 52 MB, beats 96%.
