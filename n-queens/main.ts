@@ -69,5 +69,6 @@ function solveNQueens(n: number): string[][] {
 
 // Learn more at https://docs.deno.com/runtime/manual/examples/module_metadata#concepts
 if (import.meta.main) {
-	console.log(solveNQueens(4));
+	const variants = solveNQueens(parseInt(Deno.args[0]));
+	console.log(variants.length);
 }
