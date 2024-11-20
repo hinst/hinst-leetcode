@@ -270,3 +270,9 @@ Here I reused my pre-computed answers from the previous task.
 My score: duration 0 ms, beats 100%; memory 50 MB, beats 100%.
 
 ## 53. Maximum Subarray
+3x loop -> passed up to 200 of 210 test cases online.
+2x loop -> passed up to 204 of 210 test cases online.
+Kadane's algorithm -> I read an article about it on the internet, then copied the approach into my code.
+As a result, I my code passed all test cases online, using 1x loop.
+My score: duration 2 ms, beats 62%; memory: 60 MB, beats 24%.
+Needless to say, without hints & the article explaining how to calculate the sum, it would take me forever to figure out the solution.
