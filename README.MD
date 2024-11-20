@@ -268,3 +268,5 @@ My score: duration 0 ms, beats 100%; memory 52 MB, beats 96%.
 ## 52. N-Queens II
 Here I reused my pre-computed answers from the previous task.
 My score: duration 0 ms, beats 100%; memory 50 MB, beats 100%.
+
+## 53. Maximum Subarray
