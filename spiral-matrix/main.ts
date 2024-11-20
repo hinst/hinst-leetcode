@@ -74,7 +74,9 @@ function spiralOrder(matrix: number[][]): number[] {
 				y -= 1;
 				break;
 		}
-		canMove = !checkVisited(x, y);
+		canMove = !checkVisited(x, y) &&
+			0 <= x && x < width &&
+			0 <= y && y < height;
 	} while (canMove);
 	return result;
 }
