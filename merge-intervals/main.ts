@@ -12,14 +12,17 @@ function merge(intervals: number[][]): number[][] {
 		const interval = intervals[intervalIndex];
 		const left = interval[0];
 		const right = interval[1];
+		let existing: number | undefined;
 		for (let i = left; i <= right; ++i) {
-			const existing = map.get(i);
+			existing = map.get(i);
 			if (existing !== undefined) {
 				mergedIntervals[intervalIndex] = true;
 				collapse(intervals[existing], interval);
 			}
-			map.set(i, intervalIndex);
 		}
+		const finalIndex = undefined !== existing ? existing : intervalIndex;
+		for (let i = left; i <= right; ++i)
+			map.set(i, finalIndex);
 	}
 	return intervals.filter((_, index) => !mergedIntervals[index]);
 }
@@ -27,5 +30,5 @@ function merge(intervals: number[][]): number[][] {
 export const mergeEx = merge;
 
 if (import.meta.main) {
-	console.log(merge([[1,3],[2,6],[8,10],[15,18]]));
+	console.log(merge([[4,5],[1,4],[0,1]]));
 }

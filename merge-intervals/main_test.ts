@@ -7,3 +7,6 @@ Deno.test(function merge() {
 Deno.test(function merge() {
 	assertEquals(mergeEx([[1,4],[4,5]]), [[1,5]]);
 });
+Deno.test(function merge() {
+	assertEquals(mergeEx([[4,5],[1,4],[0,1]]), [[0,5]]);
+});
