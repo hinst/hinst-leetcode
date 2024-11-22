@@ -286,3 +286,5 @@ My score: duration 0 ms, beats 100%; memory: 51 MB, beats 79%.
 Somehow, "Jump Game II" was positioned before "Jump Game" in the list.
 The task was easy enough, considering that I had already completed Jump Game number one in the past.
 My score: duration 448 ms, beats 13%; memory 66 MB, beats 5%.
+
+## 56. Merge Intervals
