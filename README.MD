@@ -281,3 +281,5 @@ Needless to say, without hints & the article explaining how to calculate the sum
 This task ended up being easy enough and I completed it without the need to look for hints.
 The surprising part was that I got a high score.
 My score: duration 0 ms, beats 100%; memory: 51 MB, beats 79%.
+
+## 55. Jump Game
