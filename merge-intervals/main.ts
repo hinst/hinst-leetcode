@@ -24,6 +24,7 @@ function merge(intervals: number[][]): number[][] {
 			if (existing !== undefined) {
 				isMergedIntervals[intervalIndex] = true;
 				collapse(intervals[existing], interval);
+				break;
 			}
 		}
 		const finalIndex = undefined !== existing ? existing : intervalIndex;
@@ -40,5 +41,7 @@ export const mergeEx = merge;
 export const sortIntervalsEx = sortIntervals;
 
 if (import.meta.main) {
-	console.log(merge([[2,3],[4,5],[6,7],[8,9],[1,10]]));
+	console.log(merge(
+		[[5,5],[1,3],[3,5],[4,6],[1,1],[3,3],[5,6],[3,3],[2,4],[0,0]]
+	));
 }
