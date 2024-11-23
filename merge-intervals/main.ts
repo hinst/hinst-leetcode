@@ -31,6 +31,7 @@ function merge(intervals: number[][]): number[][] {
 		for (let i = left; i <= right; ++i)
 			map.set(i, finalIndex);
 	}
+	map.clear();
 	let mergedIntervals = intervals.filter((_, index) => !isMergedIntervals[index]);
 	if (mergedIntervals.length != intervals.length)
 		mergedIntervals = merge(mergedIntervals);
