@@ -10,17 +10,19 @@ function sortIntervals(intervals: number[][]) {
 	return intervals;
 }
 
+const LIMIT = 10000;
+
 function merge(intervals: number[][]): number[][] {
 	sortIntervals(intervals);
-	const isMergedIntervals: boolean[] = new Array(intervals.length).fill(false);
-	const map = new Map<number, number>();
+	const isMergedIntervals: boolean[] | undefined = new Array(intervals.length);
+	let map: number[] | undefined = new Array(LIMIT);
 	for (let intervalIndex = 0; intervalIndex < intervals.length; ++intervalIndex) {
 		const interval = intervals[intervalIndex];
 		const left = interval[0];
 		const right = interval[1];
 		let existing: number | undefined;
 		for (let i = left; i <= right; ++i) {
-			existing = map.get(i);
+			existing = map[i];
 			if (existing !== undefined) {
 				isMergedIntervals[intervalIndex] = true;
 				collapse(intervals[existing], interval);
@@ -29,9 +31,9 @@ function merge(intervals: number[][]): number[][] {
 		}
 		const finalIndex = undefined !== existing ? existing : intervalIndex;
 		for (let i = left; i <= right; ++i)
-			map.set(i, finalIndex);
+			map[i] = finalIndex;
 	}
-	map.clear();
+	map = undefined;
 	let mergedIntervals = intervals.filter((_, index) => !isMergedIntervals[index]);
 	if (mergedIntervals.length != intervals.length)
 		mergedIntervals = merge(mergedIntervals);

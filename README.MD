@@ -288,3 +288,5 @@ The task was easy enough, considering that I had already completed Jump Game num
 My score: duration 448 ms, beats 13%; memory 66 MB, beats 5%.
 
 ## 56. Merge Intervals
+The value range for the intervals is up to 10^4, which is not that much by computer's standards.
+Therefore I created a map of every single point.
