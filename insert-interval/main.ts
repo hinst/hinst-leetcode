@@ -10,7 +10,8 @@ function insert(intervals: Interval[], newInterval: Interval): Interval[] {
 	const results: Interval[] = [];
 	let mergeStart = -1;
 	let mergeEnd = -1;
-	for (const interval of intervals) {
+	for (let i = 0; i < intervals.length; ++i) {
+		const interval = intervals[i];
 		if (interval[1] < newInterval[0])
 			results.push(interval);
 
@@ -22,6 +23,10 @@ function insert(intervals: Interval[], newInterval: Interval): Interval[] {
 			mergeEnd = newInterval[1];
 		if (interval[0] <= newInterval[1] && newInterval[1] <= interval[1])
 			mergeEnd = interval[1];
+
+		const previousInterval = intervals[i - 1];
+		if (previousInterval && previousInterval[1] < newInterval[0] && newInterval[1] < interval[0])
+			results.push(newInterval);
 
 		if (newInterval[1] < interval[0]) {
 			if (mergeStart !== -1 && mergeEnd !== -1) {
