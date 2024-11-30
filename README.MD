@@ -296,3 +296,7 @@ My score: duration 13 ms, beats 34%; memory 59 MB, beats 82%.
 This task ended up being easy enough.
 The hint section from LeetCode suggests using binary search to find relevant area in the array, but it ended up being unnecessary to pass online test cases.
 My score: duration 8 ms, beats 43%; memory 56 MB, beats 26%.
+
+## 58. Length of Last Word
+Seems like the fastest solutions in TypeScript use the built-in function string split().
+My score: duration 3 ms, beats 9%; memory 52 MB, beats 5%.
