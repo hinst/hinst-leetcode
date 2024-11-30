@@ -291,3 +291,8 @@ My score: duration 448 ms, beats 13%; memory 66 MB, beats 5%.
 The value range for the intervals is up to 10^4, which is not that much by computer's standards.
 Therefore I created a mapping array of every single point.
 My score: duration 13 ms, beats 34%; memory 59 MB, beats 82%.
+
+## 57. Insert Interval
+This task ended up being easy enough.
+The hint section from LeetCode suggests using binary search to find relevant area in the array, but it ended up being unnecessary to pass online test cases.
+My score: duration 8 ms, beats 43%; memory 56 MB, beats 26%.
