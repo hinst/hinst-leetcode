@@ -4,7 +4,7 @@ function compareNumbers(a: number, b: number) {
 
 class Permutations {
 	constructor(
-		public array: Uint8Array,
+		public readonly array: Uint8Array,
 		public readonly limit: number,
 	) {
 		this.availableItems = new Set(array);
@@ -16,7 +16,6 @@ class Permutations {
 	next(depth: number) {
 		if (depth === this.array.length) {
 			++this.counter;
-			console.log(this.counter, this.array.join(''));
 			return;
 		}
 		const candidates = Array.from(this.availableItems).sort(compareNumbers);
@@ -41,5 +40,5 @@ function getPermutation(n: number, k: number): string {
 }
 
 if (import.meta.main) {
-	console.log(getPermutation(3, 5));
+	console.log(getPermutation(9, 278082));
 }

@@ -306,3 +306,8 @@ This task seems easy enough, especially because there already was a similar task
 My score: duration 0 ms, beats 100%; memory 51 MB, beats 46%.
 
 ## 60. Permutation Sequence
+At first I have tried using approach using recursion and swap, but it worked poorly because the output of this approach is not strictly sorted.
+At that point, I felt like giving up.
+However later I changed my mind and used an approach with HashSet and sort() to generate sorted outputs recursively.
+As a result, I got a low score but I passed.
+My score: duration 1466 ms, beats 11%; memory 56 MB, beats 6%.
