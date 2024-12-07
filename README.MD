@@ -302,3 +302,5 @@ Seems like the fastest solutions in TypeScript use the built-in function string 
 My score: duration 3 ms, beats 9%; memory 52 MB, beats 5%.
 
 ## 59. Spiral Matrix II
+This task seems easy enough, especially because there already was a similar task earlier on this list: 54. Spiral Matrix.
+My score: duration 0 ms, beats 100%; memory 51 MB, beats 46%.
