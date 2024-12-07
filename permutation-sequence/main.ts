@@ -1,33 +1,33 @@
+function compareNumbers(a: number, b: number) {
+	return a - b;
+}
+
 class Permutations {
 	constructor(
-		public readonly array: Uint8Array,
+		public array: Uint8Array,
 		public readonly limit: number,
 	) {
+		this.availableItems = new Set(array);
 	}
 
 	private counter: number = 0;
+	private availableItems: Set<number>;
 
-	public next(index: number) {
-		if (index === this.array.length) {
-			this.counter++;
+	next(depth: number) {
+		if (depth === this.array.length) {
+			++this.counter;
 			console.log(this.counter, this.array.join(''));
 			return;
 		}
-		for (let i = index; i < this.array.length; ++i) {
-			this.swap(index, i);
-			this.next(index + 1);
-			if (this.counter >= this.limit)
+		const candidates = Array.from(this.availableItems).sort(compareNumbers);
+		for (const candidate of candidates) {
+			this.array[depth] = candidate;
+			this.availableItems.delete(candidate);
+			this.next(depth + 1);
+			if (this.limit <= this.counter)
 				return;
-			this.swap(index, i);
+			this.availableItems.add(candidate);
 		}
-	}
-
-	private swap(a: number, b: number) {
-		if (a === b)
-			return;
-		const buffer = this.array[a];
-		this.array[a] = this.array[b];
-		this.array[b] = buffer;
 	}
 }
 
@@ -41,5 +41,5 @@ function getPermutation(n: number, k: number): string {
 }
 
 if (import.meta.main) {
-	console.log(getPermutation(5, 10));
+	console.log(getPermutation(3, 5));
 }
