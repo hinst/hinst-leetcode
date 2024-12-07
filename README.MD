@@ -316,3 +316,8 @@ My score: duration 1466 ms, beats 11%; memory 56 MB, beats 6%.
 My approach for this task is: first, convert the one directional linked list into two directional linked list.
 Next, keep shifting the list `k` times.
 My score: duration 1 ms, beats 57%; memory 53 MB, beats 13%.
+
+## 62. Unique Paths
+My approach for this task was: first, looking up the formula for permutation count with repetitions: https://byjus.com/permutation-formula/ .
+Next, improve calculation through the introduction of function subFactorial which calculates a!/b!.
+My score: duration 0 ms, beats 100%; memory 51 MB, beats 91%.
