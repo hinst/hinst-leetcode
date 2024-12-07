@@ -313,3 +313,6 @@ As a result, I got a low score but I passed.
 My score: duration 1466 ms, beats 11%; memory 56 MB, beats 6%.
 
 ## 61. Rotate List
+My approach for this task is: first, convert the one directional linked list into two directional linked list.
+Next, keep shifting the list `k` times.
+My score: duration 1 ms, beats 57%; memory 53 MB, beats 13%.
