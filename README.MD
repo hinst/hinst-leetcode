@@ -335,3 +335,5 @@ and avoid duplicated points without the need to use a Set to store current point
 However, in this task I ended up adding and keeping Set, unlike the previous task,
 because we have to re-check the points that were already visited, to compare sums and keep the best sum.
 My score: duration 35 ms, beats 11%; memory 59 MB, beats 13%.
+
+## 65. Valid Number
