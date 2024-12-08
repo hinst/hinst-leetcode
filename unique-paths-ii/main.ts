@@ -8,10 +8,10 @@ function uniquePathsWithObstacles(obstacleGrid: number[][]): number {
 			return false;
 		if (obstacleGrid[point.y][point.x] === -1)
 			return false;
-		const left = { x: point.x - 1, y: point.y };
-		const top = { x: point.x, y: point.y - 1 };
-		const leftValue = left.x >= 0 ? Math.max(0, obstacleGrid[left.y][left.x]) : 0;
-		const topValue = top.y >= 0 ? Math.max(0, obstacleGrid[top.y][top.x]) : 0;
+		const leftX = point.x - 1;
+		const topY = point.y - 1;
+		const leftValue = leftX >= 0 ? Math.max(0, obstacleGrid[point.y][leftX]) : 0;
+		const topValue = topY >= 0 ? Math.max(0, obstacleGrid[topY][point.x]) : 0;
 		obstacleGrid[point.y][point.x] = leftValue + topValue;
 		return true;
 	}
