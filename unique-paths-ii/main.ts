@@ -1,4 +1,20 @@
-type Point = { x: number; y: number };
+class Point {
+	constructor(
+		public readonly x: number,
+		public readonly y: number,
+	) {}
+
+	getFlat(width: number) {
+		return this.x + this.y * width;
+	}
+
+	static unpack(flat: number, width: number): Point {
+		return new Point(
+			flat % width,
+			Math.trunc(flat / width),
+		);
+	}
+}
 
 function uniquePathsWithObstacles(obstacleGrid: number[][]): number {
 	const height = obstacleGrid.length;
@@ -21,17 +37,17 @@ function uniquePathsWithObstacles(obstacleGrid: number[][]): number {
 				obstacleGrid[y][x] = -1;
 	if (obstacleGrid[0][0] !== -1)
 		obstacleGrid[0][0] = 1;
-	const points: Point[] = [{x: 0, y: 0}];
-	while (points.length) {
-		const previousPoints = points.slice(0);
-		points.length = 0;
+	const points: Set<number> = new Set([0]);
+	while (points.size) {
+		const previousPoints = Array.from(points).map(flat => Point.unpack(flat, width));
+		points.clear();
 		for (const point of previousPoints) {
-			const right = { x: point.x + 1, y: point.y };
-			const bottom = { x: point.x, y: point.y + 1};
+			const right = new Point(point.x + 1, point.y);
+			const bottom = new Point(point.x, point.y + 1);
 			if (step(right))
-				points.push(right);
+				points.add(right.getFlat(width));
 			if (step(bottom))
-				points.push(bottom);
+				points.add(bottom.getFlat(width));
 		}
 	}
 	const exitCell = obstacleGrid[height - 1][width - 1];
