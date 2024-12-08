@@ -323,3 +323,6 @@ Next, improve calculation through the introduction of function subFactorial whic
 My score: duration 0 ms, beats 100%; memory 51 MB, beats 91%.
 
 ## 63. Unique Paths II
+This task is similar to the previous task, but the approach is different.
+We fill each cell of the grid with (left + top). I saw this approach mentioned in the comments for the previous task, that is how I learned of it.
+My score: duration 2 ms, beats 48%; memory 53 MB, beats 16%.
