@@ -328,3 +328,10 @@ We fill each cell of the grid with (left + top). I saw this approach mentioned i
 My score: duration 2 ms, beats 48%; memory 53 MB, beats 16%.
 
 ## 64. Minimum Path Sum
+This task is similar to the previous task, but instead of checking for obstacles with gather sums of numbers.
+Interesting enough, I tried forcing unique points in previous task by using Set,
+but it ended up being useless in the previous task because we can check whether the current point was visited or not,
+and avoid duplicated points without the need to use a Set to store current points.
+However, in this task I ended up adding and keeping Set, unlike the previous task,
+because we have to re-check the points that were already visited, to compare sums and keep the best sum.
+My score: duration 35 ms, beats 11%; memory 59 MB, beats 13%.

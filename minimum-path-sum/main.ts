@@ -3,6 +3,14 @@ class Point {
 		public readonly x: number,
 		public readonly y: number,
 	) {}
+
+	getFlat(width: number) {
+		return this.x + this.y * width;
+	}
+}
+
+function unpackPoint(flat: number, width: number): Point {
+	return new Point(flat % width, Math.trunc(flat / width));
 }
 
 function minPathSum(grid: number[][]): number {
@@ -26,22 +34,22 @@ function minPathSum(grid: number[][]): number {
 		const targetSum = sourceSum + grid[point.y][point.x];
 		const existingStep = paths[point.y][point.x];
 		paths[point.y][point.x] = existingStep !== undefined
-			? Math.min(paths[point.y][point.x], targetSum)
+			? Math.min(existingStep, targetSum)
 			: targetSum;
 		return true;
 	}
 	paths[0][0] = grid[0][0];
-	const points: Point[] = [new Point(0, 0)];
-	while (points.length) {
-		const previousPoints = points.slice(0);
-		points.length = 0;
+	const points: Set<number> = new Set([0]);
+	while (points.size) {
+		const previousPoints = Array.from(points).map(flat => unpackPoint(flat, width));
+		points.clear();
 		for (const point of previousPoints) {
 			const right = new Point(point.x + 1, point.y);
 			const bottom = new Point(point.x, point.y + 1);
 			if (step(right))
-				points.push(right);
+				points.add(right.getFlat(width));
 			if (step(bottom))
-				points.push(bottom);
+				points.add(bottom.getFlat(width));
 		}
 	}
 	return paths[height - 1][width - 1];
