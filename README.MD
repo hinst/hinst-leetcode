@@ -337,3 +337,6 @@ because we have to re-check the points that were already visited, to compare sum
 My score: duration 35 ms, beats 11%; memory 59 MB, beats 13%.
 
 ## 65. Valid Number
+Initially I tried using the built-in function parseFloat, however after encountering multiple failed test cases online,
+I believed that it is easier to avoid it.
+My score: duration 2 ms, beats 70%; memory 54 MB, beats 41%.
