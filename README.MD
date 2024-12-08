@@ -340,3 +340,7 @@ My score: duration 35 ms, beats 11%; memory 59 MB, beats 13%.
 Initially I tried using the built-in function parseFloat, however after encountering multiple failed test cases online,
 I believed that it is easier to avoid it.
 My score: duration 2 ms, beats 70%; memory 54 MB, beats 41%.
+
+## 66. Plus One
+This task seemed easy overall.
+My score: duration 0 ms, beats 100%; memory 51 MB, beats 13%.
