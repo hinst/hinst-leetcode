@@ -21,7 +21,8 @@ function uniquePathsWithObstacles(obstacleGrid: number[][]): number {
 				obstacleGrid[y][x] = -1;
 		});
 	});
-	obstacleGrid[0][0] = 1;
+	if (obstacleGrid[0][0] !== -1)
+		obstacleGrid[0][0] = 1;
 	const points: Point[] = [{x: 0, y: 0}];
 	while (points.length) {
 		const previousPoints = points.slice(0);
@@ -41,4 +42,5 @@ function uniquePathsWithObstacles(obstacleGrid: number[][]): number {
 
 if (import.meta.main) {
 	console.log(uniquePathsWithObstacles([[0,0,0],[0,1,0],[0,0,0]]));
+	console.log(uniquePathsWithObstacles([[1]]));
 }
