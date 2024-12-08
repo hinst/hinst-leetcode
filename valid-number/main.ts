@@ -1,31 +1,38 @@
-const UPPER_CASE_LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-const LOWER_CASE_LETTERS = UPPER_CASE_LETTERS.toLowerCase();
 const DIGITS = '0123456789';
+
+function isNumberPart(s: string, periodLimit: number): boolean {
+	s = s.trim();
+	if (s === '')
+		return false;
+	if (s.startsWith('+') || s.startsWith('-'))
+		s = s.slice(1);
+	let countOfPeriod = 0;
+	let countOfDigits = 0;
+	for (const character of s) {
+		if (character === '.') {
+			++countOfPeriod;
+			if (countOfPeriod > periodLimit)
+				return false;
+		} else if (DIGITS.includes(character)) {
+			++countOfDigits;
+		} else
+			return false;
+	}
+	return countOfDigits > 0;
+}
 
 function isNumber(s: string): boolean {
 	s = s.trim();
-	if (s.endsWith('e'))
+	if (s === '')
 		return false;
-	if (new RegExp('\\.\\d+\\.').test(s))
-		// numbers surrounded by period on both sides are not allowed
+	const parts = s.split(new RegExp('[Ee]'));
+	if (parts.length > 2)
 		return false;
-	const characters = Array.from(s);
-	for (let i = 0; i < characters.length; ++i) {
-		const previous = characters[i - 1];
-		const c = characters[i];
-		const next = characters[i + 1];
-		if (UPPER_CASE_LETTERS.includes(c) && c != 'E')
-			return false;
-		if (LOWER_CASE_LETTERS.includes(c) && c != 'e')
-			return false;
-		if (c === '.') {
-			const haveDigit = DIGITS.includes(previous) || DIGITS.includes(next);
-			if (!haveDigit)
-				return false;
-		}
-	}
-	return !Number.isNaN(parseFloat(s));
+	return isNumberPart(parts[0], 1) &&
+		parts.slice(1).every(part => isNumberPart(part, 0));
 }
+
+export const isNumberEx = isNumber;
 
 if (import.meta.main) {
 	console.log(isNumber('0'));
