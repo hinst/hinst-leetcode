@@ -1,3 +1,13 @@
+function merge(currentLine: string[], maxWidth: number): string {
+	const currentLineLength = currentLine.map(word => word.length).reduce((a, b) => a + b, 0);
+	const spaceLength = maxWidth - currentLineLength;
+	const regularSpaceLength = currentLine.length > 1
+		? Math.trunc(spaceLength / (currentLine.length - 1))
+		: 0;
+	const remainder = spaceLength - regularSpaceLength * (currentLine.length - 1);
+	return currentLine.join(' '.repeat(regularSpaceLength)) + ' '.repeat(remainder);
+}
+
 function fullJustify(words: string[], maxWidth: number): string[] {
 	const lines: string[] = [];
 	let currentLine: string[] = [];
@@ -9,20 +19,25 @@ function fullJustify(words: string[], maxWidth: number): string[] {
 			currentLine.push(word);
 			currentLineLength = newLength;
 		} else {
-			lines.push(currentLine.join(' '));
+			lines.push(merge(currentLine, maxWidth));
 			currentLineLength = word.length;
 			currentLine = [word];
 		}
 	}
 	if (currentLine.length)
-		lines.push(currentLine.join(' '));
+		lines.push(merge(currentLine, maxWidth));
 	return lines;
+}
+
+function test(words: string[], limit: number) {
+	const text = fullJustify(words, limit);
+	console.log('-'.repeat(limit) + '+');
+	console.log(text.map(s => s + '|').join('\n'));
 }
 
 // Learn more at https://docs.deno.com/runtime/manual/examples/module_metadata#concepts
 if (import.meta.main) {
-	const words = ["This", "is", "an", "example", "of", "text", "justification."];
-	const limit = 16;
-	console.log('-'.repeat(limit) + '+');
-	console.log(fullJustify(words, limit).map(s => s + '|').join('\n'));
+	test(["This", "is", "an", "example", "of", "text", "justification."], 16);
+	test(["What","must","be","acknowledgment","shall","be"], 16);
+	test(["Science","is","what","we","understand","well","enough","to","explain","to","a","computer.","Art","is","everything","else","we","do"], 20);
 }
