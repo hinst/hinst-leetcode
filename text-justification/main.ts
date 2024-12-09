@@ -4,8 +4,24 @@ function merge(currentLine: string[], maxWidth: number): string {
 	const regularSpaceLength = currentLine.length > 1
 		? Math.trunc(spaceLength / (currentLine.length - 1))
 		: 0;
-	const remainder = spaceLength - regularSpaceLength * (currentLine.length - 1);
-	return currentLine.join(' '.repeat(regularSpaceLength)) + ' '.repeat(remainder);
+	let remainder = spaceLength - regularSpaceLength * (currentLine.length - 1);
+	const text: string[] = [];
+	for (let i = 0; i < currentLine.length; ++i) {
+		const word = currentLine[i];
+		text.push(word);
+		const isLastWord = i === currentLine.length - 1;
+		if (isLastWord)
+			text.push(' '.repeat(remainder));
+		else {
+			let space = regularSpaceLength;
+			if (remainder > 0) {
+				++space;
+				--remainder;
+			}
+			text.push(' '.repeat(space));
+		}
+	}
+	return text.join('');
 }
 
 function fullJustify(words: string[], maxWidth: number): string[] {
