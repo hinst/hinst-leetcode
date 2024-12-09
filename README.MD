@@ -344,3 +344,7 @@ My score: duration 2 ms, beats 70%; memory 54 MB, beats 41%.
 ## 66. Plus One
 This task seemed easy overall.
 My score: duration 0 ms, beats 100%; memory 51 MB, beats 13%.
+
+## 67. Add Binary
+This task seems easy enough, considering that it was explained in school and I still remember it to this day.
+My score: duration 2 ms, beats 59%; memory 52 MB, beats 44%.
