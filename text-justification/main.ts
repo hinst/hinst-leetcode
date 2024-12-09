@@ -1,9 +1,11 @@
-function merge(currentLine: string[], maxWidth: number): string {
+function merge(currentLine: string[], maxWidth: number, isLastLine: boolean): string {
 	const currentLineLength = currentLine.map(word => word.length).reduce((a, b) => a + b, 0);
 	const spaceLength = maxWidth - currentLineLength;
-	const regularSpaceLength = currentLine.length > 1
-		? Math.trunc(spaceLength / (currentLine.length - 1))
-		: 0;
+	const regularSpaceLength = isLastLine
+		? 1
+		: currentLine.length > 1
+			? Math.trunc(spaceLength / (currentLine.length - 1))
+			: 0;
 	let remainder = spaceLength - regularSpaceLength * (currentLine.length - 1);
 	const text: string[] = [];
 	for (let i = 0; i < currentLine.length; ++i) {
@@ -14,7 +16,7 @@ function merge(currentLine: string[], maxWidth: number): string {
 			text.push(' '.repeat(remainder));
 		else {
 			let space = regularSpaceLength;
-			if (remainder > 0) {
+			if (remainder > 0 && !isLastLine) {
 				++space;
 				--remainder;
 			}
@@ -35,13 +37,13 @@ function fullJustify(words: string[], maxWidth: number): string[] {
 			currentLine.push(word);
 			currentLineLength = newLength;
 		} else {
-			lines.push(merge(currentLine, maxWidth));
+			lines.push(merge(currentLine, maxWidth, false));
 			currentLineLength = word.length;
 			currentLine = [word];
 		}
 	}
 	if (currentLine.length)
-		lines.push(merge(currentLine, maxWidth));
+		lines.push(merge(currentLine, maxWidth, true));
 	return lines;
 }
 
