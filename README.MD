@@ -354,4 +354,5 @@ It took me around 1 hour to complete the code for this task without external hin
 My score: duration 0 ms, beats 100%; memory 51 MB, beats 22%.
 
 ## 69. Sqrt(x)
+The approach here is to keep increasing the result until the product result*result becomes larger than x.
 My score: duration 25 ms, beats 19%; memory 54 MB, beats 7%.
