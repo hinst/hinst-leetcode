@@ -356,3 +356,8 @@ My score: duration 0 ms, beats 100%; memory 51 MB, beats 22%.
 ## 69. Sqrt(x)
 The approach here is to keep increasing the result until the product result*result becomes larger than x.
 My score: duration 25 ms, beats 19%; memory 54 MB, beats 7%.
+
+## 70. Climbing Stairs
+I read through the comments online and it turned out that the answer here is the Fibonacci formula.
+My score: duration 0 ms, beats 100%; memory 51 MB, beats 7%.
+Could I have guessed the answer without hints? I am not sure. Maybe.
