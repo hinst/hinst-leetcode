@@ -361,3 +361,5 @@ My score: duration 25 ms, beats 19%; memory 54 MB, beats 7%.
 I read through the comments online and it turned out that the answer here is the Fibonacci formula.
 My score: duration 0 ms, beats 100%; memory 51 MB, beats 7%.
 Could I have guessed the answer without hints? I am not sure. Maybe.
+
+## 71. Simplify Path
