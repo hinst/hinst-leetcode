@@ -360,6 +360,8 @@ My score: duration 25 ms, beats 19%; memory 54 MB, beats 7%.
 ## 70. Climbing Stairs
 I read through the comments online and it turned out that the answer here is the Fibonacci formula.
 My score: duration 0 ms, beats 100%; memory 51 MB, beats 7%.
-Could I have guessed the answer without hints? I am not sure. Maybe.
+Could I have guessed the answer without hints? I am not sure.
 
 ## 71. Simplify Path
+This task seems easy enough because there is no math involved. This is a transformation of data through few simple rules.
+My score: duration 2 ms, beats 76%; memory 52 MB, beats 66%.
