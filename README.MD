@@ -370,3 +370,7 @@ My score: duration 2 ms, beats 76%; memory 52 MB, beats 66%.
 I spent only a little time trying to think of a solution before reading the article explaining how to solve it.
 The article suggested using a matrix, meanwhile I was thinking in the direction of a recursive function initially.
 Article explaining the approach with distance matrix: https://web.stanford.edu/class/cs124/lec/med.pdf .
+At first, I kept an array of previous points to know where to continue.
+Later I looked at the existing solutions online and realized that there is no need to store previous points
+if we fill the matrix in a simple sequence, so I have updated my approach to discard points array.
+My score: duration 10 ms, beats 93%; memory 58 MB, beats 37%.
