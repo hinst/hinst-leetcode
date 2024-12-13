@@ -9,12 +9,12 @@ function minDistance(word1: string, word2: string): number {
 		.map(_ => new Array(word2.length + 1));
 	const points: Point[] = [];
 	for (let i = 0; i <= word1.length; ++i) {
-		matrix[0][i] = i;
 		matrix[i][0] = i;
-		if (i != 0) {
-			points.push({x: 1, y: i});
-			points.push({x: i, y: 1});
-		}
+		points.push({x: 1, y: i});
+	}
+	for (let i = 0; i <= word2.length; ++i) {
+		matrix[0][i] = i;
+		points.push({x: i, y: 1});
 	}
 	while (points.length) {
 		const currentPoints = points.slice(0);
@@ -43,7 +43,6 @@ function minDistance(word1: string, word2: string): number {
 			}
 		}
 	}
-	console.log(getMatrixText(matrix));
 	return matrix[word1.length][word2.length];
 }
 
