@@ -365,3 +365,8 @@ Could I have guessed the answer without hints? I am not sure.
 ## 71. Simplify Path
 This task seems easy enough because there is no math involved. This is a transformation of data through few simple rules.
 My score: duration 2 ms, beats 76%; memory 52 MB, beats 66%.
+
+## 72. Edit Distance
+I spent only a little time trying to think of a solution before reading the article explaining how to solve it.
+The article suggested using a matrix, meanwhile I was thinking in the direction of a recursive function initially.
+Article explaining the approach with distance matrix: https://web.stanford.edu/class/cs124/lec/med.pdf .
