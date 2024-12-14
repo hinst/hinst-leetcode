@@ -7,8 +7,11 @@ function minWindow(s: string, t: string): string {
 	let endBest = s.length;
 	let startIndex = 0;
 	let endIndex = 0;
-	while (startIndex < s.length && endIndex < s.length) {
+	while (startIndex < s.length && endIndex <= s.length) {
+		console.log();
+		console.log(s);
 		const isIncluded = checkIncludes(currentMap, targetMap);
+		console.log(' '.repeat(startIndex) + s.substring(startIndex, endIndex) + ' '.repeat(s.length - endIndex) + (isIncluded ? '🟢' : '🟡'));
 		if (isIncluded) {
 			if (endIndex - startIndex < endBest - startBest) {
 				startBest = startIndex;
