@@ -379,3 +379,8 @@ My score: duration 10 ms, beats 93%; memory 58 MB, beats 37%.
 This task seems straightforward. The only tricky part here is distinguishing between the original zero cells and secondary zero cells.
 Only the original zero cells should trigger changes.
 My score: duration 1 ms, beats 96%; memory 54 MB, beats 52%.
+
+## 74. Search a 2D Matrix
+The description says that we must write a solution with logarithmic time complexity,
+however all tests get passed with a straightforward loop;
+My score: duration 0 ms, beats 100%; memory 51 MB, beats 89%.
