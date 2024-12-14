@@ -388,3 +388,8 @@ My score: duration 0 ms, beats 100%; memory 51 MB, beats 89%.
 ## 75. Sort Colors
 The approach for this task is to count how many zeros, ones and twos are present in the array.
 My score: duration 0 ms, beats 100%; memory 51 MB, beats 96%.
+
+## 77. Combinations
+I have completed the code for this task without looking up any hints online.
+The task seemed easy enough, because combinations were already used in the previous tasks.
+My score: duration 135 ms, beats 24%; memory 122 MB, beats 56%.
