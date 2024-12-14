@@ -3,17 +3,14 @@ function minWindow(s: string, t: string): string {
 	for (const character of t)
 		targetMap[character] = (targetMap[character] || 0) + 1;
 	const currentMap: Record<string, number> = {};
-	let startBest = 0;
+	let startBest: number | undefined;
 	let endBest = s.length;
 	let startIndex = 0;
 	let endIndex = 0;
 	while (startIndex < s.length && endIndex <= s.length) {
-		console.log();
-		console.log(s);
 		const isIncluded = checkIncludes(currentMap, targetMap);
-		console.log(' '.repeat(startIndex) + s.substring(startIndex, endIndex) + ' '.repeat(s.length - endIndex) + (isIncluded ? '🟢' : '🟡'));
 		if (isIncluded) {
-			if (endIndex - startIndex < endBest - startBest) {
+			if (startBest === undefined || endIndex - startIndex < endBest - startBest) {
 				startBest = startIndex;
 				endBest = endIndex;
 			}
@@ -28,7 +25,7 @@ function minWindow(s: string, t: string): string {
 			++endIndex;
 		}
 	}
-	return s.substring(startBest, endBest);
+	return startBest !== undefined ? s.substring(startBest, endBest) : '';
 }
 
 function checkIncludes(map: Record<string, number>, targetMap: Record<string, number>): boolean {
@@ -39,6 +36,8 @@ function checkIncludes(map: Record<string, number>, targetMap: Record<string, nu
 	}
 	return true;
 }
+
+export const minWindowEx = minWindow;
 
 if (import.meta.main) {
 	const s = "ADOBECODEBANC", t = "ABC";
