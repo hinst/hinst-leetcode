@@ -384,3 +384,7 @@ My score: duration 1 ms, beats 96%; memory 54 MB, beats 52%.
 The description says that we must write a solution with logarithmic time complexity,
 however all tests get passed with a straightforward loop;
 My score: duration 0 ms, beats 100%; memory 51 MB, beats 89%.
+
+## 75. Sort Colors
+The approach for this task is to count how many zeros, ones and twos are present in the array.
+My score: duration 0 ms, beats 100%; memory 51 MB, beats 96%.
