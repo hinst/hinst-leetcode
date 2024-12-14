@@ -374,3 +374,8 @@ At first, I kept an array of previous points to know where to continue.
 Later I looked at the existing solutions online and realized that there is no need to store previous points
 if we fill the matrix in a simple sequence, so I have updated my approach to discard points array.
 My score: duration 10 ms, beats 93%; memory 58 MB, beats 37%.
+
+## 73. Set Matrix Zeroes
+This task seems straightforward. The only tricky part here is distinguishing between the original zero cells and secondary zero cells.
+Only the original zero cells should trigger changes.
+My score: duration 1 ms, beats 96%; memory 54 MB, beats 52%.
