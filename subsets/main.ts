@@ -5,10 +5,10 @@ function subsets(sources: number[]): number[][] {
 	const results: number[][] = [[]];
 	function combine(index: number) {
 		const sources = Array.from(sourceElements);
-		const previous = index > 0 ? selectedElements[index - 1] : 0;
+		const previous = index > 0 ? selectedElements[index - 1] : undefined;
 		for (let i = 0; i < sources.length; ++i) {
 			const source = sources[i];
-			if (source < previous)
+			if (previous !== undefined && source < previous)
 				continue;
 			selectedElements.push(source);
 			sourceElements.delete(source);
@@ -24,5 +24,5 @@ function subsets(sources: number[]): number[][] {
 }
 
 if (import.meta.main) {
-	console.log(subsets([1, 2, 3]).join('\n'));
+	console.log(subsets( [-1,1,2] ).join('\n'));
 }
