@@ -50,11 +50,9 @@ function exist(board: string[][], word: string): boolean {
 
 if (import.meta.main) {
 	{
-		const board = [["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]], word = "ABCCED";
-		console.log(exist(board, word));
-	}
-	{
-		const board = [["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]], word = "ABCB";
+		const board = [["A","B","C","E"],["S","F","E","S"],["A","D","E","E"]], word = "ABCESEEEFS";
+		console.log(board.join('\n'));
+		console.log(word);
 		console.log(exist(board, word));
 	}
 }
