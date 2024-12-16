@@ -400,3 +400,7 @@ Afterwards, I had to make a few adjustments to make my code pass all unit tests 
 My score: duration 0 ms, beats 100%; memory 53 MB, beats 59%.
 
 ## 79. Word Search
+This task seems easy enough overall. The only tricky part here is to remember the cells that were already visited.
+At first I cloned the set of visited points on each step, but got timeout from LeetCode.
+Later I stored visited points information in a 2D table.
+My score: duration 1061 ms, beats 30%; memory 60 MB, beats 5%.
