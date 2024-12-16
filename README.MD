@@ -395,3 +395,6 @@ The task seemed easy enough, because combinations were already used in the previ
 My score: duration 135 ms, beats 24%; memory 122 MB, beats 56%.
 
 ## 78. Subsets
+This task seems easy enough, because the previous task is similar. I have copied my code from the previous task into this task.
+Afterwards, I had to make a few adjustments to make my code pass all unit tests online.
+My score: duration 0 ms, beats 100%; memory 53 MB, beats 59%.
