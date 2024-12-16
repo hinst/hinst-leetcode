@@ -21,24 +21,29 @@ class Point {
 function exist(board: string[][], word: string): boolean {
 	const height = board.length;
 	const width = board[0].length;
-	function find(path: Set<number>, point: Point, index: number): boolean {
+	const path = new Set<number>();
+	function find(point: Point, index: number): boolean {
 		if (index >= word.length)
 			return true;
 		let points = point.getSurrounding()
 			.filter(point => board[point.y]?.[point.x] === word[index]);
 		const flatPoints = points.map(point => point.getFlat(width));
 		points = points.filter((_, i) => !path.has(flatPoints[i]));
-		path = new Set(path);
-		path.add(point.getFlat(width));
-		return points.some(point => find(path, point, index + 1));
+		const pointFlat = point.getFlat(width);
+		path.add(pointFlat);
+		const result = points.some(point => find(point, index + 1));
+		path.delete(pointFlat);
+		return result;
 	}
 	for (let y = 0; y < height; ++y) {
 		for (let x = 0; x < width; ++x) {
 			if (board[y][x] === word[0]) {
 				const point = new Point(x, y);
-				const found = find(new Set([point.getFlat(width)]), point, 1);
+				path.add(point.getFlat(width));
+				const found = find(point, 1);
 				if (found)
 					return true;
+				path.clear();
 			}
 		}
 	}
