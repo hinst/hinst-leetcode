@@ -4,10 +4,6 @@ class Point {
 		public readonly y: number,
 	) {}
 
-	getFlat(width: number) {
-		return this.x + this.y * width;
-	}
-
 	getSurrounding(): Point[] {
 		return [
 			new Point(this.x, this.y - 1),
@@ -21,29 +17,26 @@ class Point {
 function exist(board: string[][], word: string): boolean {
 	const height = board.length;
 	const width = board[0].length;
-	const path = new Set<number>();
+	const path: boolean[][] = new Array(height).fill(undefined).map(_ => new Array(width).fill(false));
 	function find(point: Point, index: number): boolean {
 		if (index >= word.length)
 			return true;
 		let points = point.getSurrounding()
 			.filter(point => board[point.y]?.[point.x] === word[index]);
-		const flatPoints = points.map(point => point.getFlat(width));
-		points = points.filter((_, i) => !path.has(flatPoints[i]));
-		const pointFlat = point.getFlat(width);
-		path.add(pointFlat);
+		points = points.filter(point => !path[point.y][point.x]);
+		path[point.y][point.x] = true;
 		const result = points.some(point => find(point, index + 1));
-		path.delete(pointFlat);
+		path[point.y][point.x] = false;
 		return result;
 	}
 	for (let y = 0; y < height; ++y) {
 		for (let x = 0; x < width; ++x) {
 			if (board[y][x] === word[0]) {
-				const point = new Point(x, y);
-				path.add(point.getFlat(width));
-				const found = find(point, 1);
+				path[y][x] = true;
+				const found = find(new Point(x, y), 1);
 				if (found)
 					return true;
-				path.clear();
+				path[y][x] = false;
 			}
 		}
 	}
