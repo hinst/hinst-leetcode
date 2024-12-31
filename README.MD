@@ -408,3 +408,5 @@ My score: duration 1061 ms, beats 30%; memory 60 MB, beats 5%.
 ## 80. Remove Duplicates from Sorted Array II
 Loop through the array and keep track of the last and before-last elements.
 My score: duration 57 ms, beats 91%; memory 52 MB, beats 67%.
+
+## 81. Search in Rotated Sorted Array II
