@@ -1,21 +1,23 @@
 function search(numbers: number[], target: number): boolean {
-	const offset = findTurningPosition(numbers, 0, numbers.length - 1);
+	const offset = findTurningPosition(numbers, 0, numbers.length - 1) || 0;
 	return findInShifted(numbers, 0, numbers.length - 1, offset, target) !== -1;
 }
 
-function findTurningPosition(numbers: number[], left: number, right: number): number {
+function findTurningPosition(numbers: number[], left: number, right: number): number | undefined {
 	if (right <= left)
-		return left;
-	if (numbers[left] >= numbers[right]) {
-		if (left + 1 === right)
-			return right;
-		const middle = Math.floor((left + right) / 2);
-		if (numbers[left] < numbers[middle])
-			return findTurningPosition(numbers, middle, right);
-		else
-			return findTurningPosition(numbers, left, middle);
-	}
-	return (right + 1) % numbers.length;
+		return undefined;
+	if (numbers[left] > numbers[right] && left + 1 === right)
+		return right;
+	if (left + 1 === right)
+		return undefined;
+	const middle = Math.floor((left + right) / 2);
+	const leftOffset = numbers[left] < numbers[middle]
+		? undefined
+		: findTurningPosition(numbers, left, middle);
+	const rightOffset = numbers[middle] < numbers[right]
+		? undefined
+		: findTurningPosition(numbers, middle, right);
+	return leftOffset !== undefined ? leftOffset : rightOffset;
 }
 
 function findInShifted(numbers: number[], left: number, right: number, offset: number, target: number): number {
@@ -51,6 +53,10 @@ function arrayToString(numbers: number[], offset: number) {
 	return text;
 }
 
+export function findTurningPositionEx(numbers: number[], left: number = 0, right: number = numbers.length - 1) {
+	return findTurningPosition(numbers, left, right)
+}
+
 if (import.meta.main) {
-	console.log(search([2,5,6,0,0,1,2], 0));
+	console.log(search([1,1,1,1,1,1,1,1,1,1,1,1,1,2,1,1,1,1,1], 2));
 }
