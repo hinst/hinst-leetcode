@@ -410,3 +410,11 @@ Loop through the array and keep track of the last and before-last elements.
 My score: duration 57 ms, beats 91%; memory 52 MB, beats 67%.
 
 ## 81. Search in Rotated Sorted Array II
+Earlier there was a task with the same name but without "II". The two tasks are fairly similar, so I already knew how to approach this task.
+There are two steps:
+1. Find the turning point in the rotated array
+2. Use binary search
+
+My score: duration 0 ms, beats 100%; memory 51 MB, beats 95%.
+
+## 82. Remove Duplicates from Sorted List II
