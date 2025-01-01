@@ -425,3 +425,6 @@ My score: duration 0 ms, beats 100%; memory 51 MB, beats 68%.
 ## 83. Remove Duplicates from Sorted List
 This task is similar to the previous task, easier even.
 My score: duration 0 ms, beats 100%; memory 53 MB, beats 64%.
+
+## 84. Largest Rectangle in Histogram
+This task seems easy. Perhaps the difficulty comes from the time constraint when processing up to 10^5 source items.
