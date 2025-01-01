@@ -8,6 +8,11 @@ function largestRectangleArea(heights: number[]): number {
 				++width;
 			else
 				break;
+		for (let w = i - 1; w >= 0; --w)
+			if (height <= heights[w])
+				++width;
+			else
+				break;
 		const area = height * width;
 		if (largestArea < area)
 			largestArea = area;
