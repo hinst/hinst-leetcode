@@ -2,6 +2,8 @@ function largestRectangleArea(heights: number[]): number {
 	let largestArea = 0;
 	for (let i = 0; i < heights.length; ++i) {
 		const height = heights[i];
+		if (height === heights[i - 1])
+			continue;
 		let width = 1;
 		for (let w = i + 1; w < heights.length; ++w)
 			if (height <= heights[w])
