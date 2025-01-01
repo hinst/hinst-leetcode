@@ -428,3 +428,6 @@ My score: duration 0 ms, beats 100%; memory 53 MB, beats 64%.
 
 ## 84. Largest Rectangle in Histogram
 This task seems easy. Perhaps the difficulty comes from the time constraint when processing up to 10^5 source items.
+I ended up using the straightforward solution. The only optimization I added was: to skip the item if it is equal to the previous item.
+This small optimization was enough to pass all 99 test cases online in TypeScript.
+My score: duration 446 ms, beats 6%; memory 59 MB, beats 100%.
