@@ -421,3 +421,7 @@ My score: duration 0 ms, beats 100%; memory 51 MB, beats 95%.
 My approach for this task ended up being as follows: transfer the value from the source into the output
 as long as the current value is not equal to the previous value and not equal to the last value.
 My score: duration 0 ms, beats 100%; memory 51 MB, beats 68%.
+
+## 83. Remove Duplicates from Sorted List
+This task is similar to the previous task, easier even.
+My score: duration 0 ms, beats 100%; memory 53 MB, beats 64%.
