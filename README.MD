@@ -431,3 +431,7 @@ This task seems easy. Perhaps the difficulty comes from the time constraint when
 I ended up using the straightforward solution. The only optimization I added was: to skip the item if it is equal to the previous item.
 This small optimization was enough to pass all 99 test cases online in TypeScript.
 My score: duration 446 ms, beats 6%; memory 59 MB, beats 100%.
+
+## 85. Maximal Rectangle
+The trick to completing this task ended up being reusing the code from the previous task and find largest area on each row of the matrix.
+My score: duration 20 ms, beats 50%; memory 57 MB, beats 43%.
