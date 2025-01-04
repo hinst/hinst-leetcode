@@ -35,6 +35,16 @@ function findSequence(s1: string, s2: string): Uint8Array | undefined {
 	return sequence;
 }
 
+function getHash(array: Uint8Array) {
+	let multiplier = 1;
+	let sum = 0;
+	for (const item of array) {
+		multiplier *= array.length;
+		sum += item * multiplier;
+	}
+	return sum;
+}
+
 class Scrambler {
 	private bufferSequence: Uint8Array;
 	public readonly visitedSequences: Set<number> = new Set();
@@ -44,25 +54,45 @@ class Scrambler {
 	}
 
 	run(): boolean {
-		return this.next(0, this.sequence.length);
+		return this.next(0, this.sequence.length, 0);
 	}
 
-	private next(start: number, end: number): boolean {
+	private next(start: number, end: number, depth: number): boolean {
+		const savedSequenceTop = this.sequence.slice(0);
 		if (this.check())
 			return true;
 		for (let i = start + 1; i < end; ++i) {
-			let middle = i;
-			if (this.next(start, middle))
-				return true;
-			if (this.next(middle, end))
-				return true;
+			const hashInitial = getHash(this.sequence);
+			let savedSequence = this.sequence.slice(0);
 
+			let middle = i;
+			if (this.next(start, middle, depth + 1)) {
+				console.log('keep left', {depth, start, middle, end}, savedSequence);
+				return true;
+			}
+			if (this.next(middle, end, depth + 1)) {
+				console.log('keep right', {depth, start, middle, end}, savedSequence);
+				return true;
+			}
+
+			const hashBefore = getHash(this.sequence);
+			if (hashInitial !== hashBefore)
+				throw new Error('initial hash error');
 			middle = this.swap(start, middle, end);
-			if (this.next(start, middle))
+			const savedSequence2 = this.sequence.slice(0);
+			if (this.next(start, middle, depth + 1)) {
+				console.log('swap left', {depth, start, middle, end}, savedSequenceTop, savedSequence, savedSequence2, i);
 				return true;
-			if (this.next(middle, end))
+			}
+			if (this.next(middle, end, depth + 1)) {
+				console.log('swap right', {depth, start, middle, end}, savedSequenceTop, savedSequence, savedSequence2, i);
 				return true;
+			}
 			this.swap(start, middle, end);
+			const hashAfter = getHash(this.sequence);
+
+			if (hashBefore !== hashAfter)
+				throw new Error('hash error');
 		}
 		return false;
 	}
@@ -74,6 +104,8 @@ class Scrambler {
 				found = false;
 				break;
 			}
+		if (found)
+			console.log('found', this.sequence);
 		return found;
 	}
 
@@ -82,7 +114,7 @@ class Scrambler {
 		const offset = middle - start;
 		for (let i = 0; i < this.sequence.length; ++i) {
 			if (start <= i && i < end) {
-				const index = start + (i - start + offset) % segmentLength;
+				const index = start + (i - start - offset + segmentLength) % segmentLength;
 				this.bufferSequence[index] = this.sequence[i];
 			} else
 				this.bufferSequence[i] = this.sequence[i];
@@ -94,6 +126,9 @@ class Scrambler {
 	}
 }
 
+export const isScrambleEx = isScramble;
+
 if (import.meta.main) {
-	console.log(isScramble("great", "rgeat"));
+	console.log(isScramble('great', 'rgeat'));
+	//console.log(isScramble('abcde', 'caebd'));
 }
