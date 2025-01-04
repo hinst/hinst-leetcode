@@ -58,36 +58,27 @@ class Scrambler {
 	}
 
 	private next(start: number, end: number, depth: number): boolean {
-		const savedSequenceTop = this.sequence.slice(0);
 		if (this.check())
 			return true;
 		for (let i = start + 1; i < end; ++i) {
 			const hashInitial = getHash(this.sequence);
-			let savedSequence = this.sequence.slice(0);
 
 			let middle = i;
-			if (this.next(start, middle, depth + 1)) {
-				console.log('keep left', {depth, start, middle, end}, savedSequence);
+			if (this.next(start, middle, depth + 1))
 				return true;
-			}
-			if (this.next(middle, end, depth + 1)) {
-				console.log('keep right', {depth, start, middle, end}, savedSequence);
+			if (this.next(middle, end, depth + 1))
 				return true;
-			}
 
 			const hashBefore = getHash(this.sequence);
 			if (hashInitial !== hashBefore)
 				throw new Error('initial hash error');
 			middle = this.swap(start, middle, end);
-			const savedSequence2 = this.sequence.slice(0);
-			if (this.next(start, middle, depth + 1)) {
-				console.log('swap left', {depth, start, middle, end}, savedSequenceTop, savedSequence, savedSequence2, i);
+			if (depth === 0)
+				console.log(this.sequence.join());
+			if (this.next(start, middle, depth + 1))
 				return true;
-			}
-			if (this.next(middle, end, depth + 1)) {
-				console.log('swap right', {depth, start, middle, end}, savedSequenceTop, savedSequence, savedSequence2, i);
+			if (this.next(middle, end, depth + 1))
 				return true;
-			}
 			this.swap(start, middle, end);
 			const hashAfter = getHash(this.sequence);
 
@@ -129,6 +120,7 @@ class Scrambler {
 export const isScrambleEx = isScramble;
 
 if (import.meta.main) {
-	console.log(isScramble('great', 'rgeat'));
+	//console.log(isScramble('great', 'rgeat'));
 	//console.log(isScramble('abcde', 'caebd'));
+	console.log(isScramble('abcdbdacbdac', 'bdacabcdbdac'));
 }
