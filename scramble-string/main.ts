@@ -2,43 +2,84 @@ function isScramble(s1: string, s2: string): boolean {
 	const sequence = new Uint8Array(s1.length);
 	for (let i = 0; i < sequence.length; ++i)
 		sequence[i] = i;
-	const scrambler = new Scrambler(sequence);
-	scrambler.run();
+	const desiredSequence = findSequence(s1, s2);
+	if (!desiredSequence)
+		return false;
+	const scrambler = new Scrambler(sequence, desiredSequence);
+	return scrambler.run();
+}
+
+function findSequence(s1: string, s2: string): Uint8Array | undefined {
+	if (s1.length !== s2.length)
+		return;
+	const availableCharacters = new Map<string, number[]>();
+
+	let characterIndex = 0;
+	for (const character of s1) {
+		const positions = availableCharacters.get(character) || [];
+		positions.push(characterIndex);
+		availableCharacters.set(character, positions);
+		++characterIndex;
+	}
+
+	characterIndex = 0;
+	const sequence = new Uint8Array(s1.length);
+	for (const character of s2) {
+		const positions = availableCharacters.get(character);
+		if (!positions?.length)
+			return;
+		const position = positions.shift();
+		sequence[characterIndex] = position ?? -1;
+		++characterIndex;
+	}
+	return sequence;
 }
 
 class Scrambler {
 	private bufferSequence: Uint8Array;
-	constructor(public sequence: Uint8Array) {
+	public readonly visitedSequences: Set<number> = new Set();
+
+	constructor(public sequence: Uint8Array, public readonly desiredSequence: Uint8Array) {
 		this.bufferSequence = new Uint8Array(sequence.length).fill(0);
 	}
 
-	run() {
-		this.next(1, this.sequence.length);
+	run(): boolean {
+		return this.next(0, this.sequence.length);
 	}
 
-	next(start: number, end: number) {
-		const segmentLength = end - start;
+	private next(start: number, end: number): boolean {
+		if (this.check())
+			return true;
 		for (let i = start + 1; i < end; ++i) {
 			let middle = i;
-			this.check();
+			if (this.next(start, middle))
+				return true;
+			if (this.next(middle, end))
+				return true;
+
 			middle = this.swap(start, middle, end);
-			this.check();
-			//this.next(start, middle);
-			//this.next(middle, end);
+			if (this.next(start, middle))
+				return true;
+			if (this.next(middle, end))
+				return true;
 			this.swap(start, middle, end);
-			this.check();
-			console.log('---');
 		}
+		return false;
 	}
 
 	check() {
-		console.log(this.sequence);
+		let found = true;
+		for (let i = 0; i < this.desiredSequence.length; ++i)
+			if (this.desiredSequence[i] !== this.sequence[i]) {
+				found = false;
+				break;
+			}
+		return found;
 	}
 
 	private swap(start: number, middle: number, end: number): number {
 		const segmentLength = end - start;
 		const offset = middle - start;
-		console.log({start, middle, offset, end});
 		for (let i = 0; i < this.sequence.length; ++i) {
 			if (start <= i && i < end) {
 				const index = start + (i - start + offset) % segmentLength;
