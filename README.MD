@@ -435,3 +435,9 @@ My score: duration 446 ms, beats 6%; memory 59 MB, beats 100%.
 ## 85. Maximal Rectangle
 The trick to completing this task ended up being reusing the code from the previous task and find largest area on each row of the matrix.
 My score: duration 20 ms, beats 50%; memory 57 MB, beats 43%.
+
+## 86. Partition List
+The approach here is to build two linked lists from the source list.
+Elements less than `x` go into the first list. Other elements go into the second list.
+At the end, we link the two lists together.
+My score: duration 0ms, beats 100%; memory 52%, beats 24%.
