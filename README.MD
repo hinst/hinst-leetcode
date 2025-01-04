@@ -441,3 +441,5 @@ The approach here is to build two linked lists from the source list.
 Elements less than `x` go into the first list. Other elements go into the second list.
 At the end, we link the two lists together.
 My score: duration 0ms, beats 100%; memory 52%, beats 24%.
+
+## 87. Scramble String
