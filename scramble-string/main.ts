@@ -180,5 +180,9 @@ function getHash(array: Uint8Array) {
 export const isScrambleEx = isScramble;
 
 if (import.meta.main) {
-	console.log(isScramble('vfldiodffghyq', 'vdgyhfqfdliof'));
+	console.time('time');
+	for (let i = 0; i < 1000; i++) {
+		isScramble('xstjzkfpkggnhjzkpfjoguxvkbuopi', 'xbouipkvxugojfpkzjhnggkpfkzjts');
+	}
+	console.timeEnd('time');
 }
