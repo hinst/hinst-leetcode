@@ -181,8 +181,6 @@ export const isScrambleEx = isScramble;
 
 if (import.meta.main) {
 	console.time('time');
-	for (let i = 0; i < 1000; i++) {
-		isScramble('xstjzkfpkggnhjzkpfjoguxvkbuopi', 'xbouipkvxugojfpkzjhnggkpfkzjts');
-	}
+	isScramble('eebaacbcbcadaaedceaaacadccd', 'eadcaacabaddaceacbceaabeccd');
 	console.timeEnd('time');
 }
