@@ -21,6 +21,10 @@ class Slice {
 	clone(): Slice {
 		return new Slice(this.start, this.middle, this.end);
 	}
+
+	get size() {
+		return this.end - this.start;
+	}
 }
 
 class Scrambler {
@@ -48,20 +52,23 @@ class Scrambler {
 				const newSequence = sequence.slice(0);
 				const newSlices: Slice[] = [];
 				for (const slice of slices) {
-					if (slice.flip) {
-						// console.log('s'.repeat(depth), sequence);
-						const middle = swap(newSequence.slice(0), newSequence,
-							slice.start, slice.middle, slice.end);
-						// console.log('w'.repeat(depth), newSequence);
-						newSlices.push(
-							new Slice(slice.start, slice.start + 1, middle),
-							new Slice(middle, middle + 1, slice.end),
-						);
-					} else
-						newSlices.push(
-							new Slice(slice.start, slice.start + 1, slice.middle),
-							new Slice(slice.middle, slice.middle + 1, slice.end),
-						);
+					if (slice.size > 1)
+						if (slice.flip) {
+							// console.log('s'.repeat(depth), sequence);
+							const middle = swap(newSequence.slice(0), newSequence,
+								slice.start, slice.middle, slice.end);
+							// console.log('w'.repeat(depth), newSequence);
+							newSlices.push(
+								new Slice(slice.start, slice.start + 1, middle),
+								new Slice(middle, middle + 1, slice.end),
+							);
+						} else
+							newSlices.push(
+								new Slice(slice.start, slice.start + 1, slice.middle),
+								new Slice(slice.middle, slice.middle + 1, slice.end),
+							);
+					else
+						newSlices.push(slice.clone());
 				}
 				if (this.next(newSequence, newSlices, depth + 1))
 					return true;
@@ -116,6 +123,8 @@ function convertStringToArray(s: string): Uint8Array {
 function advanceLimited(slices: Slice[]) {
 	let sum = 1;
 	for (let i = 0; i < slices.length; ++i) {
+		if (slices[i].size <= 1)
+			continue;
 		slices[i].middle += sum;
 		if (slices[i].middle >= slices[i].end)
 			slices[i].middle = slices[i].start + 1;
@@ -128,6 +137,8 @@ function advanceLimited(slices: Slice[]) {
 /** @returns true if further advancement is possible */
 function advanceFlip(slices: Slice[]) {
 	for (let i = 0; i < slices.length; ++i) {
+		if (slices[i].size <= 1)
+			continue;
 		if (slices[i].flip)
 			slices[i].flip = false;
 		else {
@@ -169,8 +180,5 @@ function getHash(array: Uint8Array) {
 export const isScrambleEx = isScramble;
 
 if (import.meta.main) {
-	// console.log(isScramble('great', 'rgeat'));
-	// console.log(isScramble('abcde', 'caebd'));
-	// console.log(isScramble('abcdbdacbdac', 'bdacabcdbdac'));
-	console.log(isScramble('abcd', 'badc'));
+	console.log(isScramble('vfldiodffghyq', 'vdgyhfqfdliof'));
 }
