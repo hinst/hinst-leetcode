@@ -10,11 +10,16 @@ function isScramble(s1: string, s2: string): boolean {
 	return scrambler.run();
 }
 
-function convertStringToArray(s: string): Uint8Array {
-	const result: number[] = [];
-	for (const character of s)
-		result.push(character.charCodeAt(0));
-	return new Uint8Array(result);
+class Slice {
+	constructor(
+		public readonly start: number,
+		public middle: number,
+		public readonly end: number,
+	) {}
+
+	clone(): Slice {
+		return new Slice(this.start, this.middle, this.end);
+	}
 }
 
 function compareOrdered(source: Uint8Array, order: Uint8Array, target: Uint8Array): boolean {
@@ -25,60 +30,70 @@ function compareOrdered(source: Uint8Array, order: Uint8Array, target: Uint8Arra
 }
 
 class Scrambler {
-	private bufferSequence: Uint8Array;
 	public readonly visitedSequences: Set<number> = new Set();
 
 	constructor(
-		public sequence: Uint8Array,
+		public readonly sequence: Uint8Array,
 		public readonly sourceText: Uint8Array,
 		public readonly desiredText: Uint8Array,
-	) {
-		this.bufferSequence = new Uint8Array(sequence.length).fill(0);
-	}
+	) {}
 
 	run(): boolean {
-		return this.next(0, this.sequence.length, 0);
+		return this.next([new Slice(0, 0, this.sequence.length)], 0);
 	}
 
-	private next(start: number, end: number, depth: number): boolean {
+	private next(slices: Slice[], depth: number): boolean {
 		if (this.check())
 			return true;
-		for (let i = start + 1; i < end; ++i) {
-			let middle = i;
-			if (this.next(start, middle, depth + 1))
-				return true;
-			if (this.next(middle, end, depth + 1))
-				return true;
+		do {
+			const newSequence = this.sequence.slice(0);
+			const newSlices: Slice[] = [];
+			for (const slice of slices) {
+				if (slice.middle !== slice.start) {
+					const middle = swap(this.sequence, newSequence,
+						slice.start, slice.middle, slice.end);
+					newSlices.push(
+						new Slice(slice.start, slice.start, middle),
+						new Slice(middle, middle, slice.end),
+					);
+				} else
+					newSlices.push(slice.clone());
+			}
+			console.log({slices, newSlices, newSequence});
+		} while (advanceLimited(slices));
+		// for (let i = start + 1; i < end; ++i) {
+		// 	let middle = i;
+		// 	if (this.next(start, middle, depth + 1))
+		// 		return true;
+		// 	if (this.next(middle, end, depth + 1))
+		// 		return true;
 
-			middle = this.swap(start, middle, end);
-			if (this.next(start, middle, depth + 1))
-				return true;
-			if (this.next(middle, end, depth + 1))
-				return true;
-			this.swap(start, middle, end);
-		}
+		// 	middle = this.swap(start, middle, end);
+		// 	if (this.next(start, middle, depth + 1))
+		// 		return true;
+		// 	if (this.next(middle, end, depth + 1))
+		// 		return true;
+		// 	this.swap(start, middle, end);
+		// }
 		return false;
 	}
 
 	private check() {
 		return compareOrdered(this.sourceText, this.sequence, this.desiredText);
 	}
+}
 
-	private swap(start: number, middle: number, end: number): number {
-		const segmentLength = end - start;
-		const offset = middle - start;
-		for (let i = 0; i < this.sequence.length; ++i) {
-			if (start <= i && i < end) {
-				const index = start + (i - start - offset + segmentLength) % segmentLength;
-				this.bufferSequence[index] = this.sequence[i];
-			} else
-				this.bufferSequence[i] = this.sequence[i];
-		}
-		const buffer = this.bufferSequence;
-		this.bufferSequence = this.sequence;
-		this.sequence = buffer;
-		return start + segmentLength - offset;
+function swap(sequence: Uint8Array, result: Uint8Array, start: number, middle: number, end: number): number {
+	const segmentLength = end - start;
+	const offset = middle - start;
+	for (let i = 0; i < sequence.length; ++i) {
+		if (start <= i && i < end) {
+			const index = start + (i - start - offset + segmentLength) % segmentLength;
+			result[index] = sequence[i];
+		} else
+			result[i] = sequence[i];
 	}
+	return start + segmentLength - offset;
 }
 
 function getHash(array: Uint8Array) {
@@ -90,6 +105,27 @@ function getHash(array: Uint8Array) {
 	}
 	return sum;
 }
+
+function convertStringToArray(s: string): Uint8Array {
+	const result: number[] = [];
+	for (const character of s)
+		result.push(character.charCodeAt(0));
+	return new Uint8Array(result);
+}
+
+/** @returns true if further advancement is possible */
+function advanceLimited(slices: Slice[]) {
+	let sum = 1;
+	for (let i = 0; i < slices.length; ++i) {
+		slices[i].middle += sum;
+		if (slices[i].middle >= slices[i].end)
+			slices[i].middle = slices[i].start;
+		else
+			sum = 0;
+	}
+	return !sum;
+}
+
 
 export const isScrambleEx = isScramble;
 
