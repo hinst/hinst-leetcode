@@ -1,16 +1,13 @@
 function isScramble(s1: string, s2: string): boolean {
-	const sequence = new Uint8Array(s1.length);
-	for (let i = 0; i < sequence.length; ++i)
-		sequence[i] = i;
 	const scrambler = new Scrambler(
-		convertStringToArray(s1),
 		convertStringToArray(s2)
 	);
-	return scrambler.run(sequence);
+	return scrambler.run(convertStringToArray(s1));
 }
 
 class Slice {
 	public flip: boolean = false;
+	public matched?: boolean;
 
 	constructor(
 		public readonly start: number,
@@ -28,10 +25,9 @@ class Slice {
 }
 
 class Scrambler {
-	public readonly visitedSequences: Set<number> = new Set();
+	iterationCount = 0;
 
 	constructor(
-		public readonly sourceText: Uint8Array,
 		public readonly desiredText: Uint8Array,
 	) {}
 
@@ -41,14 +37,19 @@ class Scrambler {
 
 	private next(sequence: Uint8Array, slices: Slice[], depth: number): boolean {
 		const matched = this.check(sequence, slices);
-		// console.log('-'.repeat(depth), this.getText(sequence, slices), matched);
+		if (++this.iterationCount % 100_000 === 0) {
+			console.timeEnd('' + (this.iterationCount - 100_000));
+			console.log('-'.repeat(depth), this.getText(sequence, slices), matched, this.iterationCount);
+			console.time('' + this.iterationCount);
+		}
 		if (matched)
 			return true;
 		if (false === matched)
 			return false;
+		const liveSlices = slices.filter(slice => slice.size > 1);
 		do {
 			do {
-				// console.log('-'.repeat(depth), slices.map(slice => slice.flip ? 1 : 0).join(''));
+				// console.log('-'.repeat(depth), liveSlices.map(slice => slice.flip ? 1 : 0).join(''));
 				const newSequence = sequence.slice(0);
 				const newSlices: Slice[] = [];
 				for (const slice of slices) {
@@ -68,31 +69,25 @@ class Scrambler {
 								new Slice(slice.middle, slice.middle + 1, slice.end),
 							);
 					else
-						newSlices.push(slice.clone());
+						newSlices.push(slice);
 				}
 				if (this.next(newSequence, newSlices, depth + 1))
 					return true;
-			} while (advanceFlip(slices));
-		} while (advanceLimited(slices));
+			} while (advanceFlip(liveSlices));
+		} while (advanceLimited(liveSlices));
 		return false;
 	}
 
 	private check(sequence: Uint8Array, slices: Slice[]) {
-		const source = sequence.map(index => this.sourceText[index]);
-		if (compareArrays(source, this.desiredText))
-			return true;
-		if (compareSliced(source, this.desiredText, slices))
-			return undefined;
-		return false;
+		return compareSliced(sequence, this.desiredText, slices);
 	}
 
 	private getText(sequence: Uint8Array, slices: Slice[]) {
 		let text = '';
 		for (const slice of slices) {
 			text += '[';
-			for (let i = slice.start; i < slice.end; ++i) {
-				text += String.fromCharCode(this.sourceText[sequence[i]]);
-			}
+			for (let i = slice.start; i < slice.end; ++i)
+				text += String.fromCharCode(sequence[i]);
 			text += ']';
 		}
 		return text;
@@ -124,7 +119,7 @@ function advanceLimited(slices: Slice[]) {
 	let sum = 1;
 	for (let i = 0; i < slices.length; ++i) {
 		if (slices[i].size <= 1)
-			continue;
+			throw new Error('why');
 		slices[i].middle += sum;
 		if (slices[i].middle >= slices[i].end)
 			slices[i].middle = slices[i].start + 1;
@@ -138,7 +133,7 @@ function advanceLimited(slices: Slice[]) {
 function advanceFlip(slices: Slice[]) {
 	for (let i = 0; i < slices.length; ++i) {
 		if (slices[i].size <= 1)
-			continue;
+			throw new Error('why');
 		if (slices[i].flip)
 			slices[i].flip = false;
 		else {
@@ -156,19 +151,27 @@ function compareArrays(source: Uint8Array, target: Uint8Array): boolean {
 	return true;
 }
 
-function compareSliced(source: Uint8Array, target: Uint8Array, slices: Slice[]): boolean {
+function compareSliced(source: Uint8Array, target: Uint8Array, slices: Slice[]): boolean | undefined {
+	let exactMatch = true;
 	for (const slice of slices) {
+		if (slice.matched === false)
+			return false;
+		if (slice.matched === true)
+			continue;
 		if (slice.size > 1) {
-			const sourcePart = source.slice(slice.start, slice.end).sort();
-			const targetPart = target.slice(slice.start, slice.end).sort();
-			if (!compareArrays(sourcePart, targetPart))
-				return false;
-		} else {
-			if (source[slice.start] !== target[slice.start])
-				return false;
-		}
+			const sourcePart = source.slice(slice.start, slice.end);
+			const targetPart = target.slice(slice.start, slice.end);
+			if (exactMatch)
+				exactMatch = compareArrays(sourcePart, targetPart);
+			sourcePart.sort();
+			targetPart.sort();
+			slice.matched = compareArrays(sourcePart, targetPart);
+		} else
+			slice.matched = source[slice.start] === target[slice.start];
+		if (!slice.matched)
+			return false;
 	}
-	return true;
+	return exactMatch || undefined;
 }
 
 function getHash(array: Uint8Array) {
