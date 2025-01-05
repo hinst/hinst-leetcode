@@ -37,19 +37,22 @@ class Scrambler {
 
 	private next(sequence: Uint8Array, slices: Slice[], depth: number): boolean {
 		const matched = this.check(sequence, slices);
-		console.log('-'.repeat(depth), this.getText(sequence, slices), matched);
+		// console.log('-'.repeat(depth), this.getText(sequence, slices), matched);
 		if (matched)
 			return true;
 		if (false === matched)
 			return false;
 		do {
 			do {
+				// console.log('-'.repeat(depth), slices.map(slice => slice.flip ? 1 : 0).join(''));
 				const newSequence = sequence.slice(0);
 				const newSlices: Slice[] = [];
 				for (const slice of slices) {
 					if (slice.flip) {
-						const middle = swap(sequence, newSequence,
+						// console.log('s'.repeat(depth), sequence);
+						const middle = swap(newSequence.slice(0), newSequence,
 							slice.start, slice.middle, slice.end);
+						// console.log('w'.repeat(depth), newSequence);
 						newSlices.push(
 							new Slice(slice.start, slice.start + 1, middle),
 							new Slice(middle, middle + 1, slice.end),
