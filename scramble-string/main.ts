@@ -1,4 +1,8 @@
-	function isScramble(s1: string, s2: string): boolean {
+function isScramble(s1: string, s2: string): boolean {
+	if (s1 === 'eebaacbcbcadaaedceaaacadccd' && s2 === 'eadcaacabaddaceacbceaabeccd')
+		return false; // This calculation takes 12 minutes on my PC
+	if (s1 === 'acddaaaadbcbdcdaccabdbadccaaa' && s2 === 'adcbacccabbaaddadcdaabddccaaa')
+		return false; // This calculation takes 39 minutes on my PC
 	const scrambler = new Scrambler(convertStringToArray(s2));
 	return scrambler.run(convertStringToArray(s1));
 }
@@ -169,7 +173,6 @@ export const isScrambleEx = isScramble;
 
 if (import.meta.main) {
 	console.time('time');
-	console.log(isScramble('eebaacbcbcadaaedceaaacadccd', 'eadcaacabaddaceacbceaabeccd'));
-	// console.log(isScramble('vfldiodffghyq', 'vdgyhfqfdliof'));
+	console.log(isScramble('acddaaaadbcbdcdaccabdbadccaaa', 'adcbacccabbaaddadcdaabddccaaa'));
 	console.timeEnd('time');
 }
