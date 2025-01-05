@@ -26,14 +26,14 @@ class Scrambler {
 	iterationCount = 0;
 
 	constructor(
-		public readonly desiredText: Uint8Array,
+		public readonly desiredText: number[],
 	) {}
 
-	run(sequence: Uint8Array): boolean {
+	run(sequence: number[]): boolean {
 		return this.next(sequence, [new Slice(0, 1, sequence.length)], 0);
 	}
 
-	private next(sequence: Uint8Array, slices: Slice[], depth: number): boolean {
+	private next(sequence: number[], slices: Slice[], depth: number): boolean {
 		const matched = this.check(sequence, slices);
 		if (++this.iterationCount % 100_000 === 0) {
 			console.timeEnd('' + (this.iterationCount - 100_000));
@@ -76,11 +76,11 @@ class Scrambler {
 		return false;
 	}
 
-	private check(sequence: Uint8Array, slices: Slice[]) {
+	private check(sequence: number[], slices: Slice[]) {
 		return compareSliced(sequence, this.desiredText, slices);
 	}
 
-	private getText(sequence: Uint8Array, slices: Slice[]) {
+	private getText(sequence: number[], slices: Slice[]) {
 		let text = '';
 		for (const slice of slices) {
 			text += '[';
@@ -92,7 +92,7 @@ class Scrambler {
 	}
 }
 
-function swap(sequence: Uint8Array, result: Uint8Array, start: number, middle: number, end: number): number {
+function swap(sequence: number[], result: number[], start: number, middle: number, end: number): number {
 	const segmentLength = end - start;
 	const offset = middle - start;
 	for (let i = 0; i < sequence.length; ++i) {
@@ -105,11 +105,11 @@ function swap(sequence: Uint8Array, result: Uint8Array, start: number, middle: n
 	return start + segmentLength - offset;
 }
 
-function convertStringToArray(s: string): Uint8Array {
+function convertStringToArray(s: string): number[] {
 	const result: number[] = [];
 	for (const character of s)
 		result.push(character.charCodeAt(0));
-	return new Uint8Array(result);
+	return result;
 }
 
 /** @returns true if further advancement is possible */
@@ -142,14 +142,14 @@ function advanceFlip(slices: Slice[]) {
 	return false;
 }
 
-function compareArrays(source: Uint8Array, target: Uint8Array): boolean {
+function compareArrays(source: number[], target: number[]): boolean {
 	for (let i = 0; i < target.length; ++i)
 		if (source[i] !== target[i])
 			return false;
 	return true;
 }
 
-function compareSliced(source: Uint8Array, target: Uint8Array, slices: Slice[]): boolean | undefined {
+function compareSliced(source: number[], target: number[], slices: Slice[]): boolean | undefined {
 	let exactMatch = true;
 	for (const slice of slices) {
 		if (slice.matched === false)
@@ -172,7 +172,7 @@ function compareSliced(source: Uint8Array, target: Uint8Array, slices: Slice[]):
 	return exactMatch || undefined;
 }
 
-function getHash(array: Uint8Array) {
+function getHash(array: number[]) {
 	let multiplier = 1;
 	let sum = 0;
 	for (const item of array) {
