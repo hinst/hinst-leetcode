@@ -168,5 +168,6 @@ export const isScrambleEx = isScramble;
 if (import.meta.main) {
 	// console.log(isScramble('great', 'rgeat'));
 	// console.log(isScramble('abcde', 'caebd'));
-	console.log(isScramble('abcdbdacbdac', 'bdacabcdbdac'));
+	// console.log(isScramble('abcdbdacbdac', 'bdacabcdbdac'));
+	console.log(isScramble('abcd', 'badc'));
 }
