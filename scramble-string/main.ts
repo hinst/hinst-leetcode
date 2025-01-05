@@ -1,7 +1,5 @@
 function isScramble(s1: string, s2: string): boolean {
-	const scrambler = new Scrambler(
-		convertStringToArray(s2)
-	);
+	const scrambler = new Scrambler(convertStringToArray(s2));
 	return scrambler.run(convertStringToArray(s1));
 }
 
