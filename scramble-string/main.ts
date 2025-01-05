@@ -37,6 +37,7 @@ class Scrambler {
 
 	private next(sequence: Uint8Array, slices: Slice[], depth: number): boolean {
 		const matched = this.check(sequence, slices);
+		console.log(this.getText(sequence, slices), matched);
 		if (matched)
 			return true;
 		if (false === matched)
@@ -73,6 +74,18 @@ class Scrambler {
 		if (compareSliced(source, this.desiredText, slices))
 			return undefined;
 		return false;
+	}
+
+	private getText(sequence: Uint8Array, slices: Slice[]) {
+		let text = '';
+		for (const slice of slices) {
+			text += '[';
+			for (let i = slice.start; i < slice.end; ++i) {
+				text += String.fromCharCode(this.sourceText[sequence[i]]);
+			}
+			text += ']';
+		}
+		return text;
 	}
 }
 
@@ -153,7 +166,7 @@ function getHash(array: Uint8Array) {
 export const isScrambleEx = isScramble;
 
 if (import.meta.main) {
-	// console.log(isScramble('great', 'rgeat'));
+	console.log(isScramble('great', 'rgeat'));
 	// console.log(isScramble('abcde', 'caebd'));
-	console.log(isScramble('abcdbdacbdac', 'bdacabcdbdac'));
+	// console.log(isScramble('abcdbdacbdac', 'bdacabcdbdac'));
 }
