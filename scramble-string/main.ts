@@ -6,19 +6,18 @@ function isScramble(s1: string, s2: string): boolean {
 class Slice {
 	public flip: boolean = false;
 	public matched?: boolean;
+	public modular: boolean;
 
 	constructor(
 		public readonly start: number,
 		public middle: number,
 		public readonly end: number,
-	) {}
+	) {
+		this.modular = end - start > 1;
+	}
 
 	clone(): Slice {
 		return new Slice(this.start, this.middle, this.end);
-	}
-
-	get size() {
-		return this.end - this.start;
 	}
 }
 
@@ -44,14 +43,14 @@ class Scrambler {
 			return true;
 		if (false === matched)
 			return false;
-		const liveSlices = slices.filter(slice => slice.size > 1);
+		const liveSlices = slices.filter(slice => slice.modular);
 		do {
 			do {
 				// console.log('-'.repeat(depth), liveSlices.map(slice => slice.flip ? 1 : 0).join(''));
 				const newSequence = sequence.slice(0);
 				const newSlices: Slice[] = [];
 				for (const slice of slices) {
-					if (slice.size > 1)
+					if (slice.modular)
 						if (slice.flip) {
 							// console.log('s'.repeat(depth), sequence);
 							const middle = swap(newSequence.slice(0), newSequence,
@@ -116,8 +115,6 @@ function convertStringToArray(s: string): number[] {
 function advanceLimited(slices: Slice[]) {
 	let sum = 1;
 	for (let i = 0; i < slices.length; ++i) {
-		if (slices[i].size <= 1)
-			throw new Error('why');
 		slices[i].middle += sum;
 		if (slices[i].middle >= slices[i].end)
 			slices[i].middle = slices[i].start + 1;
@@ -130,8 +127,6 @@ function advanceLimited(slices: Slice[]) {
 /** @returns true if further advancement is possible */
 function advanceFlip(slices: Slice[]) {
 	for (let i = 0; i < slices.length; ++i) {
-		if (slices[i].size <= 1)
-			throw new Error('why');
 		if (slices[i].flip)
 			slices[i].flip = false;
 		else {
@@ -156,7 +151,7 @@ function compareSliced(source: number[], target: number[], slices: Slice[]): boo
 			return false;
 		if (slice.matched === true)
 			continue;
-		if (slice.size > 1) {
+		if (slice.modular) {
 			const sourcePart = source.slice(slice.start, slice.end);
 			const targetPart = target.slice(slice.start, slice.end);
 			if (exactMatch)
@@ -172,9 +167,6 @@ function compareSliced(source: number[], target: number[], slices: Slice[]): boo
 	return exactMatch || undefined;
 }
 
-function getHash(array: number[], slices: Slice[]): string {
-    return JSON.stringify(array) + JSON.stringify(slices);
-}
 
 export const isScrambleEx = isScramble;
 
