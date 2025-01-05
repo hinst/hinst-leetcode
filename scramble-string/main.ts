@@ -1,4 +1,4 @@
-function isScramble(s1: string, s2: string): boolean {
+	function isScramble(s1: string, s2: string): boolean {
 	const scrambler = new Scrambler(convertStringToArray(s2));
 	return scrambler.run(convertStringToArray(s1));
 }
@@ -34,8 +34,8 @@ class Scrambler {
 
 	private next(sequence: number[], slices: Slice[], depth: number): boolean {
 		const matched = this.check(sequence, slices);
-		if (++this.iterationCount % 300_000 === 0) {
-			console.timeEnd('' + (this.iterationCount - 300_000));
+		if (++this.iterationCount % 400_000 === 0) {
+			console.timeEnd('' + (this.iterationCount - 400_000));
 			console.log('-'.repeat(depth), this.getText(sequence, slices), matched, this.iterationCount);
 			console.time('' + this.iterationCount);
 		}
@@ -43,35 +43,32 @@ class Scrambler {
 			return true;
 		if (false === matched)
 			return false;
-		const liveSlices = slices.filter(slice => slice.modular);
+		slices = slices.filter(slice => slice.modular);
 		do {
 			do {
 				// console.log('-'.repeat(depth), liveSlices.map(slice => slice.flip ? 1 : 0).join(''));
 				const newSequence = sequence.slice(0);
 				const newSlices: Slice[] = [];
 				for (const slice of slices) {
-					if (slice.modular)
-						if (slice.flip) {
-							// console.log('s'.repeat(depth), sequence);
-							const middle = swap(newSequence.slice(0), newSequence,
-								slice.start, slice.middle, slice.end);
-							// console.log('w'.repeat(depth), newSequence);
-							newSlices.push(
-								new Slice(slice.start, slice.start + 1, middle),
-								new Slice(middle, middle + 1, slice.end),
-							);
-						} else
-							newSlices.push(
-								new Slice(slice.start, slice.start + 1, slice.middle),
-								new Slice(slice.middle, slice.middle + 1, slice.end),
-							);
-					else
-						newSlices.push(slice);
+					if (slice.flip) {
+						// console.log('s'.repeat(depth), sequence);
+						const middle = swap(newSequence.slice(0), newSequence,
+							slice.start, slice.middle, slice.end);
+						// console.log('w'.repeat(depth), newSequence);
+						newSlices.push(
+							new Slice(slice.start, slice.start + 1, middle),
+							new Slice(middle, middle + 1, slice.end),
+						);
+					} else
+						newSlices.push(
+							new Slice(slice.start, slice.start + 1, slice.middle),
+							new Slice(slice.middle, slice.middle + 1, slice.end),
+						);
 				}
 				if (this.next(newSequence, newSlices, depth + 1))
 					return true;
-			} while (advanceFlip(liveSlices));
-		} while (advanceLimited(liveSlices));
+			} while (advanceFlip(slices));
+		} while (advanceLimited(slices));
 		return false;
 	}
 
