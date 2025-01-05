@@ -23,13 +23,6 @@ class Slice {
 	}
 }
 
-function compareOrdered(source: Uint8Array, order: Uint8Array, target: Uint8Array): boolean {
-	for (let i = 0; i < order.length; ++i)
-		if (source[order[i]] !== target[i])
-			return false;
-	return true;
-}
-
 class Scrambler {
 	public readonly visitedSequences: Set<number> = new Set();
 
@@ -43,8 +36,11 @@ class Scrambler {
 	}
 
 	private next(sequence: Uint8Array, slices: Slice[], depth: number): boolean {
-		if (this.check(sequence))
+		const matched = this.check(sequence, slices);
+		if (matched)
 			return true;
+		if (false === matched)
+			return false;
 		while (advanceLimited(slices)) {
 			do {
 				const newSequence = sequence.slice(0);
@@ -70,8 +66,13 @@ class Scrambler {
 		return false;
 	}
 
-	private check(sequence: Uint8Array) {
-		return compareOrdered(this.sourceText, sequence, this.desiredText);
+	private check(sequence: Uint8Array, slices: Slice[]) {
+		const source = sequence.map(index => this.sourceText[index]);
+		if (compareArrays(source, this.desiredText))
+			return true;
+		if (compareSliced(source, this.desiredText, slices))
+			return undefined;
+		return false;
 	}
 }
 
@@ -121,6 +122,23 @@ function advanceFlip(slices: Slice[]) {
 	return false;
 }
 
+function compareArrays(source: Uint8Array, target: Uint8Array): boolean {
+	for (let i = 0; i < target.length; ++i)
+		if (source[i] !== target[i])
+			return false;
+	return true;
+}
+
+function compareSliced(source: Uint8Array, target: Uint8Array, slices: Slice[]): boolean {
+	for (const slice of slices) {
+		const sourcePart = source.slice(slice.start, slice.end).sort();
+		const targetPart = target.slice(slice.start, slice.end).sort();
+		if (!compareArrays(sourcePart, targetPart))
+			return false;
+	}
+	return true;
+}
+
 function getHash(array: Uint8Array) {
 	let multiplier = 1;
 	let sum = 0;
@@ -135,7 +153,7 @@ function getHash(array: Uint8Array) {
 export const isScrambleEx = isScramble;
 
 if (import.meta.main) {
-	//console.log(isScramble('great', 'rgeat'));
-	//console.log(isScramble('abcde', 'caebd'));
+	// console.log(isScramble('great', 'rgeat'));
+	// console.log(isScramble('abcde', 'caebd'));
 	console.log(isScramble('abcdbdacbdac', 'bdacabcdbdac'));
 }
