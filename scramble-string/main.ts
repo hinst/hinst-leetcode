@@ -3,14 +3,15 @@ function isScramble(s1: string, s2: string): boolean {
 	for (let i = 0; i < sequence.length; ++i)
 		sequence[i] = i;
 	const scrambler = new Scrambler(
-		sequence,
 		convertStringToArray(s1),
 		convertStringToArray(s2)
 	);
-	return scrambler.run();
+	return scrambler.run(sequence);
 }
 
 class Slice {
+	public flip: boolean = false;
+
 	constructor(
 		public readonly start: number,
 		public middle: number,
@@ -33,53 +34,44 @@ class Scrambler {
 	public readonly visitedSequences: Set<number> = new Set();
 
 	constructor(
-		public readonly sequence: Uint8Array,
 		public readonly sourceText: Uint8Array,
 		public readonly desiredText: Uint8Array,
 	) {}
 
-	run(): boolean {
-		return this.next([new Slice(0, 0, this.sequence.length)], 0);
+	run(sequence: Uint8Array): boolean {
+		return this.next(sequence, [new Slice(0, 0, sequence.length)], 0);
 	}
 
-	private next(slices: Slice[], depth: number): boolean {
-		if (this.check())
+	private next(sequence: Uint8Array, slices: Slice[], depth: number): boolean {
+		if (this.check(sequence))
 			return true;
-		do {
-			const newSequence = this.sequence.slice(0);
-			const newSlices: Slice[] = [];
-			for (const slice of slices) {
-				if (slice.middle !== slice.start) {
-					const middle = swap(this.sequence, newSequence,
-						slice.start, slice.middle, slice.end);
-					newSlices.push(
-						new Slice(slice.start, slice.start, middle),
-						new Slice(middle, middle, slice.end),
-					);
-				} else
-					newSlices.push(slice.clone());
-			}
-			console.log({slices, newSlices, newSequence});
-		} while (advanceLimited(slices));
-		// for (let i = start + 1; i < end; ++i) {
-		// 	let middle = i;
-		// 	if (this.next(start, middle, depth + 1))
-		// 		return true;
-		// 	if (this.next(middle, end, depth + 1))
-		// 		return true;
-
-		// 	middle = this.swap(start, middle, end);
-		// 	if (this.next(start, middle, depth + 1))
-		// 		return true;
-		// 	if (this.next(middle, end, depth + 1))
-		// 		return true;
-		// 	this.swap(start, middle, end);
-		// }
+		while (advanceLimited(slices)) {
+			do {
+				const newSequence = sequence.slice(0);
+				const newSlices: Slice[] = [];
+				for (const slice of slices) {
+					if (slice.flip) {
+						const middle = swap(sequence, newSequence,
+							slice.start, slice.middle, slice.end);
+						newSlices.push(
+							new Slice(slice.start, slice.start, middle),
+							new Slice(middle, middle, slice.end),
+						);
+					} else
+						newSlices.push(
+							new Slice(slice.start, slice.start, slice.middle),
+							new Slice(slice.middle, slice.middle, slice.end),
+						);
+				}
+				if (this.next(newSequence, newSlices, depth + 1))
+					return true;
+			} while (advanceFlip(slices));
+		}
 		return false;
 	}
 
-	private check() {
-		return compareOrdered(this.sourceText, this.sequence, this.desiredText);
+	private check(sequence: Uint8Array) {
+		return compareOrdered(this.sourceText, sequence, this.desiredText);
 	}
 }
 
@@ -94,16 +86,6 @@ function swap(sequence: Uint8Array, result: Uint8Array, start: number, middle: n
 			result[i] = sequence[i];
 	}
 	return start + segmentLength - offset;
-}
-
-function getHash(array: Uint8Array) {
-	let multiplier = 1;
-	let sum = 0;
-	for (const item of array) {
-		multiplier *= array.length;
-		sum += item * multiplier;
-	}
-	return sum;
 }
 
 function convertStringToArray(s: string): Uint8Array {
@@ -126,12 +108,34 @@ function advanceLimited(slices: Slice[]) {
 	return !sum;
 }
 
+/** @returns true if further advancement is possible */
+function advanceFlip(slices: Slice[]) {
+	for (let i = 0; i < slices.length; ++i) {
+		if (slices[i].flip)
+			slices[i].flip = false;
+		else {
+			slices[i].flip = true;
+			return true;
+		}
+	}
+	return false;
+}
+
+function getHash(array: Uint8Array) {
+	let multiplier = 1;
+	let sum = 0;
+	for (const item of array) {
+		multiplier *= array.length;
+		sum += item * multiplier;
+	}
+	return sum;
+}
+
 
 export const isScrambleEx = isScramble;
 
 if (import.meta.main) {
 	//console.log(isScramble('great', 'rgeat'));
 	//console.log(isScramble('abcde', 'caebd'));
-	//console.log(isScramble('abcdbdacbdac', 'bdacabcdbdac'));
-	console.log(isScramble('abcd', 'badc'));
+	console.log(isScramble('abcdbdacbdac', 'bdacabcdbdac'));
 }
