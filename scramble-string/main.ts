@@ -23,7 +23,7 @@ class Slice {
 }
 
 class Scrambler {
-	iterationCount = 0;
+	private iterationCount = 0;
 
 	constructor(
 		public readonly desiredText: number[],
@@ -35,8 +35,8 @@ class Scrambler {
 
 	private next(sequence: number[], slices: Slice[], depth: number): boolean {
 		const matched = this.check(sequence, slices);
-		if (++this.iterationCount % 100_000 === 0) {
-			console.timeEnd('' + (this.iterationCount - 100_000));
+		if (++this.iterationCount % 300_000 === 0) {
+			console.timeEnd('' + (this.iterationCount - 300_000));
 			console.log('-'.repeat(depth), this.getText(sequence, slices), matched, this.iterationCount);
 			console.time('' + this.iterationCount);
 		}
@@ -172,21 +172,15 @@ function compareSliced(source: number[], target: number[], slices: Slice[]): boo
 	return exactMatch || undefined;
 }
 
-function getHash(array: number[]) {
-	let multiplier = 1;
-	let sum = 0;
-	for (const item of array) {
-		multiplier *= array.length;
-		sum += item * multiplier;
-	}
-	return sum;
+function getHash(array: number[], slices: Slice[]): string {
+    return JSON.stringify(array) + JSON.stringify(slices);
 }
-
 
 export const isScrambleEx = isScramble;
 
 if (import.meta.main) {
 	console.time('time');
-	isScramble('eebaacbcbcadaaedceaaacadccd', 'eadcaacabaddaceacbceaabeccd');
+	console.log(isScramble('eebaacbcbcadaaedceaaacadccd', 'eadcaacabaddaceacbceaabeccd'));
+	// console.log(isScramble('vfldiodffghyq', 'vdgyhfqfdliof'));
 	console.timeEnd('time');
 }
