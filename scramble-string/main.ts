@@ -158,10 +158,15 @@ function compareArrays(source: Uint8Array, target: Uint8Array): boolean {
 
 function compareSliced(source: Uint8Array, target: Uint8Array, slices: Slice[]): boolean {
 	for (const slice of slices) {
-		const sourcePart = source.slice(slice.start, slice.end).sort();
-		const targetPart = target.slice(slice.start, slice.end).sort();
-		if (!compareArrays(sourcePart, targetPart))
-			return false;
+		if (slice.size > 1) {
+			const sourcePart = source.slice(slice.start, slice.end).sort();
+			const targetPart = target.slice(slice.start, slice.end).sort();
+			if (!compareArrays(sourcePart, targetPart))
+				return false;
+		} else {
+			if (source[slice.start] !== target[slice.start])
+				return false;
+		}
 	}
 	return true;
 }
