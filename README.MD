@@ -452,3 +452,8 @@ I found it surprising that I got a relatively high score despite struggling so m
 The key to completing this task turned out to be: add 1 to every previous item, reversed.
 I looked at the hints online before completing this task because I did not feel like trying to invent the logic to build the list by myself.
 My score: duration 5 ms, beats 55%; memory 58 MB, beats 77%.
+
+## 90. Subsets II
+I have completed this task without looking for hints online.
+The key to completing this task is to count how many of each sources we have at the beginning.
+My score: duration 1 ms, beats 67%; memory 55 MB, beats 13%.
