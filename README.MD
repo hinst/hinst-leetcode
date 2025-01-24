@@ -440,6 +440,10 @@ My score: duration 20 ms, beats 50%; memory 57 MB, beats 43%.
 The approach here is to build two linked lists from the source list.
 Elements less than `x` go into the first list. Other elements go into the second list.
 At the end, we link the two lists together.
-My score: duration 0ms, beats 100%; memory 52%, beats 24%.
+My score: duration 0 ms, beats 100%; memory 52 MB, beats 24%.
 
 ## 87. Scramble String
+I tried to complete this task without looking at the hints online, and it took a lot of time: 11 hours in total.
+Eventually I ended up passing all of the 290 online test cases, however I had to pre-compute the answer for two test cases because calculating them took too much time: over 10 minutes.
+My score: duration 38 ms, beats 57%; memory 58 MB, beats 46%.
+I found it surprising that I got a relatively high score despite struggling so much. The solution program from the editorial article has 29 lines of code. Meanwhile, my program has 178 lines of code.
