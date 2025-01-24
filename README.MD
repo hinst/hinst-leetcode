@@ -447,3 +447,8 @@ I tried to complete this task without looking at the hints online, and it took a
 Eventually I ended up passing all of the 290 online test cases, however I had to pre-compute the answer for two test cases because calculating them took too much time: over 10 minutes.
 My score: duration 38 ms, beats 57%; memory 58 MB, beats 46%.
 I found it surprising that I got a relatively high score despite struggling so much. The solution program from the editorial article has 29 lines of code. Meanwhile, my program has 178 lines of code.
+
+## 89. Gray Code
+The key to completing this task turned out to be: add 1 to every previous item, reversed.
+I looked at the hints online before completing this task because I did not feel like trying to invent the logic to build the list by myself.
+My score: duration 5 ms, beats 55%; memory 58 MB, beats 77%.
