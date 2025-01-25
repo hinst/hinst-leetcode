@@ -465,3 +465,8 @@ The key to completing this task ended up being: cache which stores how many furt
 To be honest, I do not have a 100% proof in my head why this approach is correct, especially in regard to duplicated outputs.
 But all online test cases succeeded, so I guess my approach is correct.
 My score: duration 1 ms, beats 70%; memory 52 MB, beats 31%.
+
+## 92. Reverse Linked List II
+My approach for this task was: to convert one-directional linked list into a two-directional linked list.
+One tricky part in this task was to process the situation when the reversed segment starts at 1.
+My score: 0 ms, beats 100%; memory 51 MB, beats 69%.
