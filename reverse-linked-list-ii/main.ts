@@ -4,23 +4,27 @@
 class ListNode {
 	val: number;
 	next: ListNode | null;
-	previous?: ListNode | null;
 	constructor(val?: number, next?: ListNode | null) {
 		this.val = (val === undefined ? 0 : val);
 		this.next = (next === undefined ? null : next);
 	}
 }
 
+
+class ListNodeEx extends ListNode {
+	previous?: ListNode | null;
+}
+
 function reverseBetween(head: ListNode | null, left: number, right: number): ListNode | null {
 	let previous: ListNode | null = null;
 	let leftNode: ListNode | null = null;
 	let rightNode: ListNode | null = null;
-	let node = head;
+	let node: ListNode | null = head;
 	let index = 0;
 	while (node) {
 		++index;
 		if (previous)
-			node.previous = previous;
+			(node as ListNodeEx).previous = previous;
 		if (index === left)
 			leftNode = node;
 		if (index === right)
@@ -28,19 +32,21 @@ function reverseBetween(head: ListNode | null, left: number, right: number): Lis
 		previous = node;
 		node = node.next;
 	}
-	if (leftNode && rightNode)
-		reverseList(leftNode, rightNode);
+	if (leftNode && rightNode) {
+		leftNode = reverseList(leftNode, rightNode);
+		if (left === 1)
+			head = leftNode;
+	}
 	return head;
 }
 
-function reverseList(leftNode: ListNode, rightNode: ListNode) {
+function reverseList(leftNode: ListNode, rightNode: ListNode): ListNode | null {
 	if (leftNode === rightNode)
-		return;
-	let left = leftNode.previous;
+		return leftNode;
+	let left = (leftNode as ListNodeEx).previous || null;
 	let leftTail = left;
 	let right: ListNode | null = rightNode;
 	while (right) {
-		console.log(right.val, leftNode.val);
 		if (leftTail) {
 			leftTail.next = new ListNode(right.val, null);
 			leftTail = leftTail.next;
@@ -49,15 +55,17 @@ function reverseList(leftNode: ListNode, rightNode: ListNode) {
 		if (!left)
 			left = leftTail;
 		if (right !== leftNode)
-			right = right.previous || null;
+			right = (right as ListNodeEx).previous || null;
 		else
 			break;
 	}
 	if (rightNode.next && leftTail)
 		leftTail.next = rightNode.next;
+	return left;
 }
 
-function createList(array: number[]): ListNode | null {
+
+export function createList(array: number[]): ListNode | null {
 	let head: ListNode | null = null;
 	let tail: ListNode | null = null;
 	for (const item of array) {
@@ -74,7 +82,7 @@ function createList(array: number[]): ListNode | null {
 	return head;
 }
 
-function createArray(node: ListNode | null) {
+export function createArray(node: ListNode | null) {
 	const array: number[] = [];
 	while (node) {
 		array.push(node.val);
@@ -83,6 +91,8 @@ function createArray(node: ListNode | null) {
 	return array;
 }
 
+export const reverseBetweenEx = reverseBetween;
+
 if (import.meta.main) {
-	console.log(createArray(reverseBetween(createList([1,2,3,4,5]), 2, 4)));
+	console.log(createArray(reverseBetween(createList([1,2,3,4,5]), 1, 2)));
 }
