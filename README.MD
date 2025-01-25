@@ -457,3 +457,11 @@ My score: duration 5 ms, beats 55%; memory 58 MB, beats 77%.
 I have completed this task without looking for hints online.
 The key to completing this task is to count how many of each sources we have at the beginning.
 My score: duration 1 ms, beats 67%; memory 55 MB, beats 13%.
+
+## 91. Decode Ways
+One weird fact about this task turned out to be, that it is not necessary to know the actual letters.
+In mapping '1' -> 'A' only '1' matters. Meanwhile, 'A' can be discarded from the code entirely.
+The key to completing this task ended up being: cache which stores how many further decoding variants exist past the current index.
+To be honest, I do not have a 100% proof in my head why this approach is correct, especially in regard to duplicated outputs.
+But all online test cases succeeded, so I guess my approach is correct.
+My score: duration 1 ms, beats 70%; memory 52 MB, beats 31%.
