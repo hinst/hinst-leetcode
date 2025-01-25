@@ -1,35 +1,27 @@
 const KEYS: string[] = [];
-{
-	const LETTER_MAP = new Map<string, string>();
-	const LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-	let letterIndex = 0;
-	for (const letter of LETTERS) {
-		++letterIndex;
-		LETTER_MAP.set('' + letterIndex, letter);
-		KEYS.push('' + letterIndex);
-	}
-}
+for (let i = 1; i <= 26; ++i)
+	KEYS.push(i.toString());
 
 function numDecodings(s: string): number {
-	const cache = new Map<number, number>();
-	return decode(cache, s, 0);
+	CACHE.clear();
+	return decode(s, 0);
 }
 
-function decode(cache: Map<number, number>, text: string, index: number): number {
+const CACHE = new Map<number, number>()
+
+function decode(text: string, index: number): number {
 	if (index >= text.length)
 		return 1;
-	let counter = 0;
+	let counter = CACHE.get(index);
+	if (counter !== undefined)
+		return counter;
+	else
+		counter = 0;
 	for (const key of KEYS) {
-		if (text.startsWith(key, index)) {
-			const newIndex = index + key.length;
-			let count = cache.get(newIndex);
-			if (count === undefined) {
-				count = decode(cache, text, newIndex);
-				cache.set(newIndex, count);
-			}
-			counter += count;
-		}
+		if (text.startsWith(key, index))
+			counter += decode(text, index + key.length);
 	}
+	CACHE.set(index, counter);
 	return counter;
 }
 
