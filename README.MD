@@ -491,3 +491,15 @@ The description of the current task does NOT mention this.
 I passed all online test cases after I recalculated my node.value according to the "Inorder" from the previous task.
 My score: duration 7 ms, beats 37%; memory 60 MB, beats 7%.
 
+## 96. Unique Binary Search Trees
+This task is similar to the previous task. However, the limit is higher this time: increased from 8 to 19.
+Because of the higher limit, it is not possible to reuse code from the previous task directly, because of the time limit.
+Computing the answer for n=19 took four and a half minutes on my desktop PC.
+Moving forward from this step, two approaches are possible:
+first, to pre-compute the answers for every input from 1 to 19;
+second, to look for an algorithm online.
+I read through the comments and found a link to the formula for this task:
+f(n) = sum(0...n-1, f(i) * f(n - i - 1))
+f(0) = 1, f(1) = 1, f(2) = 2.
+I ended up using this formula with a cache for already computed outputs.
+My score: duration 0 ms, beats 100%; memory 49 MB, beats 96%.
