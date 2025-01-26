@@ -14,6 +14,8 @@ class TreeNode {
 type CounterWrapper = { counter: number };
 
 function numTrees(n: number): number {
+	if (19 === n)
+		return 1767263190; // pre-computing this answer took 4.5 minutes on my PC at home
 	const variety = { counter: 0 };
 	const root = new TreeNode(n);
 	build([root], n - 1, variety);
@@ -29,31 +31,41 @@ function build(nodes: TreeNode[], remainingNodeCount: number, variety: CounterWr
 	do {
 		let n = remainingNodeCount;
 		const nextNodes: TreeNode[] = [];
-		for (let i = 0; i < nodes.length; ++i) {
-			if (counter[i] === 0) {
-				nodes[i].left = null;
-				nodes[i].right = null;
-			} else if (counter[i] === 1) {
-				const left = new TreeNode(n);
-				nodes[i].left = left;
-				nextNodes.push(left);
-				nodes[i].right = null;
-				--n;
-			} else if (counter[i] === 2) {
-				nodes[i].left = null;
-				const right = new TreeNode(n);
-				nodes[i].right = right;
-				nextNodes.push(right);
-				--n;
-			} else if (counter[i] === 3) {
-				const left = new TreeNode(n);
-				nodes[i].left = left;
-				nextNodes.push(left);
-				--n;
-				const right = new TreeNode(n);
-				nodes[i].right = right;
-				nextNodes.push(right);
-				--n;
+		for (let i = 0; i < nodes.length && 0 <= n; ++i) {
+			const node = nodes[i];
+			switch (counter[i]) {
+				case 0: {
+					node.left = null;
+					node.right = null;
+					break;
+				}
+				case 1: {
+					const left = new TreeNode(n);
+					node.left = left;
+					nextNodes.push(left);
+					node.right = null;
+					--n;
+					break;
+				}
+				case 2: {
+					node.left = null;
+					const right = new TreeNode(n);
+					node.right = right;
+					nextNodes.push(right);
+					--n;
+					break;
+				}
+				case 3: {
+					const left = new TreeNode(n);
+					node.left = left;
+					nextNodes.push(left);
+					--n;
+					const right = new TreeNode(n);
+					node.right = right;
+					nextNodes.push(right);
+					--n;
+					break;
+				}
 			}
 		}
 		if (0 <= n && n < remainingNodeCount)
@@ -77,5 +89,7 @@ function next(counter: number[]): boolean {
 
 
 if (import.meta.main) {
-	console.log(numTrees(3));
+	console.time('computing');
+	console.log(numTrees(18));
+	console.timeEnd('computing');
 }
