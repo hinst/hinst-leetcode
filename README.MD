@@ -481,3 +481,13 @@ Only the author of programming task can understand what does "Inorder" traversal
 It became clear to me after I read the editorial article for this task on LeetCode.
 My score: duration 0 ms, beats 100%; memory 51.55 MB, beats 64%.
 
+## 95. Unique Binary Search Trees II
+Initially I was hesitant about attempting to write code for this task.
+Eventually I decided to give it a try and completed the task without looking up hints online.
+The tricky part was updating the values in the nodes.
+Apparently, the values are supposed to follow a special order:
+specifically, the order from the previous task "94 Binary Tree Inorder Traversal"
+The description of the current task does NOT mention this.
+I passed all online test cases after I recalculated my node.value according to the "Inorder" from the previous task.
+My score: duration 8 ms, beats 29%; memory 60 MB, beats 7%.
+
