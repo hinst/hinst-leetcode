@@ -476,3 +476,8 @@ The approach for this task seems straightforward: attempt to read the next item 
 The task has difficulty=Medium.
 My score: duration 6 ms, beats 26%; memory 52 MB, beats 71%.
 
+## 94. Binary Tree Inorder Traversal
+Only the author of programming task can understand what does "Inorder" traversal mean.
+It became clear to me after I read the editorial article for this task on LeetCode.
+My score: duration 0 ms, beats 100%; memory 51.55 MB, beats 64%.
+
