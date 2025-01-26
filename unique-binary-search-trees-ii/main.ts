@@ -12,15 +12,17 @@ class TreeNode {
 
 
 function generateTrees(n: number): Array<TreeNode | null> {
-	const results: TreeNode[] = [];
+	const results: (TreeNode | null)[] = [];
 	const root = new TreeNode(n);
 	build(root, [root], n - 1, results);
 	return results;
 }
 
-function build(root: TreeNode, nodes: TreeNode[], remainingNodeCount: number, results: TreeNode[]) {
-	if (remainingNodeCount <= 0)
-		console.log(root);
+function build(root: TreeNode, nodes: TreeNode[], remainingNodeCount: number, results: (TreeNode | null)[]) {
+	if (remainingNodeCount <= 0) {
+		results.push(cloneTree(root));
+		return;
+	}
 	const counter: number[] = new Array(nodes.length).fill(0);
 	do {
 		let n = remainingNodeCount;
@@ -30,19 +32,18 @@ function build(root: TreeNode, nodes: TreeNode[], remainingNodeCount: number, re
 				nodes[i].left = null;
 				nodes[i].right = null;
 			} else if (counter[i] === 1) {
-				--n;
 				const left = new TreeNode(n);
 				nodes[i].left = left;
 				nextNodes.push(left);
 				nodes[i].right = null;
-			} else if (counter[i] === 2) {
 				--n;
+			} else if (counter[i] === 2) {
 				nodes[i].left = null;
 				const right = new TreeNode(n);
 				nodes[i].right = right;
 				nextNodes.push(right);
-			} else if (counter[i] === 3) {
 				--n;
+			} else if (counter[i] === 3) {
 				const left = new TreeNode(n);
 				nodes[i].left = left;
 				nextNodes.push(left);
@@ -50,6 +51,7 @@ function build(root: TreeNode, nodes: TreeNode[], remainingNodeCount: number, re
 				const right = new TreeNode(n);
 				nodes[i].right = right;
 				nextNodes.push(right);
+				--n;
 			}
 		}
 		if (0 <= n && n < remainingNodeCount)
@@ -71,7 +73,33 @@ function next(counter: number[]): boolean {
 	return 0 === additional;
 }
 
+function cloneTree(node: TreeNode | null): TreeNode | null {
+	if (node)
+		return new TreeNode(node.val, cloneTree(node.left), cloneTree(node.right));
+	else
+		return null;
+}
+
+
+function printTree(node: TreeNode | null, depth = 0) {
+	if (!node)
+		return;
+	const indentation = ' '.repeat(depth);
+	console.log(indentation + node.val);
+	if (node.left) {
+		console.log(indentation + 'L' + (node.left ? '+' : '-'));
+		printTree(node.left, depth + 1);
+	}
+	if (node.right) {
+		console.log(indentation + 'R' + (node.right ? '+' : '-'));
+		printTree(node.right, depth + 1);
+	}
+}
 
 if (import.meta.main) {
-	console.log(generateTrees(3));
+	const trees = generateTrees(3);
+	for (let i = 0; i < trees.length; ++i) {
+		console.log(i + 1, '----------', '----------', '----------');
+		printTree(trees[i]);
+	}
 }
