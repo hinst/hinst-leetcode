@@ -10,53 +10,54 @@ class TreeNode {
 	}
 }
 
+
 type CounterWrapper = { counter: number };
 
 function generateTrees(n: number): Array<TreeNode | null> {
 	const results: (TreeNode | null)[] = [];
-	const root = new TreeNode(1);
-	build(root, [root], 1, n, results);
+	const root = new TreeNode(n);
+	build(root, [root], n - 1, results);
 	return results;
 }
 
-function build(root: TreeNode, nodes: TreeNode[], count: number, limit: number, results: (TreeNode | null)[]) {
-	if (count >= limit) {
+function build(root: TreeNode, nodes: TreeNode[], remainingNodeCount: number, results: (TreeNode | null)[]) {
+	if (remainingNodeCount <= 0) {
 		results.push(cloneTree(root));
 		return;
 	}
 	const counter: number[] = new Array(nodes.length).fill(0);
 	do {
-		let n = count;
+		let n = remainingNodeCount;
 		const nextNodes: TreeNode[] = [];
 		for (let i = 0; i < nodes.length; ++i) {
 			if (counter[i] === 0) {
 				nodes[i].left = null;
 				nodes[i].right = null;
 			} else if (counter[i] === 1) {
-				++n;
 				const left = new TreeNode(n);
 				nodes[i].left = left;
 				nextNodes.push(left);
 				nodes[i].right = null;
+				--n;
 			} else if (counter[i] === 2) {
-				++n;
 				nodes[i].left = null;
 				const right = new TreeNode(n);
 				nodes[i].right = right;
 				nextNodes.push(right);
+				--n;
 			} else if (counter[i] === 3) {
-				++n;
 				const left = new TreeNode(n);
 				nodes[i].left = left;
 				nextNodes.push(left);
-				++n;
+				--n;
 				const right = new TreeNode(n);
 				nodes[i].right = right;
 				nextNodes.push(right);
+				--n;
 			}
 		}
-		if (count < n && n <= limit)
-			build(root, nextNodes, n, limit, results);
+		if (0 <= n && n < remainingNodeCount)
+			build(root, nextNodes, n, results);
 	} while (next(counter));
 }
 
