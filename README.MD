@@ -469,4 +469,10 @@ My score: duration 1 ms, beats 70%; memory 52 MB, beats 31%.
 ## 92. Reverse Linked List II
 My approach for this task was: to convert one-directional linked list into a two-directional linked list.
 One tricky part in this task was to process the situation when the reversed segment starts at 1.
-My score: 0 ms, beats 100%; memory 51 MB, beats 69%.
+My score: duration 0 ms, beats 100%; memory 51 MB, beats 69%.
+
+## 93. Restore IP Addresses
+The approach for this task seems straightforward: attempt to read the next item from the source string recursively.
+The task has difficulty=Medium.
+My score: duration 6 ms, beats 26%; memory 52 MB, beats 71%.
+

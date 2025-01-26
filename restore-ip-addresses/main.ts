@@ -4,7 +4,7 @@ function restoreIpAddresses(s: string): string[] {
 	return results;
 }
 
-function restore(text: string, ongoing: number[], index: number, results: string[]) {
+function restore(text: string, ongoing: string[], index: number, results: string[]) {
 	if (index === text.length) {
 		if (ongoing.length === 4)
 			results.push(ongoing.join('.'));
@@ -18,7 +18,7 @@ function restore(text: string, ongoing: number[], index: number, results: string
 			if (!hasLeadingZeroes) {
 				const integerPart = parseInt(part);
 				if (integerPart <= 255) {
-					ongoing.push(integerPart);
+					ongoing.push(part);
 					restore(text, ongoing, endIndex, results);
 					ongoing.pop();
 				}
