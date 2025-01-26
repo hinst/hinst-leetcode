@@ -29,7 +29,7 @@ function build(root: TreeNode, nodes: TreeNode[], remainingNodeCount: number, re
 	do {
 		let n = remainingNodeCount;
 		const nextNodes: TreeNode[] = [];
-		for (let i = 0; i < nodes.length; ++i) {
+		for (let i = 0; i < nodes.length && 0 <= n; ++i) {
 			const node = nodes[i];
 			switch (counter[i]) {
 				case 0: {
@@ -65,8 +65,6 @@ function build(root: TreeNode, nodes: TreeNode[], remainingNodeCount: number, re
 					break;
 				}
 			}
-			if (n < 0)
-				break;
 		}
 		if (0 <= n && n < remainingNodeCount)
 			build(root, nextNodes, n, results);

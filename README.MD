@@ -489,5 +489,5 @@ Apparently, the values are supposed to follow a special order:
 specifically, the order from the previous task "94 Binary Tree Inorder Traversal"
 The description of the current task does NOT mention this.
 I passed all online test cases after I recalculated my node.value according to the "Inorder" from the previous task.
-My score: duration 8 ms, beats 29%; memory 60 MB, beats 7%.
+My score: duration 7 ms, beats 37%; memory 60 MB, beats 7%.
 
