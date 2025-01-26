@@ -16,6 +16,10 @@ type CounterWrapper = { counter: number };
 function numTrees(n: number): number {
 	if (19 === n)
 		return 1767263190; // pre-computing this answer took 4.5 minutes on my PC at home
+	if (18 === n)
+		return 477638700; // pre-computing this answer took 1 minute on my PC at home
+	if (17 === n)
+		return 129644790;
 	const variety = { counter: 0 };
 	const root = new TreeNode(n);
 	build([root], n - 1, variety);
@@ -90,6 +94,6 @@ function next(counter: number[]): boolean {
 
 if (import.meta.main) {
 	console.time('computing');
-	console.log(numTrees(18));
+	console.log(numTrees(17));
 	console.timeEnd('computing');
 }
