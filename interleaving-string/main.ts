@@ -1,25 +1,44 @@
 function isInterleave(s1: string, s2: string, combinedText: string): boolean {
-	return advance(
-		Array.from(s1).map(item => item.charCodeAt(0)), 0,
-		Array.from(s2).map(item => item.charCodeAt(0)), 0,
-		Array.from(combinedText).map(item => item.charCodeAt(0)), 0
-	);
+	return new Advance(
+		createArray(s1),
+		createArray(s2),
+		createArray(combinedText)
+	).next(0, 0, 0);
 }
 
-function advance(
-	s1: number[], index1: number,
-	s2: number[], index2: number,
-	combinedText: number[], combinedIndex: number
-): boolean {
-	if (combinedIndex >= combinedText.length)
-		return index1 === s1.length && index2 === s2.length;
-	const canAdvance1 = combinedText[combinedIndex] === s1[index1] &&
-		advance(s1, index1 + 1, s2, index2, combinedText, combinedIndex + 1);
-	const canAdvance2 = combinedText[combinedIndex] === s2[index2] &&
-		advance(s1, index1, s2, index2 + 1, combinedText, combinedIndex + 1);
-	return canAdvance1 || canAdvance2;
+function createArray(s: string) {
+	return new Uint16Array(Array.from(s).map(item => item.charCodeAt(0)));
+}
+
+class Advance {
+	private cache = new Map<number, boolean>();
+
+	constructor(
+		public readonly s1: Uint16Array,
+		public readonly s2: Uint16Array,
+		public readonly combinedText: Uint16Array) {
+	}
+
+	next(index1: number, index2: number, combinedIndex: number): boolean {
+		const cacheKey = index1 + index2 * 100 + combinedIndex * 100 * 200;
+		let answer = this.cache.get(cacheKey);
+		if (answer !== undefined)
+			return answer;
+
+		if (combinedIndex >= this.combinedText.length)
+			return index1 === this.s1.length && index2 === this.s2.length;
+		const canAdvance1 = this.combinedText[combinedIndex] === this.s1[index1] &&
+			this.next(index1 + 1, index2, combinedIndex + 1);
+		const canAdvance2 = this.combinedText[combinedIndex] === this.s2[index2] &&
+			this.next(index1, index2 + 1, combinedIndex + 1);
+		answer = canAdvance1 || canAdvance2;
+		this.cache.set(cacheKey, answer);
+		return answer;
+	}
 }
 
 if (import.meta.main) {
+	console.time('computing');
 	console.log(isInterleave('accbaabaaabbcbaacbababacaababbcbabaababcaabbbbbcacbaa', 'cabaabcbabcbaaaacababccbbccaaabaacbbaaabccacabaaccbbcbcb', 'accbcaaabbaabaaabbcbcbabacbacbababaacaaaaacbabaabbcbccbbabbccaaaaabaabcabbcaabaaabbcbcbbbcacabaaacccbbcbbaacb'));
+	console.timeEnd('computing');
 }
