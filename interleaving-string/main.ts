@@ -21,5 +21,5 @@ function advance(
 }
 
 if (import.meta.main) {
-	console.log(isInterleave('cbcccbabbccbbcccbbbcabbbabcababbbbbbaccaccbabbaacbaabbbc', 'abcbbcaababccacbaaaccbabaabbaaabcbababbcccbbabbbcbbb', 'abcbcccbacbbbbccbcbcacacbbbbacabbbabbcacbcaabcbaaacbcbbbabbbaacacbbaaaabccbcbaabbbaaabbcccbcbabababbbcbbbcbb'));
+	console.log(isInterleave('accbaabaaabbcbaacbababacaababbcbabaababcaabbbbbcacbaa', 'cabaabcbabcbaaaacababccbbccaaabaacbbaaabccacabaaccbbcbcb', 'accbcaaabbaabaaabbcbcbabacbacbababaacaaaaacbabaabbcbccbbabbccaaaaabaabcabbcaabaaabbcbcbbbcacabaaacccbbcbbaacb'));
 }
