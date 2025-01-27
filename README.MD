@@ -503,3 +503,9 @@ f(n) = sum(0...n-1, f(i) * f(n - i - 1))
 f(0) = 1, f(1) = 1, f(2) = 2.
 I ended up using this formula with a cache for already computed outputs.
 My score: duration 0 ms, beats 100%; memory 49 MB, beats 96%.
+
+## 97. Interleaving String
+I completed this task without looking for hints online.
+The approach here is to advance through the desired string character by character and look for candidate characters in the source strings, recursively.
+A cache is necessary to finish within the time limit.
+My score: duration 54 ms, beats 94%; memory 52 MB, beats 88%.
