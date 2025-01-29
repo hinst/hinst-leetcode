@@ -509,3 +509,5 @@ I completed this task without looking for hints online.
 The approach here is to advance through the desired string character by character and look for candidate characters in the source strings, recursively.
 A cache is necessary to finish within the time limit.
 My score: duration 54 ms, beats 94%; memory 52 MB, beats 88%.
+
+## 98. Validate Binary Search Tree
