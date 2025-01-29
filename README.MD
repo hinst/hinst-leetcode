@@ -511,3 +511,5 @@ A cache is necessary to finish within the time limit.
 My score: duration 54 ms, beats 94%; memory 52 MB, beats 88%.
 
 ## 98. Validate Binary Search Tree
+The trick here is to compare the current node to all parent nodes, and not only the direct parent.
+My score: duration 1 ms, beats 75%; memory 55 MB, beats 32%.

@@ -16,12 +16,34 @@ class TreeNode {
 function isValidBST(root: TreeNode | null): boolean {
 	if (!root)
 		return true;
-	const leftIsValid = root.left ? root.left.val < root.val && isValidBST(root.left) : true;
-	const rightIsValid = root.right ? root.val < root.right.val && isValidBST(root.right) : true;
-	return leftIsValid && rightIsValid;
+	return checkValid([root]);
+}
+
+function checkValid(path: TreeNode[], depth: number = 0): boolean {
+	const lastNode = path[path.length - 1];
+	let isValid = true;
+	for (let i = 0; i < path.length - 1 && isValid; ++i) {
+		const isLeft = path[i].left === path[i + 1];
+		isValid = isLeft
+			? lastNode.val < path[i].val
+			: path[i].val < lastNode.val;
+	}
+	if (isValid) {
+		if (lastNode.left) {
+			path.push(lastNode.left);
+			isValid = checkValid(path, depth + 1);
+			path.pop();
+		}
+		if (lastNode.right && isValid) {
+			path.push(lastNode.right);
+			isValid = checkValid(path, depth + 1);
+			path.pop();
+		}
+	}
+	return isValid;
 }
 
 
 if (import.meta.main) {
-	console.log();
+	console.log(isValidBST({"val":5,"left":{"val":4,"left":null,"right":null},"right":{"val":6,"left":{"val":3,"left":null,"right":null},"right":{"val":7,"left":null,"right":null}}}));
 }
