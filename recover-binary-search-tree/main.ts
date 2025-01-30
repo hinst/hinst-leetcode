@@ -13,33 +13,24 @@ class TreeNode {
 }
 
 
-class TreeNodeEx extends TreeNode {
-	parent?: TreeNode;
-}
-
 class TreeCover {
 	private allNodes: TreeNode[] = [];
 	private wrongNodes: TreeNode[] = [];
-	private wrongNode?: TreeNode;
 
 	constructor(public readonly root: TreeNode) {
 	}
 
 	recover(): boolean {
 		this.build([this.root]);
-		if (!this.wrongNode)
-			throw new Error('Wrong node is missing');
 		for (const aNode of this.wrongNodes) {
 			for (const node of this.allNodes) {
 				if (node === aNode)
 					continue;
-				this.swap(node, aNode);
+				TreeCover.swap(node, aNode);
 				const isValid = this.checkValidPath([this.root]);
-				if (isValid) {
-					console.log('found');
+				if (isValid)
 					return true;
-				}
-				this.swap(node, aNode);
+				TreeCover.swap(node, aNode);
 			}
 		}
 		return false;
@@ -67,23 +58,9 @@ class TreeCover {
 				isValid = false;
 			path.pop();
 		}
-		if (!isValid && !this.wrongNode) {
+		if (!isValid && !this.wrongNodes.length)
 			this.wrongNodes.push(...path);
-			this.wrongNode = lastNode;
-		}
-		if (path.length > 1)
-			(lastNode as TreeNodeEx).parent = path[path.length - 2];
 		return isValid;
-	}
-
-	private checkValidNode(node: TreeNode): boolean {
-		const path: TreeNode[] = [node];
-		let parentNode = (node as TreeNodeEx).parent;
-		while (parentNode) {
-			path.unshift(parentNode);
-			parentNode = (parentNode as TreeNodeEx).parent;
-		}
-		return this.checkValidPath(path);
 	}
 
 	private checkValidPath(path: TreeNode[], depth: number = 0): boolean {
@@ -110,7 +87,7 @@ class TreeCover {
 		return isValid;
 	}
 
-	private swap(a: TreeNode, b: TreeNode) {
+	private static swap(a: TreeNode, b: TreeNode) {
 		const buffer = b.val;
 		b.val = a.val;
 		a.val = buffer;
