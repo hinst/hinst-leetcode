@@ -513,3 +513,7 @@ My score: duration 54 ms, beats 94%; memory 52 MB, beats 88%.
 ## 98. Validate Binary Search Tree
 The trick here is to compare the current node to all parent nodes, and not only the direct parent.
 My score: duration 1 ms, beats 75%; memory 55 MB, beats 32%.
+
+## 99. Recover Binary Search Tree
+I struggled with this task for 1h 40m and ended up completing it on my own, without looking for hints online; although my score is pretty low.
+My score: duration 104 ms, beats 5%; memory 61 MB, beats 11%.
