@@ -517,3 +517,7 @@ My score: duration 1 ms, beats 75%; memory 55 MB, beats 32%.
 ## 99. Recover Binary Search Tree
 I struggled with this task for 1h 40m and ended up completing it on my own, without looking for hints online; although my score is pretty low.
 My score: duration 104 ms, beats 5%; memory 61 MB, beats 11%.
+
+## 100. Same Tree
+This task was easy enough, as expected from a task with an 'easy' tag.
+My score: duration 0 ms, beats 100%; memory 51 MB, beats 48%.
