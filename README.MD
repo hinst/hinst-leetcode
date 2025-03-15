@@ -19,7 +19,7 @@ I wrote TypeScript solution myself without checking hints. However, I ended up w
 A simple task. Just use HashMap, I guess. I skipped TypeScript and wrote a simple solution in Rust.
 
 ## 15. 3Sum
-As the memory of a similar task "Two Sum" was still fresh in my memory, I decided to use the same approach: loop for first and second item and find the third item quickly using a map. I wrote TypeScript code and added a class named ThreeEntryContainer to avoid duplicated entries. The solution got accepted. Afterwards I checked existing solutions on LeetCode website and apparently a faster solution is possible using binary search in a sorted array. I will leave my TypeScript solution unchanged because I feel satisfied with it for now and I do not feel like studying the binary search approach right now.
+As the similar task "Two Sum" was still fresh in my memory, I decided to use the same approach: loop for first and second item and find the third item quickly using a map. I wrote TypeScript code and added a class named ThreeEntryContainer to avoid duplicated entries. The solution got accepted. Afterwards I checked existing solutions on LeetCode website and apparently a faster solution is possible using binary search in a sorted array. I will leave my TypeScript solution unchanged because I feel satisfied with it for now and I do not feel like studying the binary search approach right now.
 
 # 50. Pow(x, n)
 The main difficulty here was that it seemed unclear at the beginning whether long math is required for the calculation.
@@ -273,9 +273,9 @@ My score: duration 0 ms, beats 100%; memory 50 MB, beats 100%.
 3x loop -> passed up to 200 of 210 test cases online.
 2x loop -> passed up to 204 of 210 test cases online.
 Kadane's algorithm -> I read an article about it on the internet, then copied the approach into my code.
-As a result, I my code passed all test cases online, using 1x loop.
+As a result, my code passed all test cases online, using 1x loop.
 My score: duration 2 ms, beats 62%; memory: 60 MB, beats 24%.
-Needless to say, without hints & the article explaining how to calculate the sum, it would take me forever to figure out the solution.
+Needless to say, without hints & the article explaining how to calculate the sum, it would take me forever to figure out the solution that passes all test cases online.
 
 ## 54. Spiral Matrix
 This task ended up being easy enough and I completed it without the need to look for hints.
@@ -298,7 +298,7 @@ The hint section from LeetCode suggests using binary search to find relevant are
 My score: duration 8 ms, beats 43%; memory 56 MB, beats 26%.
 
 ## 58. Length of Last Word
-Seems like the fastest solutions in TypeScript use the built-in function string split().
+Seems like the fastest solutions in TypeScript uses the built-in function string split().
 My score: duration 3 ms, beats 9%; memory 52 MB, beats 5%.
 
 ## 59. Spiral Matrix II
@@ -389,6 +389,10 @@ My score: duration 0 ms, beats 100%; memory 51 MB, beats 89%.
 The approach for this task is to count how many zeros, ones and twos are present in the array.
 My score: duration 0 ms, beats 100%; memory 51 MB, beats 96%.
 
+## 76. Minimum Window Substring
+I have managed to complete this task on my own, although with a low duration score.
+My score: duration 550 ms, beats 8%; memory 59 MB, beats 38%.
+
 ## 77. Combinations
 I have completed the code for this task without looking up any hints online.
 The task seemed easy enough, because combinations were already used in the previous tasks.
@@ -401,7 +405,7 @@ My score: duration 0 ms, beats 100%; memory 53 MB, beats 59%.
 
 ## 79. Word Search
 This task seems easy enough overall. The only tricky part here is to remember the cells that were already visited.
-At first I cloned the set of visited points on each step, but got timeout from LeetCode.
+At first I cloned the set of visited points on each step, but got a timeout from LeetCode.
 Later I stored visited points information in a 2D table.
 My score: duration 1061 ms, beats 30%; memory 60 MB, beats 5%.
 
@@ -450,7 +454,7 @@ I found it surprising that I got a relatively high score despite struggling so m
 
 ## 89. Gray Code
 The key to completing this task turned out to be: add 1 to every previous item, reversed.
-I looked at the hints online before completing this task because I did not feel like trying to invent the logic to build the list by myself.
+I looked at the hints online before completing this task, because trying to invent the logic to build the list by myself seemed difficult.
 My score: duration 5 ms, beats 55%; memory 58 MB, beats 77%.
 
 ## 90. Subsets II
@@ -493,7 +497,7 @@ My score: duration 7 ms, beats 37%; memory 60 MB, beats 7%.
 
 ## 96. Unique Binary Search Trees
 This task is similar to the previous task. However, the limit is higher this time: increased from 8 to 19.
-Because of the higher limit, it is not possible to reuse code from the previous task directly, because of the time limit.
+Because of the higher limit, it is not possible to reuse code from the previous task directly. The computation takes too long.
 Computing the answer for n=19 took four and a half minutes on my desktop PC.
 Moving forward from this step, two approaches are possible:
 first, to pre-compute the answers for every input from 1 to 19;
@@ -521,3 +525,118 @@ My score: duration 104 ms, beats 5%; memory 61 MB, beats 11%.
 ## 100. Same Tree
 This task was easy enough, as expected from a task with an 'easy' tag.
 My score: duration 0 ms, beats 100%; memory 51 MB, beats 48%.
+
+## Intermediate summary
+* Total time spent on tasks: 129 hours
+* Tasks completed in programming languages
+	* TypeScript: 80
+	* Rust: 19
+	* Go: 1
+* Here is the total count of tasks that I have completed on my own, compared to the count of tasks that I have managed to complete only after looking for a hint online.
+	* No hint: 90
+		1. 2
+		2. 1
+		3. 3
+		4. 20
+		5. 121
+		6. 217
+		7. 15
+		8. 9
+		9. 88
+		10. 125
+		11. 26
+		12. 7
+		13. 209
+		14. 242
+		15. 14
+		16. 4
+		17. 5
+		16. 6
+		17. 8
+		18. 10
+		19. 12
+		20. 13
+		21. 16
+		22. 17
+		23. 18
+		24. 19
+		25. 21
+		26. 22
+		27. 23
+		28. 24
+		29. 25
+		30. 27
+		31. 28
+		32. 29
+		33. 32
+		34. 34
+		35. 35
+		36. 36
+		37. 37
+		38. 38
+		39. 39
+		40. 40
+		41. 41
+		42. 42
+		43. 43
+		44. 44
+		45. 45
+		46. 46
+		47. 48
+		48. 49
+		49. 51
+		50. 52
+		51. 54
+		52. 55
+		53. 56
+		54. 57
+		55. 58
+		56. 59
+		57. 60
+		58. 61
+		59. 63
+		60. 64
+		61. 65
+		62. 66
+		63. 67
+		64. 68
+		65. 69
+		66. 71
+		67. 73
+		68. 74
+		69. 75
+		70. 76
+		71. 77
+		72. 78
+		73. 79
+		74. 80
+		75. 81
+		76. 82
+		77. 83
+		78. 84
+		79. 85
+		80. 86
+		81. 87, this task took 11 hours
+		82. 90
+		83. 91
+		84. 92
+		85. 93
+		86. 95
+		87. 97
+		88. 98
+		89. 99
+		90. 100
+	* Online hint: 13
+		1. 50
+		2. 11
+		3. 30
+		4. 31
+		5. 33
+		6. 47
+		7. 53
+		8. 62
+		9. 70
+		10. 72
+		11. 89
+		12. 94
+		13. 96
