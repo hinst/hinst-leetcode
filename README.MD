@@ -655,6 +655,11 @@ My score:
 * Memory: 57 MB, beats 76%
 
 ## 102. Binary Tree Level Order Traversal
-Badge: Easy. My score:
+Badge: Medium, although it feels more like easy to me. My score:
 * Time: 1 ms, beats 74%
 * Memory: 60 MB, beats 42%
+
+## 103. Binary Tree Zigzag Level Order Traversal
+Badge: Medium, very similar to the previous task. My score:
+* Time: 0ms, beats 100%
+* Memory: 57 MB, beats 86%
