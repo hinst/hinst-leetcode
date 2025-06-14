@@ -640,3 +640,16 @@ My score: duration 0 ms, beats 100%; memory 51 MB, beats 48%.
 		11. 89
 		12. 94
 		13. 96
+
+## 101. Symmetric Tree
+This task has "Easy" badge. I have managed to complete this task without looking for hints online.
+I have three functions:
+1. isSameTree(first, second)
+2. flipTree(node)
+3. isSymmetric(node)
+
+I compared the left side of the tree with the flipped version of its right side and passed all test cases online.
+
+My score:
+* Time: 0 ms, beats 100%
+* Memory: 57 MB, beats 76%

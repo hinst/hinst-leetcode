@@ -11,8 +11,8 @@ export class TreeNode {
 		this.right = (right===undefined ? null : right)
 	}
 
-	static unwrap(array: number[]): TreeNode | null {
-		if (!array.length)
+	static unwrap(array: (number | null)[]): TreeNode | null {
+		if (!array.length || !array[0])
 			return null;
 		const nodes = [new TreeNode(array[0], null, null)];
 		let iArray = 0;
