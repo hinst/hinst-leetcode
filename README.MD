@@ -663,3 +663,8 @@ Badge: Medium, although it feels more like easy to me. My score:
 Badge: Medium, very similar to the previous task. My score:
 * Time: 0ms, beats 100%
 * Memory: 57 MB, beats 86%
+
+## 104. Maximum Depth of Binary Tree
+Difficulty: Easy. My score:
+* Time: 0 ms, beats 100%
+* Memory: 58 MB, beats 88%
