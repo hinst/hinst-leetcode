@@ -653,3 +653,8 @@ I compared the left side of the tree with the flipped version of its right side 
 My score:
 * Time: 0 ms, beats 100%
 * Memory: 57 MB, beats 76%
+
+## 102. Binary Tree Level Order Traversal
+Badge: Easy. My score:
+* Time: 1 ms, beats 74%
+* Memory: 60 MB, beats 42%
