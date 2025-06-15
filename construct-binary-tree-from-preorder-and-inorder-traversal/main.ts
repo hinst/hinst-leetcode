@@ -24,10 +24,8 @@ class Binary {
 }
 
 function buildNext(root: TreeNode, nodes: TreeNode[], preorder: number[], inorder: number[], index: number): TreeNode | null {
-	if (index == preorder.length) {
-		// console.log(root.toString());
+	if (index == preorder.length)
 		return checkArraysEqual(inorderTraversal(root), inorder) ? root : null;
-	}
 	if (index > preorder.length)
 		throw new Error('Logic error');
 	const sequence = new Binary(nodes.length * 2);
@@ -37,24 +35,21 @@ function buildNext(root: TreeNode, nodes: TreeNode[], preorder: number[], inorde
 		nextNodes.length = 0;
 		let subIndex = index;
 		for (let i = 0; i < nodes.length; ++i) {
-			if (sequence.value[2 * i]) {
+			if (sequence.value[2 * i] && subIndex < preorder.length) {
 				const node = new TreeNode(preorder[subIndex++]);
 				nodes[i].left = node;
 				nextNodes.push(node);
 			} else
 				nodes[i].left = null;
-			if (subIndex >= preorder.length)
-				break;
-			if (sequence.value[2 * i + 1]) {
+			if (sequence.value[2 * i + 1] && subIndex < preorder.length) {
 				const node = new TreeNode(preorder[subIndex++]);
 				nodes[i].right = node;
 				nextNodes.push(node);
 			} else
 				nodes[i].right = null;
-			if (subIndex >= preorder.length)
-				break;
 		}
-		buildNext(root, nextNodes, preorder, inorder, subIndex);
+		if (buildNext(root, nextNodes, preorder, inorder, subIndex))
+			return root;
 	} while (sequence.next());
 	return null;
 }

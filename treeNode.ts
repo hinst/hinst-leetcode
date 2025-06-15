@@ -33,9 +33,30 @@ export class TreeNode {
 	}
 
 	toString(indent = 0): string {
-		return ' '.repeat(indent) + this.val + '\n' +
-			(this.left ? this.left.toString(indent + 1) : ' '.repeat(indent + 1) + null) + '\n' +
-			(this.right ? this.right.toString(indent + 1) : ' '.repeat(indent + 1) + null);
+		const indentCharacter = '  ';
+		const indentText = indentCharacter.repeat(indent);
+		let text = '' + this.val;
+		if (this.left)
+			text += '\n' + indentText + 'L: ' + this.left.toString(indent + 1);
+		if (this.right)
+			text += '\n' + indentText + 'R: ' + this.right.toString(indent + 1);
+		return text;
+	}
+
+	equals(node: TreeNode | null): boolean {
+		if (!node)
+			return false;
+		return this.val === node.val &&
+			TreeNode.equal(this.left, node.left) &&
+			TreeNode.equal(this.right, node.right);
+	}
+
+	static equal(a: TreeNode | null, b: TreeNode | null): boolean {
+		if (!a && !b)
+			return true;
+		if (a && b)
+			return a.equals(b);
+		return false;
 	}
 }
 
