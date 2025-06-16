@@ -6,6 +6,7 @@ function buildTree(preorder: number[], inorder: number[]): TreeNode | null {
 
 class Binary {
 	value: number[];
+
 	constructor(public readonly size: number) {
 		this.value = new Array<number>(size).fill(0);
 	}
@@ -38,7 +39,8 @@ class Builder {
 			preorderTraverse(this.root, (node) => {
 				node.val = this.preorder[subIndex++];
 			});
-			return checkArraysEqual(inorderTraversal(this.root), this.inorder) ? this.root : null;
+			const isMatched = inorderCompare(this.root, this.inorder);
+			return isMatched ? this.root : null;
 		}
 		if (index > this.preorder.length)
 			throw new Error('Logic error');
@@ -71,14 +73,16 @@ class Builder {
 	}
 }
 
-function inorderTraversal(root: TreeNode | null): number[] {
-	const values: number[] = [];
-	if (root) {
-		values.push(...inorderTraversal(root.left));
-		values.push(root.val);
-		values.push(...inorderTraversal(root.right));
-	}
-	return values;
+function inorderCompare(root: TreeNode | null, items: number[], index = { i: 0 }): boolean {
+	if (!root)
+		return true;
+	if (!inorderCompare(root.left, items, index))
+		return false;
+	if (root.val !== items[index.i++])
+		return false;
+	if (!inorderCompare(root.right, items, index))
+		return false;
+	return true;
 }
 
 function preorderTraverse(root: TreeNode | null, f: (node: TreeNode) => void) {
@@ -87,15 +91,6 @@ function preorderTraverse(root: TreeNode | null, f: (node: TreeNode) => void) {
 	f(root);
 	preorderTraverse(root.left, f);
 	preorderTraverse(root.right, f);
-}
-
-function checkArraysEqual(a: number[], b: number[]): boolean {
-	if (a.length !== b.length)
-		return false;
-	for (let i = 0; i < a.length; ++i)
-		if (a[i] !== b[i])
-			return false;
-	return true;
 }
 
 export const buildTreeEx = buildTree;
