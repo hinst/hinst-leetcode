@@ -35,10 +35,7 @@ class Builder {
 
 	private buildNext(nodes: TreeNode[], index: number): TreeNode | null {
 		if (index == this.preorder.length) {
-			let subIndex = 0;
-			preorderTraverse(this.root, (node) => {
-				node.val = this.preorder[subIndex++];
-			});
+			preorderAssign(this.root, this.preorder);
 			const isMatched = inorderCompare(this.root, this.inorder);
 			return isMatched ? this.root : null;
 		}
@@ -73,6 +70,15 @@ class Builder {
 	}
 }
 
+function preorderAssign(root: TreeNode | null, items: number[], index = 0): number {
+	if (!root)
+		return index;
+	root.val = items[index++];
+	index = preorderAssign(root.left, items, index);
+	index = preorderAssign(root.right, items, index);
+	return index;
+}
+
 function inorderCompare(root: TreeNode | null, items: number[], index = { i: 0 }): boolean {
 	if (!root)
 		return true;
@@ -83,14 +89,6 @@ function inorderCompare(root: TreeNode | null, items: number[], index = { i: 0 }
 	if (!inorderCompare(root.right, items, index))
 		return false;
 	return true;
-}
-
-function preorderTraverse(root: TreeNode | null, f: (node: TreeNode) => void) {
-	if (!root)
-		return true;
-	f(root);
-	preorderTraverse(root.left, f);
-	preorderTraverse(root.right, f);
 }
 
 export const buildTreeEx = buildTree;
