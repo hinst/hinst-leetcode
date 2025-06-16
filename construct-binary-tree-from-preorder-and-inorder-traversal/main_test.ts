@@ -13,3 +13,10 @@ Deno.test(function buildTreeSingular() {
 	const actual = buildTreeEx([-1], [-1]);
 	assert.assert(expected?.equals(actual));
 });
+
+Deno.test(function buildTree120() {
+	let preorder = [3,1,2,4];
+	preorder = [3,1,4,2];
+	const inorder = [1,2,3,4];
+	console.log(buildTreeEx(preorder, inorder)?.toString());
+})
