@@ -93,8 +93,10 @@ function inorderCompare(root: TreeNode | null, items: number[], index = { i: 0 }
 
 export const buildTreeEx = buildTree;
 
+import { preorder, inorder } from './t198.ts';
+
 if (import.meta.main) {
-	const answer = buildTreeEx([3,9,20,15,7], [9,3,15,20,7])
+	const answer = buildTreeEx(preorder, inorder)
 	console.log('ANSWER:');
 	console.log(answer?.toString());
 }
