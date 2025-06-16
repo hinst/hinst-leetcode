@@ -1,8 +1,7 @@
 import { TreeNode } from '../treeNode.ts';
 
 function buildTree(preorder: number[], inorder: number[]): TreeNode | null {
-	const node = new TreeNode();
-	return buildNext(node, [node], preorder, inorder, 1);
+	return new Builder(preorder, inorder).build();
 }
 
 class Binary {
@@ -23,42 +22,53 @@ class Binary {
 	}
 }
 
-function buildNext(root: TreeNode, nodes: TreeNode[], preorder: number[], inorder: number[], index: number): TreeNode | null {
-	if (index == preorder.length) {
-		let subIndex = 0;
-		preorderTraverse(root, function(node) {
-			node.val = preorder[subIndex++];
-		});
-		return checkArraysEqual(inorderTraversal(root), inorder) ? root : null;
+class Builder {
+	private readonly root: TreeNode  = new TreeNode();
+
+	constructor(readonly preorder: number[], readonly inorder: number[]) {
 	}
-	if (index > preorder.length)
-		throw new Error('Logic error');
-	const sequence = new Binary(nodes.length * 2);
-	sequence.next();
-	const nextNodes = new Array<TreeNode>();
-	do {
-		nextNodes.length = 0;
-		let subIndex = index;
-		for (let i = 0; i < nodes.length; ++i) {
-			if (sequence.value[2 * i] && subIndex < preorder.length) {
-				const node = new TreeNode();
-				subIndex++;
-				nodes[i].left = node;
-				nextNodes.push(node);
-			} else
-				nodes[i].left = null;
-			if (sequence.value[2 * i + 1] && subIndex < preorder.length) {
-				const node = new TreeNode();
-				subIndex++;
-				nodes[i].right = node;
-				nextNodes.push(node);
-			} else
-				nodes[i].right = null;
+
+	build(): TreeNode | null {
+		return this.buildNext([this.root], 1);
+	}
+
+	private buildNext(nodes: TreeNode[], index: number): TreeNode | null {
+		if (index == this.preorder.length) {
+			let subIndex = 0;
+			preorderTraverse(this.root, (node) => {
+				node.val = this.preorder[subIndex++];
+			});
+			return checkArraysEqual(inorderTraversal(this.root), this.inorder) ? this.root : null;
 		}
-		if (buildNext(root, nextNodes, preorder, inorder, subIndex))
-			return root;
-	} while (sequence.next());
-	return null;
+		if (index > this.preorder.length)
+			throw new Error('Logic error');
+		const sequence = new Binary(nodes.length * 2);
+		sequence.next();
+		const nextNodes = new Array<TreeNode>();
+		do {
+			nextNodes.length = 0;
+			let subIndex = index;
+			for (let i = 0; i < nodes.length; ++i) {
+				if (sequence.value[2 * i] && subIndex < this.preorder.length) {
+					const node = new TreeNode();
+					subIndex++;
+					nodes[i].left = node;
+					nextNodes.push(node);
+				} else
+					nodes[i].left = null;
+				if (sequence.value[2 * i + 1] && subIndex < this.preorder.length) {
+					const node = new TreeNode();
+					subIndex++;
+					nodes[i].right = node;
+					nextNodes.push(node);
+				} else
+					nodes[i].right = null;
+			}
+			if (this.buildNext(nextNodes, subIndex))
+				return this.root;
+		} while (sequence.next());
+		return null;
+	}
 }
 
 function inorderTraversal(root: TreeNode | null): number[] {
