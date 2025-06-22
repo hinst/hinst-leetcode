@@ -670,3 +670,14 @@ Difficulty: Easy. My score:
 * Memory: 58 MB, beats 88%
 
 ## 105. Construct Binary Tree from Preorder and Inorder Traversal
+Difficulty: Medium.
+Initially I tried to build all possible trees and check whether they match the inputted restriction.
+In the beginning I got confused and applied level-order instead of inorder visiting, because I thought they were the same.
+Even with this wrong approach, I passed 120 of 203 test cases.
+Later I corrected my visiting order, and managed to pass 198 of 203 test cases, by building all possible binary trees.
+In the end, I decided to look for a hint online and used the approach from page https://www.geeksforgeeks.org/dsa/construct-tree-from-given-inorder-and-preorder-traversal/.
+My score:
+* Time: 135 ms, beats 5%
+* Memory: 105 MB, beats 33%
+
+Total time spent on this task: around 5 hours, including my initial attempts to complete the task without external hints.
