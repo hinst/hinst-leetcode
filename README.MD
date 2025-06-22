@@ -681,3 +681,10 @@ My score:
 * Memory: 105 MB, beats 33%
 
 Total time spent on this task: around 5 hours, including my initial attempts to complete the task without external hints.
+
+## 106. Construct Binary Tree from Inorder and Postorder Traversal
+Difficulty: Medium.
+Similar to the previous task, but this time we choose the last item in the postorder array.
+My score:
+* Time: 130 ms, beats 5%
+* Memory: 105 MB, beats 21%
