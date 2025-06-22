@@ -688,3 +688,10 @@ Similar to the previous task, but this time we choose the last item in the posto
 My score:
 * Time: 130 ms, beats 5%
 * Memory: 105 MB, beats 21%
+
+## 107. Binary Tree Level Order Traversal II
+Difficulty: Medium.
+Approach: do a normal level-order traversal and call reverse() at the end.
+My score:
+* Time: 1ms, beats 48%
+* Memory: 59 MB, beats 18%
