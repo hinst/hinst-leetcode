@@ -693,5 +693,11 @@ My score:
 Difficulty: Medium.
 Approach: do a normal level-order traversal and call reverse() at the end.
 My score:
-* Time: 1ms, beats 48%
+* Time: 1 ms, beats 48%
 * Memory: 59 MB, beats 18%
+
+## 108. Convert Sorted Array to Binary Search Tree
+Difficulty: Easy. I have managed to complete this without external hints.
+My score:
+* Time: 1 ms, beats 84%
+* Memory: 59 MB, beats 76%
