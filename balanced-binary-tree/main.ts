@@ -5,26 +5,34 @@ A height-balanced binary tree is a binary tree in which the depth of the two sub
 
 import { TreeNode } from '../treeNode.ts';
 
+
 function isBalanced(root: TreeNode | null): boolean {
 	const depths = new Array<number>();
-	readLeafDepths(0, depths, root);
+	readDepths(0, depths, root);
 	depths.sort((a, b) => a - b);
 	return depths.length
 		? Math.abs(depths[0] - depths[depths.length - 1]) <= 1
 		: true;
 }
 
-function readLeafDepths(depth: number, depths: number[], node: TreeNode | null) {
+function readDepths(depth: number, depths: number[], node: TreeNode | null) {
 	if (!node)
 		return;
-	if (node.left || node.right) {
-		readLeafDepths(depth + 1, depths, node.left);
-		readLeafDepths(depth + 1, depths, node.right);
-	} else
+	if (node.left)
+		readDepths(depth + 1, depths, node.left);
+	else
+		depths.push(depth + 1);
+	if (node.right)
+		readDepths(depth + 1, depths, node.right);
+	else
 		depths.push(depth + 1);
 }
 
+
+export const isBalancedEx = isBalanced;
+
 if (import.meta.main) {
-	console.log(isBalanced(TreeNode.unwrap([3,9,20,null,null,15,7])));
-	console.log(isBalanced(TreeNode.unwrap([1,2,2,3,3,null,null,4,4])));
+	const tree = TreeNode.unwrap([1,null,2,null,3]);
+	console.log(tree?.toString());
+	console.log(isBalanced(tree));
 }
