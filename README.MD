@@ -708,3 +708,10 @@ My score:
 * Time: 2ms, beats 95%
 * Memory: 65 MB, beats 12%
 
+## 110. Balanced Binary Tree
+Online hint: no.
+My score:
+* Time: 2 ms, beats 52%
+* Memory: 60 MB, beats 79%
+
+

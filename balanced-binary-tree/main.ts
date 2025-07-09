@@ -7,32 +7,31 @@ import { TreeNode } from '../treeNode.ts';
 
 
 function isBalanced(root: TreeNode | null): boolean {
-	const depths = new Array<number>();
-	readDepths(0, depths, root);
-	depths.sort((a, b) => a - b);
-	return depths.length
-		? Math.abs(depths[0] - depths[depths.length - 1]) <= 1
-		: true;
+	return checkBalanced(0, root).isBalanced;
 }
 
-function readDepths(depth: number, depths: number[], node: TreeNode | null) {
+class TreeInfo {
+	constructor(public readonly depth: number, public readonly isBalanced: boolean) {}
+}
+
+function checkBalanced(depth: number, node: TreeNode | null): TreeInfo {
 	if (!node)
-		return;
-	if (node.left)
-		readDepths(depth + 1, depths, node.left);
-	else
-		depths.push(depth + 1);
-	if (node.right)
-		readDepths(depth + 1, depths, node.right);
-	else
-		depths.push(depth + 1);
+		return new TreeInfo(depth, true);
+	depth++
+	const leftInfo = checkBalanced(depth, node.left);
+	const rightInfo = checkBalanced(depth, node.right);
+	return new TreeInfo(
+		Math.max(leftInfo.depth, rightInfo.depth),
+		leftInfo.isBalanced && rightInfo.isBalanced &&
+			Math.abs(leftInfo.depth - rightInfo.depth) <= 1
+	);
 }
 
 
 export const isBalancedEx = isBalanced;
 
 if (import.meta.main) {
-	const tree = TreeNode.unwrap([1,null,2,null,3]);
+	const tree = TreeNode.unwrap( [1,2,3,4,5,6,null,8] );
 	console.log(tree?.toString());
 	console.log(isBalanced(tree));
 }
