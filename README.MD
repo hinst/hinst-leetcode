@@ -701,3 +701,10 @@ Difficulty: Easy. I have managed to complete this without external hints.
 My score:
 * Time: 1 ms, beats 84%
 * Memory: 59 MB, beats 76%
+
+## 109. Convert Sorted List to Binary Search Tree
+Copy function from the previous task and convert input into an array.
+My score:
+* Time: 2ms, beats 95%
+* Memory: 65 MB, beats 12%
+
