@@ -19,6 +19,11 @@ class Finder {
 	) {}
 
 	find(sourcePosition: number, targetPosition: number): number {
+		const remainingSourceLength = this.source.length - sourcePosition;
+		const remainingTargetLength = this.target.length - targetPosition;
+		if (remainingSourceLength < remainingTargetLength)
+			return 0;
+
 		const cacheKey = getKey(sourcePosition, targetPosition);
 		const cachedCount = this.cache.get(cacheKey);
 		if (cachedCount !== undefined)
