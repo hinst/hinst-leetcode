@@ -762,3 +762,11 @@ Used the exact same code from the previous task.
 * My score:
 	* Time: 50 ms, beats 93%
 	* Memory: 60 MB, beats 57%
+
+## 118. Pascal's Triangle
+* Difficulty: Easy
+* Folder name: `pascals-triangle`
+* Online hint: no
+* My score:
+	* Time: 0 ms, beats 100%
+	* Memory: 56 MB, beats 34%
