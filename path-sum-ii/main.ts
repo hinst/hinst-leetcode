@@ -8,21 +8,31 @@
 
 import { TreeNode } from '../treeNode.ts';
 
-function pathSum(
-	root: TreeNode | null, targetSum: number,
-	depth: number = 0, currentSum = 0, paths: number[][] = [], path: number[] = []
-): number[][] {
-	if (!root)
-		return paths;
-	path[depth] = root.val;
-	++depth;
-	path.length = depth;
-	currentSum += root.val;
-	if (currentSum === targetSum && !root.left && !root.right)
-		paths.push(path.slice());
-	pathSum(root.left, targetSum, depth, currentSum, paths, path);
-	pathSum(root.right, targetSum, depth, currentSum, paths, path);
-	return paths;
+function pathSum(root: TreeNode | null, targetSum: number): number[][] {
+	const item = new PathSum(targetSum);
+	item.find(root, 0, 0);
+	return item.paths;
+}
+
+class PathSum {
+	readonly paths: number[][] = [];
+	readonly path: number[] = [];
+
+	constructor(readonly targetSum: number) {
+	}
+
+	find(root: TreeNode | null, depth: number, currentSum: number) {
+		if (!root)
+			return this.paths;
+		this.path[depth] = root.val;
+		++depth;
+		this.path.length = depth;
+		currentSum += root.val;
+		if (currentSum === this.targetSum && !root.left && !root.right)
+			this.paths.push(this.path.slice());
+		this.find(root.left, depth, currentSum);
+		this.find(root.right, depth, currentSum);
+	}
 }
 
 if (import.meta.main) {
