@@ -27,8 +27,26 @@ class _Node {
 
 
 function connect(root: _Node | null): _Node | null {
+	const connector = new Connector();
+	connector.connect(0, root);
 	return root;
 }
+
+class Connector {
+	levels: _Node[] = [];
+
+	connect(depth: number, node: _Node | null) {
+		if (!node)
+			return;
+		if (this.levels[depth])
+			node.next = this.levels[depth];
+		this.levels[depth] = node;
+		++depth;
+		this.connect(depth, node.right);
+		this.connect(depth, node.left);
+	}
+}
+
 
 if (import.meta.main) {
 }

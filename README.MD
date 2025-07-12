@@ -751,3 +751,7 @@ My score:
 
 ## 116. Populating Next Right Pointers in Each Node
 * Folder name: `populating-next-right-pointers-in-each-node`
+* Online hint: no
+* My score:
+	* Time: 45 ms, beats 98%
+	* Memory: 63 MB, beats 12%
