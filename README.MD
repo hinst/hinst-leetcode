@@ -715,11 +715,15 @@ My score:
 * Memory: 60 MB, beats 79%
 
 ## 111. Minimum Depth of Binary Tree
-* `minimum-depth-of-binary-tree`
+* Folder name: `minimum-depth-of-binary-tree`
 * Online hint: no.
 * My score:
 	* Time: 6 ms, beats 51%
 	* Memory: 92 MB, beats 84%
 
 ## 112. Path Sum
-* `path-sum`
+* Folder name: `path-sum`
+* Online hint: no
+* My score:
+	* Time: 1 ms, beats 58%
+	* Memory: 58 MB, beats 88%

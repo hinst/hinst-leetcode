@@ -4,7 +4,7 @@ function hasPathSum(root: TreeNode | null, targetSum: number, currentSum = 0): b
 	if (!root)
 		return false;
 	currentSum += root.val;
-	if (currentSum === targetSum)
+	if (currentSum === targetSum && !root.left && !root.right)
 		return true;
 	return hasPathSum(root.left, targetSum, currentSum) || hasPathSum(root.right, targetSum, currentSum);
 }
