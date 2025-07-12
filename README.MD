@@ -716,5 +716,7 @@ My score:
 
 ## 111. Minimum Depth of Binary Tree
 * `minimum-depth-of-binary-tree`
-
-
+* Online hint: no.
+* My score:
+	* Time: 6 ms, beats 51%
+	* Memory: 92 MB, beats 84%

@@ -9,6 +9,5 @@ Deno.test(function minDepth() {
 
 Deno.test(function minDepth() {
 	const tree = TreeNode.unwrap([2,null,3,null,4,null,5,null,6]);
-	console.log(tree?.toString());
 	assertEquals(minDepthEx(tree), 5);
 });

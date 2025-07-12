@@ -9,10 +9,17 @@ import { TreeNode } from '../treeNode.ts';
 
 function minDepth(root: TreeNode | null, depth = 0): number {
 	if (!root)
-		return depth;
+		return 0 === depth ? 0 : -1;
+	depth += 1;
 	if (!root.left && !root.right)
-		return depth + 1;
-	return Math.min(minDepth(root.left, depth + 1), minDepth(root.right, depth + 1));
+		return depth;
+	const leftDepth = minDepth(root.left, depth);
+	const rightDepth = minDepth(root.right, depth);
+	if (leftDepth === -1)
+		return rightDepth;
+	if (rightDepth === -1)
+		return leftDepth;
+	return Math.min(leftDepth, rightDepth);
 }
 
 
