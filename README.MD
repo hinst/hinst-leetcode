@@ -720,3 +720,6 @@ My score:
 * My score:
 	* Time: 6 ms, beats 51%
 	* Memory: 92 MB, beats 84%
+
+## 112. Path Sum
+* `path-sum`
