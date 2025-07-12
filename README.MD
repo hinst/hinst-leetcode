@@ -770,3 +770,12 @@ Used the exact same code from the previous task.
 * My score:
 	* Time: 0 ms, beats 100%
 	* Memory: 56 MB, beats 34%
+
+## 119. Pascal's Triangle II
+Same as the previous task, but discard already generated rows from memory.
+* Difficulty: Easy
+* Folder name: `pascals-triangle-ii`
+* Online hint: no
+* My score:
+	* Time: 1 ms, beats 47%
+	* Memory: 56 MB, beats 7%
