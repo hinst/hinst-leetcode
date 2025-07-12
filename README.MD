@@ -734,3 +734,6 @@ My score:
 * My score:
 	* Time: 0 ms, beats 100%
 	* Memory: 57 MB, beats 98%
+
+## 114. Flatten Binary Tree to Linked List
+* Folder name: `flatten-binary-tree-to-linked-list`
