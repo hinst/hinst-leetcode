@@ -741,3 +741,6 @@ My score:
 * My score:
 	* Time: 0 ms, beats 100%
 	* Memory: 58 MB, beats 16%
+
+## 115. Distinct Subsequences
+* Folder name: `distinct-subsequences`
