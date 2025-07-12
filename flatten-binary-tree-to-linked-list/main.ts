@@ -32,14 +32,18 @@ class Flatten {
 		const newNode = new TreeNode(node.val);
 		if (!this.latest) {
 			this.latest = newNode;
+			this.root = newNode;
 		} else {
 			this.latest.right = newNode;
 			this.latest = newNode;
 		}
-		if (!this.root)
-			this.root = this.latest;
+		this.run(node.left);
+		this.run(node.right);
 	}
 }
+
+
+export const flattenEx = flatten;
 
 if (import.meta.main) {
 }
