@@ -1,31 +1,44 @@
 function numDistinct(s: string, t: string): number {
 	const finder = new Finder(s, t);
-	finder.find(0, 0);
-	return finder.count;
+	return finder.find(0, 0);
+}
+
+/** Input string length limit */
+const LIMIT = 1000;
+
+function getKey(sourcePosition: number, targetPosition: number): number {
+	return sourcePosition + targetPosition * LIMIT;
 }
 
 class Finder {
-	count = 0;
+	private readonly cache = new Map<number, number>();
 
 	constructor(
 		private readonly source: string,
 		private readonly target: string
 	) {}
 
-	find(sourcePosition: number, targetPosition: number) {
-		if (this.target.length <= targetPosition) {
-			++this.count;
-			return;
-		}
+	find(sourcePosition: number, targetPosition: number): number {
+		const cacheKey = getKey(sourcePosition, targetPosition);
+		const cachedCount = this.cache.get(cacheKey);
+		if (cachedCount !== undefined)
+			return cachedCount;
+
+		if (this.target.length <= targetPosition)
+			return 1;
 		const desiredCharacter = this.target[targetPosition];
 		++targetPosition;
+		let count = 0;
 		while (true) {
 			const nextSourcePosition = this.source.indexOf(desiredCharacter, sourcePosition);
 			if (nextSourcePosition < 0)
 				break;
 			sourcePosition = nextSourcePosition + 1;
-			this.find(sourcePosition, targetPosition);
+			count += this.find(sourcePosition, targetPosition);
 		}
+		this.cache.set(cacheKey, count);
+
+		return count;
 	}
 }
 
