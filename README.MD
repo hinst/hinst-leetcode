@@ -714,4 +714,7 @@ My score:
 * Time: 2 ms, beats 52%
 * Memory: 60 MB, beats 79%
 
+## 111. Minimum Depth of Binary Tree
+* `minimum-depth-of-binary-tree`
+
 
