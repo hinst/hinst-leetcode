@@ -9,7 +9,15 @@ function minimumTotal(triangle: number[][]): number {
 	return new MinimumTotal(triangle).find(0, 0);
 }
 
+const MAX_Y = 201;
+
+function getKey(x: number, y: number) {
+	return x * MAX_Y + y;
+}
+
 class MinimumTotal {
+	private readonly cache = new Map<number, number>();
+
 	constructor(readonly triangle: number[][]) {
 	}
 
@@ -18,7 +26,13 @@ class MinimumTotal {
 			return 0;
 		const item = this.triangle[y][x];
 		y += 1;
-		return item + Math.min(this.find(x, y), this.find(x + 1, y));
+		const cacheKey = getKey(x, y);
+		let nextSum = this.cache.get(cacheKey);
+		if (nextSum !== undefined)
+			return item + nextSum;
+		nextSum = Math.min(this.find(x, y), this.find(x + 1, y));
+		this.cache.set(cacheKey, nextSum);
+		return item + nextSum;
 	}
 }
 

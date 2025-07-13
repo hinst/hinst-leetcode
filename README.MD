@@ -783,3 +783,7 @@ Same as the previous task, but discard already generated rows from memory.
 ## 120. Triangle
 * Difficulty: Medium
 * Folder name: `triangle`
+* Online hint: no
+* My score:
+	* Time: 5 ms, beats 29%
+	* Memory: 59 MB, beats 15%
