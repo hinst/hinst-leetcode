@@ -6,19 +6,19 @@ to either index i or index i + 1 on the next row.
 */
 
 function minimumTotal(triangle: number[][]): number {
-	return new MinimumTotal(triangle).find(0, 0, 0);
+	return new MinimumTotal(triangle).find(0, 0);
 }
 
 class MinimumTotal {
 	constructor(readonly triangle: number[][]) {
 	}
 
-	find(sum: number, x: number, y: number): number {
+	find(x: number, y: number): number {
 		if (y >= this.triangle.length)
-			return sum;
-		sum += this.triangle[y][x];
+			return 0;
+		const item = this.triangle[y][x];
 		y += 1;
-		return Math.min(this.find(sum, x, y), this.find(sum, x + 1, y));
+		return item + Math.min(this.find(x, y), this.find(x + 1, y));
 	}
 }
 
