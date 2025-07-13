@@ -5,12 +5,21 @@ More formally, if you are on index i on the current row, you may move
 to either index i or index i + 1 on the next row.
 */
 
-function minimumTotal(triangle: number[][], sum = 0, x = 0, y = 0): number {
-	if (y >= triangle.length)
-		return sum;
-	sum += triangle[y][x];
-	y += 1;
-	return Math.min(minimumTotal(triangle, sum, x, y), minimumTotal(triangle, sum, x + 1, y));
+function minimumTotal(triangle: number[][]): number {
+	return new MinimumTotal(triangle).find(0, 0, 0);
+}
+
+class MinimumTotal {
+	constructor(readonly triangle: number[][]) {
+	}
+
+	find(sum: number, x: number, y: number): number {
+		if (y >= this.triangle.length)
+			return sum;
+		sum += this.triangle[y][x];
+		y += 1;
+		return Math.min(this.find(sum, x, y), this.find(sum, x + 1, y));
+	}
 }
 
 if (import.meta.main) {
