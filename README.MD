@@ -787,3 +787,15 @@ Same as the previous task, but discard already generated rows from memory.
 * My score:
 	* Time: 5 ms, beats 29%
 	* Memory: 59 MB, beats 15%
+
+## 122. Best Time to Buy and Sell Stock II
+* Difficulty: Medium
+* Folder name: `best-time-to-buy-and-sell-stock-ii`
+* Online hint: maybe, because I looked through the comments
+* My score:
+	* Time: 0 ms, beats 100%
+	* Memory: 56 MB, beats 44%
+
+## 123. Best Time to Buy and Sell Stock III
+* Difficulty: Hard
+* Folder name: `best-time-to-buy-and-sell-stock-iii`
