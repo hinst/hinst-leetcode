@@ -10,6 +10,44 @@ function maxProfit(prices: number[]): number {
 	return maxProfit;
 }
 
+class SortedItem {
+	constructor(
+		public readonly value: number,
+		public readonly index: number,
+		public nextItem?: SortedItem) {
+	}
+
+	toString() {
+		let text = '' + this.value + '[' + this.index + ']';
+		if (this.nextItem)
+			text += ', ' + this.nextItem.toString();
+		return text;
+	}
+}
+
+class SortedIndex {
+	head?: SortedItem;
+	indexMap = new Map<number, SortedItem>();
+
+	constructor(values: number[]) {
+		const items = values.map((value, index) => {
+			const item = new SortedItem(value, index)
+			this.indexMap.set(index, item);
+			return item;
+		});
+		items.sort((a, b) => b.value - a.value);
+		let previousItem: SortedItem | undefined;
+		for (const item of items) {
+			if (previousItem) {
+				previousItem.nextItem = item;
+			} else {
+				this.head = item;
+			}
+			previousItem = item;
+		}
+	}
+}
+
 function findProfit(prices: number[], from: number, to: number): number {
 	let maxProfit = 0;
 	for (let i = from; i < to; ++i) {
@@ -26,5 +64,6 @@ export const maxProfitEx = maxProfit;
 
 if (import.meta.main) {
 	const prices = [3,3,5,0,0,3,1,4];
-	console.log(maxProfit(prices));
+	const sortedIndex = new SortedIndex(prices);
+	console.log(sortedIndex.head?.toString());
 }
