@@ -1,10 +1,8 @@
 function maxProfit(prices: number[]): number {
 	let maxProfit = 0;
 	for (let splitIndex = 0; splitIndex < prices.length; ++splitIndex) {
-		const left = prices.slice(0, splitIndex);
-		const right = prices.slice(splitIndex);
-		const leftProfit = findProfit(left);
-		const rightProfit = findProfit(right);
+		const leftProfit = findProfit(prices, 0, splitIndex);
+		const rightProfit = findProfit(prices, splitIndex, prices.length);
 		const totalProfit = leftProfit + rightProfit;
 		if (maxProfit < totalProfit)
 			maxProfit = totalProfit;
@@ -12,10 +10,10 @@ function maxProfit(prices: number[]): number {
 	return maxProfit;
 }
 
-function findProfit(prices: number[]): number {
+function findProfit(prices: number[], from: number, to: number): number {
 	let maxProfit = 0;
-	for (let i = 0; i < prices.length; ++i) {
-		for (let j = i + 1; j < prices.length; ++j) {
+	for (let i = from; i < to; ++i) {
+		for (let j = i + 1; j < to; ++j) {
 			const profit = prices[j] - prices[i];
 			if (maxProfit < profit)
 				maxProfit = profit;
