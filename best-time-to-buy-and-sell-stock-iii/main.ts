@@ -10,9 +10,12 @@ enum Status {
 	SOLD_2
 }
 
-function max(level: number, items: (number | undefined)[]) {
-	const filteredItems = items.filter(item => item !== undefined);
-	return filteredItems.length ? Math.max(...filteredItems) : undefined;
+function max(a: number | undefined, b: number | undefined): number | undefined {
+	if (a === undefined)
+		return b;
+	if (b === undefined)
+		return a;
+	return Math.max(a, b);
 }
 
 class Finder {
@@ -39,7 +42,7 @@ class Finder {
 					: undefined;
 				// skip
 				const profitSkip = this.search(nextIndex, status);
-				return max(index, [profitBuy, profitSkip]);
+				return max(profitBuy, profitSkip);
 			}
 			case Status.BOUGHT: {
 				// sell
@@ -49,7 +52,7 @@ class Finder {
 					: undefined;
 				// skip
 				const profitSkip = this.search(nextIndex, status);
-				return max(index, [profitSell, profitSkip]);
+				return max(profitSell, profitSkip);
 			}
 			case Status.BEGINNING_2: {
 				// buy
@@ -59,14 +62,14 @@ class Finder {
 					: 0;
 				// skip
 				const profitSkip = this.search(nextIndex, status);
-				return max(index, [profitBuy, profitSkip]);
+				return max(profitBuy, profitSkip);
 			}
 			case Status.BOUGHT_2: {
 				// sell
 				const profitSell = this.prices[index];
 				// skip
 				const futureProfit = this.search(nextIndex, status);
-				return max(index, [profitSell, futureProfit]);
+				return max(profitSell, futureProfit);
 			}
 			case Status.SOLD_2:
 				return 0;
