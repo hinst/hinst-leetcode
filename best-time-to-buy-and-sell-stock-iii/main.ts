@@ -10,10 +10,10 @@ enum Status {
 	SOLD_2
 }
 
-function max(a: number | undefined, b: number | undefined): number | undefined {
-	if (a === undefined)
+function max(a: number | null, b: number | null): number | null {
+	if (a === null)
 		return b;
-	if (b === undefined)
+	if (b === null)
 		return a;
 	return Math.max(a, b);
 }
@@ -24,22 +24,31 @@ class Finder {
 	constructor(readonly prices: number[]) {
 	}
 
-	search(index: number, status: Status): number | undefined {
-		const profit = this.searchInternal(index, status);
+	search(index: number, status: Status): number | null {
+		let profit = this.cache.get(index)?.get(status);
+		if (profit !== undefined)
+			return profit;
+		profit = this.searchInternal(index, status);
+		let statusCache = this.cache.get(index);
+		if (statusCache === undefined) {
+			statusCache = new Map();
+			this.cache.set(index, statusCache);
+		}
+		statusCache.set(status, profit);
 		return profit;
 	}
 
-	private searchInternal(index: number, status: Status): number | undefined {
+	private searchInternal(index: number, status: Status): number | null {
 		if (this.prices.length <= index)
-			return [Status.BEGINNING, Status.BEGINNING_2].includes(status) ? 0 : undefined;
+			return [Status.BEGINNING, Status.BEGINNING_2].includes(status) ? 0 : null;
 		const nextIndex = index + 1;
 		switch (status) {
 			case Status.BEGINNING: {
 				// buy
 				const futureProfit = this.search(nextIndex, Status.BOUGHT);
-				const profitBuy = futureProfit !== undefined
+				const profitBuy = futureProfit !== null
 					? - this.prices[index] + futureProfit
-					: undefined;
+					: null;
 				// skip
 				const profitSkip = this.search(nextIndex, status);
 				return max(profitBuy, profitSkip);
@@ -47,9 +56,9 @@ class Finder {
 			case Status.BOUGHT: {
 				// sell
 				const futureProfit = this.search(nextIndex, Status.BEGINNING_2);
-				const profitSell = futureProfit !== undefined
+				const profitSell = futureProfit !== null
 					? this.prices[index] + futureProfit
-					: undefined;
+					: null;
 				// skip
 				const profitSkip = this.search(nextIndex, status);
 				return max(profitSell, profitSkip);
@@ -57,7 +66,7 @@ class Finder {
 			case Status.BEGINNING_2: {
 				// buy
 				const futureProfit = this.search(nextIndex, Status.BOUGHT_2);
-				const profitBuy = futureProfit !== undefined
+				const profitBuy = futureProfit !== null
 					? - this.prices[index] + futureProfit
 					: 0;
 				// skip
