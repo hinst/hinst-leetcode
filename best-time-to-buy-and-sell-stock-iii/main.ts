@@ -1,13 +1,15 @@
-function maxProfit(prices: number[]): number {
-	return new Finder(prices).search(0, Status.BEGINNING) || 0;
-}
+const LENGTH_LIMIT = Math.pow(10, 5);
 
 enum Status {
-	BEGINNING,
-	BOUGHT,
-	BEGINNING_2,
-	BOUGHT_2,
-	SOLD_2
+	BEGINNING = 1,
+	BOUGHT = 2,
+	BEGINNING_2 = 3,
+	BOUGHT_2 = 4,
+	SOLD_2 = 5
+}
+
+function maxProfit(prices: number[]): number {
+	return new Finder(prices).search(0, Status.BEGINNING) || 0;
 }
 
 function max(a: number | null, b: number | null): number | null {
@@ -19,22 +21,18 @@ function max(a: number | null, b: number | null): number | null {
 }
 
 class Finder {
-	cache = new Map<number, Map<Status, number | null>>();
+	cache = new Map<number, number | null>();
 
 	constructor(readonly prices: number[]) {
 	}
 
 	search(index: number, status: Status): number | null {
-		let profit = this.cache.get(index)?.get(status);
+		const key = status * LENGTH_LIMIT + index;
+		let profit = this.cache.get(key);
 		if (profit !== undefined)
 			return profit;
 		profit = this.searchInternal(index, status);
-		let statusCache = this.cache.get(index);
-		if (statusCache === undefined) {
-			statusCache = new Map();
-			this.cache.set(index, statusCache);
-		}
-		statusCache.set(status, profit);
+		this.cache.set(key, profit);
 		return profit;
 	}
 
