@@ -799,3 +799,11 @@ Same as the previous task, but discard already generated rows from memory.
 ## 123. Best Time to Buy and Sell Stock III
 * Difficulty: Hard
 * Folder name: `best-time-to-buy-and-sell-stock-iii`
+
+I tried to complete this task without hint first. On test case 201, I hit time limit.
+It turned out that computing test case 201 takes 80 seconds on my PC.
+Afterwards, I watched a video for this task https://www.youtube.com/watch?v=37s1_xBiqH0.
+Based on the explanation from the video, I implemented recursive approach with cache.
+* My score:
+	* Time: 527 ms, beats 6%
+	* Memory: 143 MB, beats 5%

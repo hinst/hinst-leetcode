@@ -1,11 +1,11 @@
 const LENGTH_LIMIT = Math.pow(10, 5);
 
 enum Status {
-	BEGINNING = 1,
-	BOUGHT = 2,
-	BEGINNING_2 = 3,
-	BOUGHT_2 = 4,
-	SOLD_2 = 5
+	BEGINNING,
+	BOUGHT,
+	BEGINNING_2,
+	BOUGHT_2,
+	SOLD_2
 }
 
 function maxProfit(prices: number[]): number {
@@ -27,7 +27,7 @@ class Finder {
 	}
 
 	search(index: number, status: Status): number | null {
-		const key = status * LENGTH_LIMIT + index;
+		const key = index + status * LENGTH_LIMIT;
 		let profit = this.cache.get(key);
 		if (profit !== undefined)
 			return profit;
