@@ -7,8 +7,9 @@ function maxPathSum(root: TreeNode | null): number {
 }
 
 class Finder {
-	readonly nodes: TreeNode[] = [];
-	readonly parents: Map<TreeNode, TreeNode> = new Map();
+	private readonly nodes: TreeNode[] = [];
+	private readonly parents: Map<TreeNode, TreeNode> = new Map();
+	private readonly visited: Set<TreeNode> = new Set();
 
 	constructor(root: TreeNode) {
 		this.gather(root);
@@ -29,6 +30,7 @@ class Finder {
 	find(): number {
 		let max: number | undefined;
 		for (const node of this.nodes) {
+			this.visited.clear();
 			const sum = this.findSum(node);
 			if (max === undefined || max < sum)
 				max = sum;
@@ -36,9 +38,16 @@ class Finder {
 		return max || 0;
 	}
 
-	findSum(node: TreeNode): number {
-		let sum = node.val;
-		return sum;
+	findSum(node: TreeNode | null): number {
+		if (!node)
+			return 0;
+		if (this.visited.has(node))
+			return 0;
+		this.visited.add(node);
+		const parentSum = this.findSum(this.parents.get(node) || null);
+		const leftSum = this.findSum(node.left);
+		const rightSum = this.findSum(node.right);
+		return node.val + Math.max(parentSum, leftSum, rightSum);
 	}
 }
 
