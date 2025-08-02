@@ -11,6 +11,8 @@ class Finder {
 	private readonly nodes: TreeNode[] = [];
 	private readonly parents: Map<TreeNode, TreeNode> = new Map();
 	private readonly visited: Set<TreeNode> = new Set();
+	/** Source -> Current -> Sum */
+	private readonly cache: Map<TreeNode | null, Map<TreeNode, number>> = new Map();
 
 	constructor(root: TreeNode) {
 		this.gather(root);
@@ -32,22 +34,36 @@ class Finder {
 		let max: number | undefined;
 		for (const node of this.nodes) {
 			this.visited.clear();
-			const sum = this.findSum(node);
+			const sum = this.findSum(null, node);
 			if (max === undefined || max < sum)
 				max = sum;
 		}
 		return max || 0;
 	}
 
-	findSum(node: TreeNode | null): number {
+	private findSum(source: TreeNode | null, node: TreeNode | null): number {
 		if (!node)
 			return 0;
 		if (this.visited.has(node))
 			return 0;
+		let sum = this.cache.get(source)?.get(node);
+		if (sum !== undefined)
+			return sum;
+		sum = this.findSumInternal(node);
+		let sourceCache = this.cache.get(source);
+		if (!sourceCache) {
+			sourceCache = new Map();
+			this.cache.set(source, sourceCache);
+		}
+		sourceCache.set(node, sum);
+		return sum;
+	}
+
+	private findSumInternal(node: TreeNode): number {
 		this.visited.add(node);
-		const parentSum = this.findSum(this.parents.get(node) || null);
-		const leftSum = this.findSum(node.left);
-		const rightSum = this.findSum(node.right);
+		const parentSum = this.findSum(node, this.parents.get(node) || null);
+		const leftSum = this.findSum(node, node.left);
+		const rightSum = this.findSum(node, node.right);
 		return node.val + Math.max(0, parentSum, leftSum, rightSum);
 	}
 }
@@ -56,7 +72,7 @@ class Finder {
 export const maxPathSumEx = maxPathSum;
 
 if (import.meta.main) {
-	const tree = TreeNode.unwrap([-1,-2,10,-6,null,-3,-6]);
+	const tree = TreeNode.unwrap([1, 2, 3]);
 	console.log(tree?.toString());
 	console.log(maxPathSum(tree));
 }
