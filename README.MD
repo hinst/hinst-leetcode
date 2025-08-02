@@ -811,3 +811,10 @@ Based on the explanation from the video, I implemented recursive approach with c
 ## 124. Binary Tree Maximum Path Sum
 * Difficulty: Hard
 * Folder name: `binary-tree-maximum-path-sum`
+
+My approach: navigate the tree recursively. Passed most tests online, eventually got Time Limit Exceeded.
+Added cache: it took me a while to realize that the key of the cache record should be (sourceNode + currentNode).
+Passed all test cases online with a low score.
+* My score:
+	* Time: 41 ms, beats 6%
+	* Memory: 78 MB, beats 5%
