@@ -810,4 +810,4 @@ Based on the explanation from the video, I implemented recursive approach with c
 
 ## 124. Binary Tree Maximum Path Sum
 * Difficulty: Hard
-* Folder name:
+* Folder name: `binary-tree-maximum-path-sum`
