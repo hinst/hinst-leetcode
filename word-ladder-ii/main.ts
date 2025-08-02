@@ -1,6 +1,6 @@
 function findLadders(beginWord: string, endWord: string, wordList: string[]): string[][] {
 	const finder = new Finder(beginWord, endWord, wordList);
-	finder.find();
+	console.log(finder.find());
 	return finder.chains.map(chain => chain.map(word => word.text));
 }
 
@@ -33,26 +33,30 @@ class Finder {
 		}
 	}
 
-	find(chain: Word[] = [this.words[0]], node: Word = this.words[0]) {
+	find(chain: Word[] = [this.words[0]], node: Word = this.words[0]): number {
 		if (this.endWord.text === '')
-			return;
+			return -1;
 		if (this.visitedWords.has(node))
-			return;
+			return -1;
 		if (this.chains.length && this.chains[0].length < chain.length)
-			return;
+			return -1;
 		if (node === this.endWord) {
 			if (this.chains[0]?.length > chain.length)
 				this.chains.length = 0;
 			this.chains.push(chain.slice());
-			return;
+			return chain.length;
 		}
 		this.visitedWords.add(node);
+		let minLength = -1;
 		for (const linkedNode of node.linked) {
 			chain.push(linkedNode);
-			this.find(chain, linkedNode);
+			const length = this.find(chain, linkedNode);
+			if (-1 === minLength || length < minLength)
+				minLength = length;
 			chain.pop();
 		}
 		this.visitedWords.delete(node);
+		return minLength;
 	}
 }
 
