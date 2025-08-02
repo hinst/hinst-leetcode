@@ -1,6 +1,7 @@
 function findLadders(beginWord: string, endWord: string, wordList: string[]): string[][] {
 	const finder = new Finder(beginWord, endWord, wordList);
-	return finder.chains;
+	finder.find();
+	return finder.chains.map(chain => chain.map(word => word.text));
 }
 
 class Word {
@@ -11,7 +12,8 @@ class Word {
 class Finder {
 	endWord = new Word('');
 	words: Word[] = [];
-	chains: string[][] = [];
+	chains: Word[][] = [];
+	visitedWords: Set<Word> = new Set();
 
 	constructor(beginWord: string, endWord: string, dictionary: string[]) {
 		this.words.push(new Word(beginWord));
@@ -29,8 +31,28 @@ class Finder {
 					word.linked.push(otherWord);
 			}
 		}
-		for (const word of this.words)
-			console.log(word.text, word.linked.length);
+	}
+
+	find(chain: Word[] = [this.words[0]], node: Word = this.words[0]) {
+		if (this.endWord.text === '')
+			return;
+		if (this.visitedWords.has(node))
+			return;
+		if (this.chains.length && this.chains[0].length < chain.length)
+			return;
+		if (node === this.endWord) {
+			if (this.chains[0]?.length > chain.length)
+				this.chains.length = 0;
+			this.chains.push(chain.slice());
+			return;
+		}
+		this.visitedWords.add(node);
+		for (const linkedNode of node.linked) {
+			chain.push(linkedNode);
+			this.find(chain, linkedNode);
+			chain.pop();
+		}
+		this.visitedWords.delete(node);
 	}
 }
 
@@ -46,6 +68,7 @@ function checkLinkedWords(a: string, b: string) {
 	}
 	return diffCount <= 1;
 }
+
 
 if (import.meta.main) {
 	const beginWord = "hit", endWord = "cog", wordList = ["hot","dot","dog","lot","log","cog"];
