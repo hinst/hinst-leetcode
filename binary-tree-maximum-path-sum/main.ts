@@ -1,5 +1,6 @@
 import { TreeNode } from '../treeNode.ts';
 
+
 function maxPathSum(root: TreeNode | null): number {
 	if (!root)
 		return 0;
@@ -47,7 +48,7 @@ class Finder {
 		const parentSum = this.findSum(this.parents.get(node) || null);
 		const leftSum = this.findSum(node.left);
 		const rightSum = this.findSum(node.right);
-		return node.val + Math.max(parentSum, leftSum, rightSum);
+		return node.val + Math.max(0, parentSum, leftSum, rightSum);
 	}
 }
 
@@ -55,6 +56,7 @@ class Finder {
 export const maxPathSumEx = maxPathSum;
 
 if (import.meta.main) {
-	const tree = TreeNode.unwrap([1,2,3]);
+	const tree = TreeNode.unwrap([-1,-2,10,-6,null,-3,-6]);
+	console.log(tree?.toString());
 	console.log(maxPathSum(tree));
 }
