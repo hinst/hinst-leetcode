@@ -849,3 +849,10 @@ instead of every possible path.
 
 This task has a peculiar limitation: You must write an algorithm that runs in O(n) time.
 Not sure how exactly this requirement is supposed to be achieved.
+I watched this video https://www.youtube.com/watch?v=P6RZZMu_maU and I found the explanation to be rather reasonable,
+however I got Time Limit Exceeded when I tried to used the suggested approach, so I went back to my initial approach
+to gather the sequences.
+
+* My score:
+	* Time: 91 ms, beats 9%
+	* Memory: 91 MB, beats 5%

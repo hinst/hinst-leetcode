@@ -1,7 +1,6 @@
 class Sequence {
 	beginning: number = 0;
 	ending: number = 0;
-	duplicateCount: number = 0;
 	get length() {
 		return this.ending - this.beginning + 1;
 	}
@@ -18,11 +17,8 @@ function longestConsecutive(numbers: number[]): number {
 	}
 	for (const value of numbers) {
 		const centralSequence = map.get(value);
-		if (centralSequence) {
-			++centralSequence.duplicateCount;
-			updateMax(centralSequence);
+		if (centralSequence)
 			continue;
-		}
 		const leftSequence = map.get(value - 1);
 		const rightSequence = map.get(value + 1);
 		if (leftSequence && !rightSequence) {
@@ -55,6 +51,7 @@ function longestConsecutive(numbers: number[]): number {
 	}
 	return max;
 }
+
 
 if (import.meta.main) {
 	const nums = [1,0,1,2];
