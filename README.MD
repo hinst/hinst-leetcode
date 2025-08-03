@@ -830,5 +830,15 @@ Eventually, I got Time Limit Exceeded and changed my approach:
 use wave to find the initial path in the first step and
 use recursion to find all possible paths within the waved path.
 * My score:
-	* Time: 37 ms, beats 55%
-	* Memory: 64 MB, beats 51%
+	* Time: 35 ms, beats 66%
+	* Memory: 63 MB, beats 56%
+
+## 126. Word Ladder
+* Difficulty: Hard
+* Folder name: `word-ladder`
+
+Copied the approach from the previous task and narrowed it down to output only the length of the path,
+instead of every possible path.
+* My score:
+	* Time: 1168 ms, beats 6%
+	* Memory: 67 MB, beats 36%

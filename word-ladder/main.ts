@@ -1,7 +1,7 @@
-function findLadders(beginWord: string, endWord: string, wordList: string[]): string[][] {
+function ladderLength(beginWord: string, endWord: string, wordList: string[]): number {
 	const finder = new Finder(beginWord, endWord, wordList);
 	finder.find();
-	return finder.chains.map(chain => chain.map(word => word.text).reverse());
+	return finder.endWord.step + 1;
 }
 
 class Word {
@@ -13,7 +13,6 @@ class Word {
 class Finder {
 	endWord = new Word('');
 	words: Word[] = [];
-	chains: Word[][] = [];
 
 	constructor(beginWord: string, endWord: string, dictionary: string[]) {
 		this.words.push(new Word(beginWord));
@@ -35,8 +34,6 @@ class Finder {
 
 	find(): number {
 		const length = this.findPath();
-		this.words[0].step = 0;
-		this.findChains();
 		return length;
 	}
 
@@ -58,21 +55,6 @@ class Finder {
 		}
 		return step;
 	}
-
-	findChains(source: Word = this.endWord, chain: Word[] = []) {
-		chain.push(source);
-		if (source.step === 0) {
-			this.chains.push(chain.slice());
-		} else {
-			const previousStep = source.step - 1;
-			for (const linkedNode of source.linked) {
-				if (linkedNode.step === previousStep) {
-					this.findChains(linkedNode, chain);
-				}
-			}
-		}
-		chain.pop();
-	}
 }
 
 function checkLinkedWords(a: string, b: string) {
@@ -90,11 +72,9 @@ function checkLinkedWords(a: string, b: string) {
 
 
 if (import.meta.main) {
-	const beginWord = "hit", endWord = "cog", wordList = ["hot","dot","dog","lot","log","cog"];
-	// const beginWord = "qa";
-	// const endWord = "sq";
-	// const wordList = ["si","go","se","cm","so","ph","mt","db","mb","sb","kr","ln","tm","le","av","sm","ar","ci","ca","br","ti","ba","to","ra","fa","yo","ow","sn","ya","cr","po","fe","ho","ma","re","or","rn","au","ur","rh","sr","tc","lt","lo","as","fr","nb","yb","if","pb","ge","th","pm","rb","sh","co","ga","li","ha","hz","no","bi","di","hi","qa","pi","os","uh","wm","an","me","mo","na","la","st","er","sc","ne","mn","mi","am","ex","pt","io","be","fm","ta","tb","ni","mr","pa","he","lr","sq","ye"];
+	// const beginWord = "hit", endWord = "cog", wordList = ["hot","dot","dog","lot","log","cog"];
+	const beginWord = "hit", endWord = "cog", wordList = ["hot","dot","dog","lot","log"];
 	console.time('findLadders');
-	console.log(findLadders(beginWord, endWord, wordList));
+	console.log(ladderLength(beginWord, endWord, wordList));
 	console.timeEnd('findLadders');
 }
