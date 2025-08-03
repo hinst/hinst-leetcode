@@ -1,7 +1,7 @@
 function findLadders(beginWord: string, endWord: string, wordList: string[]): string[][] {
 	const finder = new Finder(beginWord, endWord, wordList);
 	finder.find();
-	return finder.chains.map(chain => chain.map(word => word.text));
+	return finder.chains.map(chain => chain.map(word => word.text).reverse());
 }
 
 class Word {
@@ -91,10 +91,10 @@ function checkLinkedWords(a: string, b: string) {
 
 
 if (import.meta.main) {
-	// const beginWord = "hit", endWord = "cog", wordList = ["hot","dot","dog","lot","log","cog"];
-	const beginWord = "qa";
-	const endWord = "sq";
-	const wordList = ["si","go","se","cm","so","ph","mt","db","mb","sb","kr","ln","tm","le","av","sm","ar","ci","ca","br","ti","ba","to","ra","fa","yo","ow","sn","ya","cr","po","fe","ho","ma","re","or","rn","au","ur","rh","sr","tc","lt","lo","as","fr","nb","yb","if","pb","ge","th","pm","rb","sh","co","ga","li","ha","hz","no","bi","di","hi","qa","pi","os","uh","wm","an","me","mo","na","la","st","er","sc","ne","mn","mi","am","ex","pt","io","be","fm","ta","tb","ni","mr","pa","he","lr","sq","ye"];
+	const beginWord = "hit", endWord = "cog", wordList = ["hot","dot","dog","lot","log","cog"];
+	// const beginWord = "qa";
+	// const endWord = "sq";
+	// const wordList = ["si","go","se","cm","so","ph","mt","db","mb","sb","kr","ln","tm","le","av","sm","ar","ci","ca","br","ti","ba","to","ra","fa","yo","ow","sn","ya","cr","po","fe","ho","ma","re","or","rn","au","ur","rh","sr","tc","lt","lo","as","fr","nb","yb","if","pb","ge","th","pm","rb","sh","co","ga","li","ha","hz","no","bi","di","hi","qa","pi","os","uh","wm","an","me","mo","na","la","st","er","sc","ne","mn","mi","am","ex","pt","io","be","fm","ta","tb","ni","mr","pa","he","lr","sq","ye"];
 	console.time('findLadders');
 	console.log(findLadders(beginWord, endWord, wordList));
 	console.timeEnd('findLadders');
