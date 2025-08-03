@@ -1,12 +1,12 @@
 function findLadders(beginWord: string, endWord: string, wordList: string[]): string[][] {
 	const finder = new Finder(beginWord, endWord, wordList);
-	finder.find()
+	finder.find();
 	return finder.chains.map(chain => chain.map(word => word.text));
 }
 
 class Word {
 	public readonly linked: Word[] = [];
-	public minLength = -1;
+	public step = -1;
 	constructor(public readonly text: string) {}
 }
 
@@ -34,34 +34,45 @@ class Finder {
 		}
 	}
 
-	find(chain: Word[] = [this.words[0]], node: Word = this.words[0]): number {
-		if (this.endWord.text === '')
-			return -1;
-		if (this.visitedWords.has(node))
-			return -1;
-		if (this.chains.length && this.chains[0].length < chain.length)
-			return -1;
-		if (node === this.endWord) {
-			if (this.chains[0]?.length > chain.length)
-				this.chains.length = 0;
+	find(): number {
+		const length = this.findPath();
+		this.words[0].step = 0;
+		this.findChains();
+		return length;
+	}
+
+	findPath(sources: Word[] = [this.words[0]]): number {
+		let step = 0;
+		let nextSources: Word[] = [];
+		while (this.endWord.step === -1 && sources.length) {
+			++step;
+			for (const source of sources) {
+				for (const linkedSource of source.linked) {
+					if (linkedSource.step === -1) {
+						linkedSource.step = step;
+						nextSources.push(linkedSource);
+					}
+				}
+			}
+			sources = nextSources;
+			nextSources = [];
+		}
+		return step;
+	}
+
+	findChains(source: Word = this.endWord, chain: Word[] = []) {
+		chain.push(source);
+		if (source.step === 0) {
 			this.chains.push(chain.slice());
-			return 0;
+		} else {
+			const previousStep = source.step - 1;
+			for (const linkedNode of source.linked) {
+				if (linkedNode.step === previousStep) {
+					this.findChains(linkedNode, chain);
+				}
+			}
 		}
-		this.visitedWords.add(node);
-		let minLength = -1;
-		for (const linkedNode of node.linked) {
-			chain.push(linkedNode);
-			const length = this.find(chain, linkedNode);
-			if (length !== -1)
-				if (-1 === minLength || length < minLength)
-					minLength = length;
-			chain.pop();
-		}
-		this.visitedWords.delete(node);
-		if (minLength !== -1)
-			if (-1 === node.minLength || minLength < node.minLength)
-				node.minLength = minLength + 1;
-		return minLength + 1;
+		chain.pop();
 	}
 }
 
@@ -80,6 +91,11 @@ function checkLinkedWords(a: string, b: string) {
 
 
 if (import.meta.main) {
-	const beginWord = "hit", endWord = "cog", wordList = ["hot","dot","dog","lot","log","cog"];
+	// const beginWord = "hit", endWord = "cog", wordList = ["hot","dot","dog","lot","log","cog"];
+	const beginWord = "qa";
+	const endWord = "sq";
+	const wordList = ["si","go","se","cm","so","ph","mt","db","mb","sb","kr","ln","tm","le","av","sm","ar","ci","ca","br","ti","ba","to","ra","fa","yo","ow","sn","ya","cr","po","fe","ho","ma","re","or","rn","au","ur","rh","sr","tc","lt","lo","as","fr","nb","yb","if","pb","ge","th","pm","rb","sh","co","ga","li","ha","hz","no","bi","di","hi","qa","pi","os","uh","wm","an","me","mo","na","la","st","er","sc","ne","mn","mi","am","ex","pt","io","be","fm","ta","tb","ni","mr","pa","he","lr","sq","ye"];
+	console.time('findLadders');
 	console.log(findLadders(beginWord, endWord, wordList));
+	console.timeEnd('findLadders');
 }
