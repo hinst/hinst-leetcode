@@ -842,3 +842,10 @@ instead of every possible path.
 * My score:
 	* Time: 1168 ms, beats 6%
 	* Memory: 67 MB, beats 36%
+
+## 128. Longest Consecutive Sequence
+* Difficulty: Medium
+* Folder name: `longest-consecutive-sequence`
+
+This task has a peculiar limitation: You must write an algorithm that runs in O(n) time.
+Not sure how exactly this requirement is supposed to be achieved.
