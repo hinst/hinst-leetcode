@@ -426,6 +426,8 @@ My approach for this task ended up being as follows: transfer the value from the
 as long as the current value is not equal to the previous value and not equal to the last value.
 My score: duration 0 ms, beats 100%; memory 51 MB, beats 68%.
 
+# My Leetcode Year 2025
+
 ## 83. Remove Duplicates from Sorted List
 This task is similar to the previous task, easier even.
 My score: duration 0 ms, beats 100%; memory 53 MB, beats 64%.
@@ -822,3 +824,11 @@ Passed all test cases online with a low score.
 ## 126. Word Ladder II
 * Difficulty: Hard
 * Folder name: `word-ladder-ii`
+
+Initially I have tried to use recursion, similar to the previous task.
+Eventually, I got Time Limit Exceeded and changed my approach:
+use wave to find the initial path in the first step and
+use recursion to find all possible paths within the waved path.
+* My score:
+	* Time: 37 ms, beats 55%
+	* Memory: 64 MB, beats 51%
