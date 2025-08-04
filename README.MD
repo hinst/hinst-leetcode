@@ -856,3 +856,11 @@ to gather the sequences.
 * My score:
 	* Time: 91 ms, beats 9%
 	* Memory: 91 MB, beats 5%
+
+## 129. Sum Root to Leaf Numbers
+* Difficulty: Medium
+* Folder name: `sum-root-to-leaf-numbers`
+* Hint needed: no
+* My score:
+	* Time: 0 ms, beats 100%
+	* Memory: 54 MB, beats 87%
