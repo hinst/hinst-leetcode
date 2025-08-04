@@ -23,7 +23,6 @@ class Point {
 	}
 }
 
-
 function solve(board: string[][]): void {
 	const checkedKeys = new Set<number>();
 	for (let y = 0; y < board.length; ++y) {
@@ -33,15 +32,13 @@ function solve(board: string[][]): void {
 			const point = new Point(x, y);
 			if (checkedKeys.has(point.getKey()))
 				continue;
-			const keys = sweep(board, point);
-			for (const key of keys)
-				checkedKeys.add(key);
+			sweep(board, point, checkedKeys);
 		}
 	}
 }
 
-function sweep(board: string[][], point: Point): Set<number> {
-	const sweptKeys = new Set<number>();
+function sweep(board: string[][], point: Point, sweptKeys: Set<number>): Set<number> {
+	const checkedPoints: Point[] = [];
 	let points = [point];
 	let nextPoints: Point[] = [];
 	let hasExit = false;
@@ -56,6 +53,7 @@ function sweep(board: string[][], point: Point): Set<number> {
 				continue;
 			if (board[point.y][point.x] === _X)
 				continue;
+			checkedPoints.push(point);
 			sweptKeys.add(key);
 			point.writeNext(nextPoints);
 			if (point.x === 0 || point.y === 0 || point.y === board.length - 1 || point.x === board[0].length - 1)
@@ -64,18 +62,19 @@ function sweep(board: string[][], point: Point): Set<number> {
 		points = nextPoints;
 		nextPoints = [];
 	}
-	// console.log(Array.from(allPoints).map(item => Point.unwrap(item)));
 	if (!hasExit)
-		for (const key of sweptKeys) {
-			const point = Point.unwrap(key);
+		for (const point of checkedPoints)
 			board[point.y][point.x] = _X;
-		}
 	return sweptKeys;
 }
 
 
 if (import.meta.main) {
-	const board = [["X","X","X","X"],["X","O","O","X"],["X","X","O","X"],["X","O","X","X"]];
+	const board = [
+		["O","X","O"],
+		["X","O","X"],
+		["O","X","O"]
+	];
 	solve(board);
 	console.log(board);
 }
