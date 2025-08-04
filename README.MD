@@ -868,3 +868,7 @@ to gather the sequences.
 ## 130. Surrounded Regions
 * Difficulty: Medium
 * Folder name: `surrounded-regions`
+* I glanced at the comments and saw "If it does not have an exit, then it is considered to be surrounded" in the first comment, so this probably counts as a hint.
+* My score:
+	* Time: 18 ms, beats 29%
+	* Memory: 69 MB, beats 17%
