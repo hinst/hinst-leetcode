@@ -876,3 +876,8 @@ to gather the sequences.
 ## 131. Palindrome Partitioning
 * Difficulty: Medium
 * Folder name: `palindrome-partitioning`
+* Hint used: no
+* Approach: recursive
+* My score:
+	* Time: 44 ms, beats 17%
+	* Memory: 85 MB, beats 9%
