@@ -881,3 +881,10 @@ to gather the sequences.
 * My score:
 	* Time: 44 ms, beats 17%
 	* Memory: 85 MB, beats 9%
+
+## 132. Palindrome Partitioning II
+* Difficulty: Hard
+* Folder name: `palindrome-partitioning-ii`
+* This task is very similar to the previous task, but the length limit of the input string is much higher:
+	* Previously 16 characters
+	* Now 2000 characters
