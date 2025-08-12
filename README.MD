@@ -872,3 +872,7 @@ to gather the sequences.
 * My score:
 	* Time: 18 ms, beats 29%
 	* Memory: 69 MB, beats 17%
+
+## 131. Palindrome Partitioning
+* Difficulty: Medium
+* Folder name: `palindrome-partitioning`
