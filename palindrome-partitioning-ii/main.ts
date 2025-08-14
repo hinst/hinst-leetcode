@@ -3,9 +3,9 @@ function minCut(s: string): number {
 	return p.find() - 1;
 }
 
-type Pair = [number, number];
-
 class Partition {
+	cache = new Map<number, number>();
+
 	constructor(private readonly text: string) {
 	}
 
@@ -17,15 +17,20 @@ class Partition {
 		if (index >= this.text.length) {
 			return 0;
 		}
-		let min = -1;
+		let min = this.cache.get(index);
+		if (min !== undefined)
+			return min;
+		min = -1;
 		for (let i = index; i < this.text.length; ++i) {
 			if (this.check(index, i)) {
-				const length =  this.next(i + 1);
+				const length = this.next(i + 1);
 				if (-1 === min || length < min)
 					min = length;
 			}
 		}
-		return 1 + min;
+		++min;
+		this.cache.set(index, min);
+		return min;
 	}
 
 	check(a: number, b: number) {
