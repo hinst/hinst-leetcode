@@ -888,3 +888,9 @@ to gather the sequences.
 * This task is very similar to the previous task, but the length limit of the input string is much higher:
 	* Previously 16 characters
 	* Now 2000 characters
+* I got Time Limit Exceeded, and ended up adding two caches:
+	* One cache for the step forward
+	* Another cache for checking whether the text is a palindrome
+* My score:
+	* Time: 863 ms, beats 7%
+	* Memory: 256 MB, beats 7%

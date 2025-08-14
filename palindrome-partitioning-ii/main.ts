@@ -3,8 +3,11 @@ function minCut(s: string): number {
 	return p.find() - 1;
 }
 
+const MAX_LENGTH = 2000;
+
 class Partition {
-	private readonly cache = new Map<number, number>();
+	private readonly nextCache = new Map<number, number>();
+	private readonly checkCache = new Map<number, boolean>();
 
 	constructor(private readonly text: string) {
 	}
@@ -17,28 +20,37 @@ class Partition {
 		if (index >= this.text.length) {
 			return 0;
 		}
-		let min = this.cache.get(index);
+		let min = this.nextCache.get(index);
 		if (min !== undefined)
 			return min;
 		min = -1;
 		for (let i = this.text.length - 1; index <= i ; --i) {
-			if (this.check(index, i)) {
+			if (this.checkCached(index, i)) {
 				const length = this.next(i + 1);
 				if (-1 === min || length < min)
 					min = length;
 			}
 		}
 		++min;
-		this.cache.set(index, min);
+		this.nextCache.set(index, min);
 		return min;
 	}
 
-	check(a: number, b: number) {
-		while (a < b) {
+	private checkCached(a: number, b: number): boolean {
+		const key = a + b * MAX_LENGTH;
+		let checked = this.checkCache.get(key);
+		if (checked !== undefined)
+			return checked;
+		checked = this.check(a, b);
+		this.checkCache.set(key, checked);
+		return checked;
+	}
+
+	private check(a: number, b: number): boolean {
+		if (a < b) {
 			if (this.text[a] !== this.text[b])
 				return false;
-			++a;
-			--b;
+			return this.checkCached(a + 1, b - 1);
 		}
 		return true;
 	}
