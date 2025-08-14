@@ -1,35 +1,31 @@
 function minCut(s: string): number {
 	const p = new Partition(s);
-	return p.find();	
+	return p.find() - 1;
 }
 
 type Pair = [number, number];
 
 class Partition {
-	private readonly chains: string[][] = [];
-
 	constructor(private readonly text: string) {
 	}
 
 	public find(): number {
-		return this.next(0, []);
+		return this.next(0);
 	}
 
-	private next(index: number, chain: Pair[]): number {
+	private next(index: number): number {
 		if (index >= this.text.length) {
-			return chain.length - 1;
+			return 0;
 		}
 		let min = -1;
 		for (let i = index; i < this.text.length; ++i) {
 			if (this.check(index, i)) {
-				chain.push([index, i + 1]);
-				const length =  this.next(i + 1, chain);
+				const length =  this.next(i + 1);
 				if (-1 === min || length < min)
 					min = length;
-				chain.pop();
 			}
 		}
-		return min;
+		return 1 + min;
 	}
 
 	check(a: number, b: number) {
