@@ -898,3 +898,6 @@ to gather the sequences.
 ## 133. Clone Graph
 * Difficulty: Medium
 * Folder name: `clone-graph`
+* My score:
+	* Time: 50 ms, beats 59%
+	* Memory: 57 MB, beats 83%
