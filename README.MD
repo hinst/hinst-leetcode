@@ -901,3 +901,7 @@ to gather the sequences.
 * My score:
 	* Time: 50 ms, beats 59%
 	* Memory: 57 MB, beats 83%
+
+## 134. Gas Station
+* Difficulty: Medium
+* Folder name: `gas-station`
