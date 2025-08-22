@@ -14,6 +14,6 @@ function wordBreak(s: string, wordDict: string[], index = 0): boolean {
 export const wordBreakEx = wordBreak;
 
 if (import.meta.main) {
-	const s = "leetcode", wordDict = ["leet","code"];
+	const s = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaab", wordDict = ["a","aa","aaa","aaaa","aaaaa","aaaaaa","aaaaaaa","aaaaaaaa","aaaaaaaaa","aaaaaaaaaa"];
 	console.log(wordBreak(s, wordDict));
 }
