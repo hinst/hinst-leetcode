@@ -919,3 +919,15 @@ to gather the sequences.
 	* Memory: 60 MB, beats 35%
 
 I ended up pre-computing output for one test case. Online test case number 48 was acting weird: it appears to have two test cases in one.
+
+
+## 136. Single Number
+* Difficulty: Easy
+* Folder name: `single-number`
+* Hint: no
+* Actually satisfying the constraints: also no
+* My score:
+	* Time: 4 ms, beats 49%
+	* Memory: 60 MB
+
+The suggested approach is to use bitwise XOR.
