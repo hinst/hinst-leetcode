@@ -946,3 +946,7 @@ The suggested approach is to use bitwise XOR.
 * My score:
 	* Time: 39 ms, beats 87%
 	* Memory: 55 MB, beats 96%
+
+## 139. Word Break
+* Difficulty: Medium
+* Folder name: `word-break`
