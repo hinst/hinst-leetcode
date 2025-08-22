@@ -920,7 +920,6 @@ to gather the sequences.
 
 I ended up pre-computing output for one test case. Online test case number 48 was acting weird: it appears to have two test cases in one.
 
-
 ## 136. Single Number
 * Difficulty: Easy
 * Folder name: `single-number`
@@ -928,6 +927,14 @@ I ended up pre-computing output for one test case. Online test case number 48 wa
 * Actually satisfying the constraints: also no
 * My score:
 	* Time: 4 ms, beats 49%
-	* Memory: 60 MB
+	* Memory: 60 MB, beats 23%
 
 The suggested approach is to use bitwise XOR.
+
+## 137. Single Number II
+* Difficulty: Medium
+* Folder name: `single-number-ii`
+* Hint: no, although the previous task is kind of a hint
+* My score:
+	* Time: 1 ms, beats 93%
+	* Memory: 58 MB, beats 41%
