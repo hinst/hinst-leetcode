@@ -938,3 +938,11 @@ The suggested approach is to use bitwise XOR.
 * My score:
 	* Time: 1 ms, beats 93%
 	* Memory: 58 MB, beats 41%
+
+## 138. Copy List with Random Pointer
+* Difficulty: Medium
+* Folder name: `copy-list-with-random-pointer`
+* Hint: no
+* My score:
+	* Time: 39 ms, beats 87%
+	* Memory: 55 MB, beats 96%
