@@ -956,3 +956,11 @@ The suggested approach is to use bitwise XOR.
 	* Memory: 57 MB, beats 78%
 
 Typical recursive steps with cache.
+
+## 140. Word Break II
+* Difficulty: Hard
+* Folder name: `word-break-ii`
+* Hint: no
+* My score:
+	* Time: 0 ms, beats 100%
+	* Memory: 55 MB, beats 24%
