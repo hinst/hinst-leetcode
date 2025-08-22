@@ -909,3 +909,7 @@ to gather the sequences.
 * My score:
 	* Time: 2 ms, beats 60%
 	* Memory: 66 MB, beats 71%
+
+## 135. Candy
+* Difficulty: Hard
+* Folder name: `candy`
