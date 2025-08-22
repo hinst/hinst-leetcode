@@ -913,3 +913,9 @@ to gather the sequences.
 ## 135. Candy
 * Difficulty: Hard
 * Folder name: `candy`
+* Hint: no
+* My score:
+	* Time: 2940 ms, beats 5%
+	* Memory: 60 MB, beats 35%
+
+I ended up pre-computing output for one test case. Online test case number 48 was acting weird: it appears to have two test cases in one.
