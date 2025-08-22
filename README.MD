@@ -905,3 +905,7 @@ to gather the sequences.
 ## 134. Gas Station
 * Difficulty: Medium
 * Folder name: `gas-station`
+* Hint: probably yes, because I scrolled though the comments and saw the hint
+* My score:
+	* Time: 2 ms, beats 60%
+	* Memory: 66 MB, beats 71%
