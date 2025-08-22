@@ -950,3 +950,9 @@ The suggested approach is to use bitwise XOR.
 ## 139. Word Break
 * Difficulty: Medium
 * Folder name: `word-break`
+* Hint: no
+* My score:
+	* Time: 2 ms, beats 92%
+	* Memory: 57 MB, beats 78%
+
+Typical recursive steps with cache.
