@@ -1,4 +1,4 @@
-function wordBreak(s: string, wordDict: string[], index = 0): boolean {
+function wordBreak(s: string, wordDict: string[]): boolean {
 	const instance = new WordBreak(s, wordDict);
 	return instance.next(0);
 }
