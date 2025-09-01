@@ -981,7 +981,7 @@ Typical recursive steps with cache.
 	* Time: 44 ms, beats 80%
 	* Memory: 58 MB, beats 19%
 
-## 142. Linked List Cycle II
+## 143. Reorder List
 * Difficulty: Medium
 * Folder name: `reorder-list`
 * Hint: no
