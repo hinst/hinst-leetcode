@@ -986,5 +986,5 @@ Typical recursive steps with cache.
 * Folder name: `reorder-list`
 * Hint: no
 * My score:
-	* Time: 335 ms, beats 5%
-	* Memory: 66 MB, beats 13%
+	* Time: 2 ms, beats 65%
+	* Memory: 65 MB, beats 60%
