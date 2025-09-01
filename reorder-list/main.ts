@@ -6,14 +6,16 @@ function reorderList(head: ListNode | null): void {
 	for (let node = head; node; node = node.next)
 		nodes.push(node);
 	const newNodes: ListNode[] = [];
+	let previousNode: ListNode | null = null;
+	let toggle = true;
 	while (nodes.length) {
-		if (nodes.length)
-			newNodes.push(nodes.shift()!);
-		if (nodes.length)
-			newNodes.push(nodes.pop()!);
+		const nextNode = (toggle ? nodes.shift() : nodes.pop()) || null;
+		if (previousNode)
+			previousNode.next = nextNode;
+		previousNode = nextNode;
 	}
-	for (let i = 0; i < newNodes.length; ++i)
-		newNodes[i].next = i === newNodes.length - 1 ? null : newNodes[i + 1];
+	if (previousNode)
+		previousNode.next = null;
 }
 
 
