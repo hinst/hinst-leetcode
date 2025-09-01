@@ -980,3 +980,11 @@ Typical recursive steps with cache.
 * My score:
 	* Time: 44 ms, beats 80%
 	* Memory: 58 MB, beats 19%
+
+## 142. Linked List Cycle II
+* Difficulty: Medium
+* Folder name: `reorder-list`
+* Hint: no
+* My score:
+	* Time: 335 ms, beats 5%
+	* Memory: 66 MB, beats 13%
