@@ -988,3 +988,14 @@ Typical recursive steps with cache.
 * My score:
 	* Time: 2 ms, beats 65%
 	* Memory: 65 MB, beats 60%
+
+## 144. Binary Tree Preorder Traversal
+* Difficulty: Easy
+* Folder name: `binary-tree-preorder-traversal`
+* Hint: no
+* My score:
+	* Time: 0 ms, beats 100%
+	* Memory: 56 MB, beats 7%
+
+Once again, a task which is a part of a larger task, appears later than the larger task on LeetCode.
+Earlier we already had a task where the student MUST know what does "preorder traversal" mean.
