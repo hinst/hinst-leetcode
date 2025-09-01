@@ -999,3 +999,11 @@ Typical recursive steps with cache.
 
 Once again, a task which is a part of a larger task, appears later than the larger task on LeetCode.
 Earlier we already had a task where the student MUST know what does "preorder traversal" mean.
+
+## 145. Binary Tree Postorder Traversal
+* Difficulty: Easy
+* Folder name: `binary-tree-postorder-traversal`
+* Hint: no
+* My score:
+	* Time: 0 ms, beats 100%
+	* Memory: 55 MB, beats 42%
