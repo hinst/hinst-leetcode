@@ -964,3 +964,11 @@ Typical recursive steps with cache.
 * My score:
 	* Time: 0 ms, beats 100%
 	* Memory: 55 MB, beats 24%
+
+## 141. Linked List Cycle
+* Difficulty: Easy
+* Folder name: `linked-list-cycle`
+* Hint: no
+* My score:
+	* Time: 49 ms, beats 57%
+	* Memory: 59 MB, beats 5%
