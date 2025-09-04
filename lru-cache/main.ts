@@ -1,51 +1,52 @@
 class Item {
-	constructor(readonly key: number, public value: number, public time: number) {
+	constructor(public value: number, public time: number) {
 	}
 }
 
 class LRUCache {
 	private time: number = 0;
-	readonly items: Item[] = [];
+	readonly items = new Map<number, Item>;
 
 	constructor(readonly capacity: number) {
 	}
 	
 	get(key: number): number {
-		for (const item of this.items) {
-			if (item.key === key) {
-				item.time = this.time++;
-				return item.value;
-			}
+		const item = this.items.get(key);
+		if (item) {
+			item.time = this.time++;
+			return item.value;
 		}
 		return -1;
 	}
 	
 	put(key: number, value: number): void {
-		for (const item of this.items) {
-			if (item.key === key) {
-				item.value = value;
-				item.time = this.time++;
-				return;
-			}
+		let item = this.items.get(key);
+		if (item) {
+			item.value = value;
+			item.time = this.time++;
+			return;
 		}
-		const item = new Item(key, value, this.time++);
-		if (this.items.length < this.capacity) {
-			this.items.push(item);
+		item = new Item(value, this.time++);
+		if (this.items.size < this.capacity) {
+			this.items.set(key, item);
 		} else {
-			const index = this.findNewest();
-			this.items[index] = item;
+			const deletedKey = this.findNewest();
+			this.items.delete(deletedKey);
+			this.items.set(key, item);
 		}
 	}
 
 	private findNewest(): number {
-		let minTime = 0, index = -1;
-		for (let i = 0; i < this.items.length; ++i) {
-			if (index === -1 || this.items[i].time < minTime) {
-				index = i;
-				minTime = this.items[i].time;
+		let minTime = 0, key = -1;
+		const entries = this.items.entries();
+		for (const entry of entries) {
+			const time = entry[1].time;
+			if (key === -1 || time < minTime) {
+				key = entry[0];
+				minTime = time;
 			}
 		}
-		return index;
+		return key;
 	}
 }
 
