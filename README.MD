@@ -1015,3 +1015,14 @@ Earlier we already had a task where the student MUST know what does "preorder tr
 * My score:
 	* Time: 567 ms, beats 7%
 	* Memory: 105 MB, beats 99%
+
+## 147. Insertion Sort List
+* Difficulty: Medium
+* Folder name: `insertion-sort-list`
+
+## 148. Sort List
+* Difficulty: Medium
+* Folder name: `sort-list`
+* Hint: no
+* My score:
+	* Time: 
