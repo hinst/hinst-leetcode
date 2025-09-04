@@ -22,8 +22,11 @@ class LRUCache {
 	
 	put(key: number, value: number): void {
 		for (const item of this.items) {
-			if (item.key === key)
+			if (item.key === key) {
 				item.value = value;
+				item.time = this.time++;
+				return;
+			}
 		}
 		const item = new Item(key, value, this.time++);
 		if (this.items.length < this.capacity) {
