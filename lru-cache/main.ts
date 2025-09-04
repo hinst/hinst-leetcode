@@ -27,13 +27,11 @@ class LRUCache {
 			return;
 		}
 		item = new Item(value, this.time++);
-		if (this.items.size < this.capacity) {
-			this.items.set(key, item);
-		} else {
+		if (this.items.size >= this.capacity) {
 			const deletedKey = this.findNewest();
 			this.items.delete(deletedKey);
-			this.items.set(key, item);
 		}
+		this.items.set(key, item);
 	}
 
 	private findNewest(): number {
