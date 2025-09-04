@@ -1007,3 +1007,7 @@ Earlier we already had a task where the student MUST know what does "preorder tr
 * My score:
 	* Time: 0 ms, beats 100%
 	* Memory: 55 MB, beats 42%
+
+## 146. LRU Cache
+* Difficulty: Medium
+* Folder name: `lru-cache`
