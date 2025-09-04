@@ -1011,3 +1011,7 @@ Earlier we already had a task where the student MUST know what does "preorder tr
 ## 146. LRU Cache
 * Difficulty: Medium
 * Folder name: `lru-cache`
+* Hint: no
+* My score:
+	* Time: 567 ms, beats 7%
+	* Memory: 105 MB, beats 99%
