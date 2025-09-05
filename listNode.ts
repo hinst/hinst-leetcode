@@ -24,3 +24,11 @@ export function buildListNodeChain(items: number[]): ListNode | null {
 	}
 	return head;
 }
+
+export function unwrapListNodeChain(head: ListNode | null): number[] {
+	const items: number[] = [];
+	for (let item = head; item; item = item.next) {
+		items.push(item.val);
+	}
+	return items;
+}
