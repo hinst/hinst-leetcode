@@ -1,16 +1,47 @@
-import { ListNode } from '../listNode.ts';
+import { buildListNodeChain, ListNode, unwrapListNodeChain } from '../listNode.ts';
+
+class ListBuilder {
+	head: ListNode | null = null;
+
+	add(newValue: number) {
+		const item = new ListNode(newValue);
+		if (!this.head) {
+			this.head = item;
+			return;
+		}
+		const newItem = new ListNode(newValue);
+		let previousItem: ListNode | null = null;
+		let found = false;
+		for (let item: ListNode | null = this.head; item; item = item.next) {
+			if (newValue <= item.val) {
+				if (previousItem) {
+					previousItem.next = newItem;
+					newItem.next = item;
+				} else {
+					this.head = newItem;
+					newItem.next = item;
+				}
+				found = true;
+				break;
+			}
+			previousItem = item;
+		}
+		if (!found && previousItem)
+			previousItem.next = newItem;
+	}
+}
 
 function insertionSortList(head: ListNode | null): ListNode | null {
-	const items: ListNode[] = [];
-    for (let item = head; item; item = item.next)
-		items.push(item);
-	items.sort((a, b) => a.val - b.val);
-	for (let i = 0; i < items.length; ++i) {
-		const nextItem = (i < items.length - 1) ? items[i + 1] : null;
-		items[i].next = nextItem;
+	const builder = new ListBuilder();
+	for (let item = head; item; item = item.next) {
+		builder.add(item.val);
 	}
-	return items[0] || null;
+	return builder.head;
 }
 
 if (import.meta.main) {
+	const inputList = buildListNodeChain([4,2,1,3]);
+	console.log(unwrapListNodeChain(inputList));
+	const sortedList = insertionSortList(inputList);
+	console.log(unwrapListNodeChain(sortedList));
 }
