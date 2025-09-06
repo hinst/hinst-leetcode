@@ -27,6 +27,10 @@ function maxPoints(points: Point[]): number {
 */
 
 function check(a: Point, b: Point, c: Point) {
+	if (a[0] === b[0] && b[0] === c[0])
+		return true;
+	if (a[1] === b[1] && b[1] === c[1])
+		return true;
 	return (b[0] - a[0]) / (b[1] - a[1]) === (c[0] - b[0]) / (c[1] - b[1]);
 }
 
@@ -34,4 +38,6 @@ function check(a: Point, b: Point, c: Point) {
 export const maxPointsEx = maxPoints;
 
 if (import.meta.main) {
+	const points: Point[] = [[2,3],[3,3],[-5,3]];
+	console.log(check(points[0], points[1], points[2]));
 }
