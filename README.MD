@@ -1031,3 +1031,7 @@ Earlier we already had a task where the student MUST know what does "preorder tr
 * My score:
 	* Time: 19 ms, beats 84%
 	* Memory: 79 MB, beats 67%
+
+## 149. Max Points on a Line
+* Difficulty: Hard
+* Folder name: max-points-on-a-line
