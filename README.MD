@@ -1043,3 +1043,7 @@ Earlier we already had a task where the student MUST know what does "preorder tr
 ## 150. Evaluate Reverse Polish Notation
 * Difficulty: Medium
 * Folder name: `evaluate-reverse-polish-notation`
+* Hint: the Wikipedia page linked in the description had the answer
+* My score:
+	* Time: 8 ms, beats 40%
+	* Memory: 58 MB, beats 81%

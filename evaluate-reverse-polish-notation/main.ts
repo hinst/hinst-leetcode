@@ -3,26 +3,26 @@ function evalRPN(tokens: string[]): number {
 	for (const token of tokens) {
 		switch (token) {
 			case '+': {
-				const a = stack.pop() || 0;
 				const b = stack.pop() || 0;
+				const a = stack.pop() || 0;
 				stack.push(a + b);
 				break;
 			}
 			case '-': {
-				const a = stack.pop() || 0;
 				const b = stack.pop() || 0;
+				const a = stack.pop() || 0;
 				stack.push(a - b);
 				break;
 			}
 			case '*': {
-				const a = stack.pop() || 0;
 				const b = stack.pop() || 0;
+				const a = stack.pop() || 0;
 				stack.push(a * b);
 				break;
 			}
 			case '/': {
-				const a = stack.pop() || 0;
 				const b = stack.pop() || 1;
+				const a = stack.pop() || 0;
 				stack.push(Math.trunc(a / b));
 				break;
 			}
@@ -36,5 +36,5 @@ function evalRPN(tokens: string[]): number {
 }
 
 if (import.meta.main) {
-	console.log(evalRPN(["2","1","+","3","*"]));
+	console.log(evalRPN(["4","13","5","/","+"]));
 }
