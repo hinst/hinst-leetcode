@@ -1047,3 +1047,11 @@ Earlier we already had a task where the student MUST know what does "preorder tr
 * My score:
 	* Time: 8 ms, beats 40%
 	* Memory: 58 MB, beats 81%
+
+## 151. Reverse Words in a String
+* Difficulty: Medium
+* Folder name: `reverse-words-in-a-string`
+* Hint: no
+* My score:
+	* Time: 2ms, beats 55%
+	* Memory: 56 MB, beats 82%
