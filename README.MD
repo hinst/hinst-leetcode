@@ -1058,4 +1058,8 @@ Earlier we already had a task where the student MUST know what does "preorder tr
 
 ## 152. Maximum Product Subarray
 * Difficulty: Medium
-* Folder
+* Folder name: `maximum-product-subarray`
+* Hint: no
+* My score:
+	* Time: 509 ms, beats 5%
+	* Memory: 56 MB, beats 51%

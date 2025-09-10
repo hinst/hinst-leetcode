@@ -8,3 +8,7 @@ Deno.test(function addTest() {
 Deno.test(function addTest() {
 	assertEquals(maxProductEx([-2,0,-1]), 0);
 });
+
+Deno.test(function addTest() {
+	assertEquals(maxProductEx([-2]), -2);
+});
