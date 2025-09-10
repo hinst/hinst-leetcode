@@ -1,6 +1,10 @@
-import { assertEquals } from "@std/assert";
-import { add } from "./main.ts";
+import { assertEquals } from '@std/assert';
+import { maxProductEx } from './main.ts';
 
 Deno.test(function addTest() {
-  assertEquals(add(2, 3), 5);
+	assertEquals(maxProductEx([2,3,-2,4]), 6);
+});
+
+Deno.test(function addTest() {
+	assertEquals(maxProductEx([-2,0,-1]), 0);
 });
