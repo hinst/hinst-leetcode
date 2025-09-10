@@ -1055,3 +1055,7 @@ Earlier we already had a task where the student MUST know what does "preorder tr
 * My score:
 	* Time: 2ms, beats 55%
 	* Memory: 56 MB, beats 82%
+
+## 152. Maximum Product Subarray
+* Difficulty: Medium
+* Folder
