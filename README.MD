@@ -1067,3 +1067,7 @@ Earlier we already had a task where the student MUST know what does "preorder tr
 ## 153. Find Minimum in Rotated Sorted Array
 * Difficulty: Medium
 * Folder name: `find-minimum-in-rotated-sorted-array`
+* Hint: no
+* My score:
+	* Time: 0 ms, beats 100%
+	* Memory: 54 MB, beats 81%

@@ -1,6 +1,14 @@
-import { assertEquals } from "@std/assert";
-import { add } from "./main.ts";
+import { assertEquals } from '@std/assert';
+import { findMinEx } from './main.ts';
 
 Deno.test(function addTest() {
-	assertEquals(add(2, 3), 5);
+	assertEquals(findMinEx([3,4,5,1,2]), 1);
+});
+
+Deno.test(function addTest() {
+	assertEquals(findMinEx([4,5,6,7,0,1,2]), 0);
+});
+
+Deno.test(function addTest() {
+	assertEquals(findMinEx([11,13,15,17]), 11);
 });
