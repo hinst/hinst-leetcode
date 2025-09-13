@@ -1083,3 +1083,8 @@ Earlier we already had a task where the student MUST know what does "preorder tr
 ## 155. Min Stack
 * Difficulty: Medium
 * Folder name: `min-stack`
+* Hint: no
+* It appears that storing min elements in their own separated stack is the key here. I initially coded my solution with this assumption, without a clear proof of its correctness in my head, and I got surprised when the code got accepted and passed all 32 of 32 test cases online.
+* My score:
+	* Time: 8 ms, beats 77%
+	* Memory: 66 MB, beats 24%
