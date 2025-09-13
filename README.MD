@@ -1079,3 +1079,7 @@ Earlier we already had a task where the student MUST know what does "preorder tr
 * My score:
 	* Time: 0 ms, beats 100%
 	* Memory: 56 MB, beats 30%
+
+## 155. Min Stack
+* Difficulty: Medium
+* Folder name: `min-stack`
