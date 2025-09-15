@@ -1094,3 +1094,7 @@ Tasks 156...159 require paid subscription.
 ## 160. Intersection of Two Linked Lists
 * Difficulty: Easy
 * Folder name: `intersection-of-two-linked-lists`
+* Hint: no
+* My score:
+	* Time: 57 ms, beats 72%
+	* Memory: 63 MB, beats 53%
