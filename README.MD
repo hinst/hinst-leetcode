@@ -1088,3 +1088,9 @@ Earlier we already had a task where the student MUST know what does "preorder tr
 * My score:
 	* Time: 8 ms, beats 77%
 	* Memory: 66 MB, beats 24%
+
+Tasks 156...159 require paid subscription.
+
+## 160. Intersection of Two Linked Lists
+* Difficulty: Easy
+* Folder name: `intersection-of-two-linked-lists`
