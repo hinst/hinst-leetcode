@@ -1100,3 +1100,7 @@ Tasks 156...159 require paid subscription.
 	* Memory: 63 MB, beats 53%
 
 Task 161 requires paid subscription.
+
+## 162. Find Peak Element
+* Difficulty: Medium
+* Folder name: `find-peak-element`
