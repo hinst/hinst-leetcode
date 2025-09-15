@@ -1098,3 +1098,5 @@ Tasks 156...159 require paid subscription.
 * My score:
 	* Time: 57 ms, beats 72%
 	* Memory: 63 MB, beats 53%
+
+Task 161 requires paid subscription.
