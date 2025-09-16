@@ -1104,3 +1104,4 @@ Task 161 requires paid subscription.
 ## 162. Find Peak Element
 * Difficulty: Medium
 * Folder name: `find-peak-element`
+* Hint: yes
