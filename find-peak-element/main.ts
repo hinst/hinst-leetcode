@@ -6,5 +6,8 @@ function findPeakElement(nums: number[]): number {
 	return -1;
 }
 
+
+export const findPeakElementEx = findPeakElement;
+
 if (import.meta.main) {
 }
