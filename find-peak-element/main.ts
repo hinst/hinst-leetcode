@@ -1,9 +1,13 @@
-function findPeakElement(nums: number[]): number {
-    for (let i = 0; i < nums.length; ++i) {
-		if ((nums[i - 1] < nums[i] || nums[i - 1] === undefined) && (nums[i] > nums[i + 1]) || nums[i + 1] === undefined)
-			return i;
-	}
-	return -1;
+function findPeakElement(items: number[], start = 0, end = items.length): number {
+	if (start === end)
+		return items[start];
+	if (start + 1 === end)
+		return items[start] < items[end] ? end : start;
+	const middle = Math.floor((start + end) / 2);
+	if (items[start] <= items[middle])
+		return findPeakElement(items, middle, end);
+	else
+		return findPeakElement(items, start, middle);
 }
 
 

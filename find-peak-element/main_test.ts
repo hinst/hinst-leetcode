@@ -9,3 +9,9 @@ Deno.test(function findPeakElement() {
 	const peak = findPeakElementEx([1,2,1,3,5,6,4]);
 	assert(peak === 1 || peak === 5);
 });
+
+Deno.test(function findPeakElement() {
+	const peak = findPeakElementEx([1,3,2,1]);
+	assert(peak === 1);
+});
+
