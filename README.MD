@@ -1105,3 +1105,9 @@ Task 161 requires paid subscription.
 * Difficulty: Medium
 * Folder name: `find-peak-element`
 * Hint: yes
+
+Task 163 requires paid subscription.
+
+## 164. Maximum Gap
+* Difficulty: Medium
+* Folder name: `maximum-gap`
