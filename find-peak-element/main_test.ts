@@ -15,3 +15,7 @@ Deno.test(function findPeakElement() {
 	assert(peak === 1);
 });
 
+Deno.test(function findPeakElement() {
+	const peak = findPeakElementEx([1]);
+	assert(peak === 0);
+});
