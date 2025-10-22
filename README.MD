@@ -1119,3 +1119,7 @@ Task 163 requires paid subscription.
 * My score:
 	* Time: 0 ms, beats 100%
 	* Memory: 55 MB, beats 17%
+
+## 166. Fraction to Recurring Decimal
+* Difficulty: Medium
+* Folder name: `fraction-to-recurring-decimal`
