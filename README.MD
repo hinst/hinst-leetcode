@@ -1115,3 +1115,7 @@ Task 163 requires paid subscription.
 ## 165. Compare Version Numbers
 * Difficulty: Medium
 * Folder name: `compare-version-numbers`
+* Hint: no, although I remember nearly identical task discussed back at school
+* My score:
+	* Time: 0 ms, beats 100%
+	* Memory: 55 MB, beats 17%
