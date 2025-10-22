@@ -1111,3 +1111,7 @@ Task 163 requires paid subscription.
 ## 164. Maximum Gap
 * Difficulty: Medium
 * Folder name: `maximum-gap`
+
+## 165. Compare Version Numbers
+* Difficulty: Medium
+* Folder name: `compare-version-numbers`
