@@ -1123,3 +1123,7 @@ Task 163 requires paid subscription.
 ## 166. Fraction to Recurring Decimal
 * Difficulty: Medium
 * Folder name: `fraction-to-recurring-decimal`
+
+## 168. Excel Sheet Column Title
+* Difficulty: Easy
+* Folder name: `excel-sheet-column-title`
