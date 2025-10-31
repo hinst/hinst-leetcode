@@ -1123,6 +1123,10 @@ Task 163 requires paid subscription.
 ## 166. Fraction to Recurring Decimal
 * Difficulty: Medium
 * Folder name: `fraction-to-recurring-decimal`
+* Hint: no
+* My score:
+	* Time: 4 ms, beats 0%
+	* Memory: 63 MB, beats 5%
 
 ## 168. Excel Sheet Column Title
 * Difficulty: Easy

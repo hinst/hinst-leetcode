@@ -4,11 +4,18 @@ const FRACTIONAL_DELIMITER = -2,
 	PATTERN_ENDING = -4;
 
 function fractionToDecimal(numerator: number, denominator: number): string {
+	const sign = Math.sign(numerator) * Math.sign(denominator);
+	numerator = Math.abs(numerator);
+	denominator = Math.abs(denominator);
+
 	let result = divide(numerator, denominator);
 	result = collapse(result);
 	let text = result.map(itemToCharacter).join('');
 	if (text.startsWith('.'))
 		text = '0' + text;
+
+	if (sign < 0)
+		text = '-' + text;
 	return text;
 }
 
