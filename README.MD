@@ -1131,6 +1131,10 @@ Task 163 requires paid subscription.
 ## 167. Two Sum II - Input Array Is Sorted
 * Difficulty: Medium
 * Folder name: `two-sum-ii-input-array-is-sorted`
+* Hint: no
+* My score:
+	* Time: 4 ms, beats 22%
+	* Memory: 57 MB, beats 7%
 
 ## 168. Excel Sheet Column Title
 * Difficulty: Easy
