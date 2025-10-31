@@ -1,4 +1,4 @@
-const LENGTH_LIMIT = Math.pow(10, 4);
+const LENGTH_LIMIT = Math.pow(10, 4) - 1;
 const FRACTIONAL_DELIMITER = -2,
 	PATTERN_BEGINNING = -3,
 	PATTERN_ENDING = -4;
@@ -26,18 +26,23 @@ function itemToCharacter(item: number): string {
 }
 
 function divide(a: number, b: number): number[] {
-	let haveZero = false;
+	if (a === 0)
+		return [0];
+	let isRemainder = false;
 	const result: number[] = [];
+	if (a < b) {
+		result.push(0, FRACTIONAL_DELIMITER);
+		isRemainder = true;
+		a *= 10;
+	}
 	while (a > 0 && result.length < LENGTH_LIMIT) {
-		if (a < b) {
-			result.push(haveZero ? 0 : FRACTIONAL_DELIMITER);
-			haveZero = true;
-			a *= 10;
-			continue;
-		}
 		const whole = Math.trunc(a / b);
 		const remainder = a - whole * b;
 		result.push(whole);
+		if (remainder !== 0 && !isRemainder) {
+			result.push(FRACTIONAL_DELIMITER);
+			isRemainder = true;
+		}
 		a = remainder * 10;
 	}
 	return result;
@@ -98,5 +103,5 @@ function checkPattern(items: number[], length: number): number {
 export const fractionToDecimalEx = fractionToDecimal;
 
 if (import.meta.main) {
-	console.log(fractionToDecimal(10, 55));
+	console.log(fractionToDecimal(parseInt(Deno.args[0]), parseInt(Deno.args[1])));
 }
