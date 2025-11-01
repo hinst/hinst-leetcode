@@ -13,7 +13,7 @@ function getCountOfTrailingZero(n: number) {
 
 function keepWithZeroes(n: number): number {
 	const countOfZero = getCountOfTrailingZero(n);
-	return n % Math.pow(10, countOfZero + 1);
+	return n % Math.pow(10, countOfZero + 4);
 }
 
 function trailingZeroes(n: number): number {
