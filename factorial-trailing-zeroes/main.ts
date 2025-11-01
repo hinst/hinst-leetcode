@@ -11,9 +11,8 @@ function getCountOfTrailingZero(n: number) {
 	return count;
 }
 
-function keepWithZeroes(n: number): number {
-	const countOfZero = getCountOfTrailingZero(n);
-	return n % Math.pow(10, countOfZero + 4);
+function keepTrailingDigits(value: number, count: number): number {
+	return value % Math.pow(10, count);
 }
 
 function trailingZeroes(n: number): number {
@@ -21,11 +20,11 @@ function trailingZeroes(n: number): number {
 	let result = 1;
 	for (let i = 1; i <= n; ++i) {
 		result *= i;
-		result = keepWithZeroes(result);
 		const count = getCountOfTrailingZero(result);
 		for (let i = 0; i < count; ++i)
 			result = Math.trunc(result / 10);
 		zeroCount += count;
+		result = keepTrailingDigits(result, 5);
 	}
 	return zeroCount;
 }
