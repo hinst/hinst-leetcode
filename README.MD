@@ -1159,5 +1159,5 @@ Task 170 is locked behind LeetCode paywall.
 * Folder: `excel-sheet-column-number`
 * Hint: no
 * My score:
-	* Time: 51 ms, beats 5%
-	* Memory: 64 MB, beats 5%
+	* Time: 1 ms, beats 54%
+	* Memory: 56 MB, beats 92%
