@@ -11,13 +11,24 @@ function getCountOfZero(n: number) {
 	return count;
 }
 
+function keepWithZeroes(n: number): number {
+	const countOfZero = getCountOfZero(n);
+	return n % Math.pow(10, countOfZero + 1);
+}
+
 function trailingZeroes(n: number): number {
 	let result = 1;
 	for (let i = 1; i <= n; ++i) {
 		result *= i;
+		result = keepWithZeroes(result);
 	}
 	return getCountOfZero(result);
 }
+
+
+// ---
+
+export const trailingZeroesEx = trailingZeroes;
 
 if (import.meta.main) {
 	console.log(trailingZeroes(parseInt(Deno.args[0])));

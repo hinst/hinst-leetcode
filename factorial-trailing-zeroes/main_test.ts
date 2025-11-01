@@ -1,6 +1,12 @@
-import { assertEquals } from "@std/assert";
-import { add } from "./main.ts";
+import { assertEquals } from '@std/assert';
+import { trailingZeroesEx } from './main.ts';
 
-Deno.test(function addTest() {
-	assertEquals(add(2, 3), 5);
+Deno.test(function trailingZeroes() {
+	assertEquals(trailingZeroesEx(3), 0);
+});
+Deno.test(function trailingZeroes() {
+	assertEquals(trailingZeroesEx(5), 1);
+});
+Deno.test(function trailingZeroes() {
+	assertEquals(trailingZeroesEx(0), 0);
 });
