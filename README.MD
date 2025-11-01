@@ -1151,3 +1151,13 @@ Task 163 requires paid subscription.
 * My score:
 	* Time: 5 ms, beats 44%
 	* Memory: 60 MB, beats 20%
+
+Task 170 is locked behind LeetCode paywall.
+
+## 171. Excel Sheet Column Number
+* Difficulty: Easy
+* Folder: `excel-sheet-column-number`
+* Hint: no
+* My score:
+	* Time: 51 ms, beats 5%
+	* Memory: 64 MB, beats 5%
