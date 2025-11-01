@@ -1147,3 +1147,7 @@ Task 163 requires paid subscription.
 ## 169. Majority Element
 * Difficulty: Easy
 * Folder name: `majority-element`
+* Hint: no
+* My score:
+	* Time: 5 ms, beats 44%
+	* Memory: 60 MB, beats 20%
