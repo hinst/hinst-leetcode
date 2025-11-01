@@ -1169,3 +1169,11 @@ Task 170 is locked behind LeetCode paywall.
 * My score:
 	* Time: 3 ms, beats 17%
 	* Memory: 56 MB, beats 26%
+
+## 173. Binary Search Tree Iterator
+* Difficulty: Medium
+* Folder: `binary-search-tree-iterator`
+* Hint: no
+* My score:
+	* Time: 7 ms, beats 91%
+	* Memory: 69 MB, beats 66%
