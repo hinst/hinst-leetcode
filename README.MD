@@ -1161,3 +1161,7 @@ Task 170 is locked behind LeetCode paywall.
 * My score:
 	* Time: 1 ms, beats 54%
 	* Memory: 56 MB, beats 92%
+
+## 172. Factorial Trailing Zeroes
+* Difficulty: Medium
+* Folder: `factorial-trailing-zeroes`
