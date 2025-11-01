@@ -1177,3 +1177,7 @@ Task 170 is locked behind LeetCode paywall.
 * My score:
 	* Time: 7 ms, beats 91%
 	* Memory: 69 MB, beats 66%
+
+## 174. Dungeon Game
+* Difficulty: Hard
+* Folder: `dungeon-game`
