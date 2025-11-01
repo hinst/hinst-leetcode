@@ -1,16 +1,3 @@
-function shiftTrailingZero(n: number) {
-	let count = 0;
-	while (n > 0) {
-		const remainder = n % 10;
-		if (remainder === 0)
-			++count;
-		else
-			break;
-		n = Math.trunc(n / 10);
-	}
-	return count;
-}
-
 const LIMITER = 100_000;
 
 function trailingZeroes(n: number): number {
@@ -18,10 +5,10 @@ function trailingZeroes(n: number): number {
 	let result = 1;
 	for (let i = 1; i <= n; ++i) {
 		result *= i;
-		const count = shiftTrailingZero(result);
-		for (let i = 0; i < count; ++i)
-			result = Math.trunc(result / 10);
-		zeroCount += count;
+		while (result % 10 === 0) {
+			result = result / 10;
+			++zeroCount;
+		}
 		result = result % LIMITER;
 	}
 	return zeroCount;
