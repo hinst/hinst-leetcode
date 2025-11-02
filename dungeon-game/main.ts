@@ -1,3 +1,5 @@
+import { formatMatrix } from '../array.ts';
+
 class Dungeon {
 	private readonly minHealths: number[][] = [];
 
@@ -7,32 +9,20 @@ class Dungeon {
 	}
 
 	calculate(): number {
-		return (-1) * this.next(0, 0, 0, 0) + 1;
+		this.rewind(this.costs.length - 1, this.costs[0].length - 1, 0);
+		console.log(formatMatrix(this.costs));
+		console.log();
+		console.log(formatMatrix(this.minHealths));
+		return 0;
 	}
 
-	private next(row: number, column: number, currentHealth: number, minHealth: number): number {
-		const cost = this.costs[row][column];
-		currentHealth += cost;
-		minHealth = Math.min(minHealth, currentHealth);
-
-		const previousHealth = this.minHealths[row][column];
-		if (previousHealth != null && minHealth < previousHealth) {
-			return Number.MIN_SAFE_INTEGER;
-		}
-		this.minHealths[row][column] = minHealth;
-
-		// console.log({row, column, currentCost: currentHealth, minHealth});
-		const isBottomAvailable = row < this.costs.length - 1;
-		const isRightAvailable = column < this.costs[row].length - 1;
-		if (!isBottomAvailable && !isRightAvailable)
-			return minHealth;
-		const nextHealth: number[] = [];
-		if (isBottomAvailable)
-			nextHealth.push(this.next(row + 1, column, currentHealth, minHealth));
-		if (isRightAvailable)
-			nextHealth.push(this.next(row, column + 1, currentHealth, minHealth));
-		minHealth = Math.min(minHealth, Math.max(...nextHealth));
-		return minHealth;
+	private rewind(row: number, column: number, health: number) {
+		health += this.costs[row][column];
+		this.minHealths[row][column] = health;
+		if (row > 0)
+			this.rewind(row - 1, column, health);
+		if (column > 0)
+			this.rewind(row, column - 1, health);
 	}
 }
 
@@ -48,5 +38,5 @@ import { dungeon } from "./test41.ts";
 
 if (import.meta.main) {
 	const dungeon1 = [[-2,-3,3],[-5,-10,1],[10,30,-5]];
-	console.log(calculateMinimumHP(dungeon));
+	console.log(calculateMinimumHP(dungeon1));
 }
