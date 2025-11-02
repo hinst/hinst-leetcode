@@ -1,5 +1,9 @@
 class Dungeon {
+	private readonly minHealths: number[][] = [];
+
 	constructor(readonly costs: number[][]) {
+		for (let row = 0; row < costs.length; ++row)
+			this.minHealths.push(new Array(costs[row].length));
 	}
 
 	calculate(): number {
@@ -10,6 +14,13 @@ class Dungeon {
 		const cost = this.costs[row][column];
 		currentHealth += cost;
 		minHealth = Math.min(minHealth, currentHealth);
+
+		const previousHealth = this.minHealths[row][column];
+		if (previousHealth != null && minHealth < previousHealth) {
+			return Number.MIN_SAFE_INTEGER;
+		}
+		this.minHealths[row][column] = minHealth;
+
 		// console.log({row, column, currentCost: currentHealth, minHealth});
 		const isBottomAvailable = row < this.costs.length - 1;
 		const isRightAvailable = column < this.costs[row].length - 1;
@@ -31,7 +42,11 @@ function calculateMinimumHP(dungeon: number[][]): number {
 }
 
 
+// ---
+
+import { dungeon } from "./test41.ts";
+
 if (import.meta.main) {
-	const dungeon = [[-2,-3,3],[-5,-10,1],[10,30,-5]];
+	const dungeon1 = [[-2,-3,3],[-5,-10,1],[10,30,-5]];
 	console.log(calculateMinimumHP(dungeon));
 }
