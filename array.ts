@@ -1,5 +1,5 @@
 export function formatMatrix<T>(array: T[][]) {
-	const texts = array.map(row => row.map(item => '' + item));
+	const texts = array.map(row => row.map(item => item != null ? ('' + item) : ''));
 	let maxWidth = 0;
 	for (const text of texts.flatMap(item => item))
 		if (maxWidth < text.length)
