@@ -3,7 +3,7 @@ class Dungeon {
 	}
 
 	calculate(): number {
-		return this.next(0, 0, 0, 0);
+		return (-1) * this.next(0, 0, 0, 0) + 1;
 	}
 
 	private next(row: number, column: number, currentHealth: number, minHealth: number): number {
