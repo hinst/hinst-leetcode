@@ -13,3 +13,7 @@ Deno.test(function calculateMinimumHp_37() {
 	const dungeon = [[3,0,-3],[-3,-2,-2],[3,1,-3]];
 	assertEquals(calculateMinimumHpEx(dungeon), 1);
 });
+Deno.test(function calculateMinimumHp_38() {
+	const dungeon = [[1,-3,3],[0,-2,0],[-3,-3,-3]];
+	assertEquals(calculateMinimumHpEx(dungeon), 3);
+});
