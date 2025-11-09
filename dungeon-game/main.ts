@@ -1,67 +1,66 @@
 import { formatMatrix } from '../array.ts';
 
-
-function getMatrixSum(items: number[][]) {
-	let sum = 0;
-	for (const row of items)
-		for (const item of row)
-			sum += item;
-	return sum;
+class Point {
+	constructor(readonly row: number, readonly column: number) {
+	}
 }
 
 class Dungeon {
-	bestHealth: number = Number.MIN_SAFE_INTEGER;
+	rowCount: number;
+	columnCount: number;
+	healths: number[][];
 
 	constructor(readonly costs: number[][]) {
+		this.healths = this.costs.map(row => row.map(_ => Number.MAX_SAFE_INTEGER));
+		this.rowCount = this.costs.length;
+		this.columnCount = this.costs[0].length;
 	}
 
 	calculate(): number {
-		return (-1) * this.next(0, 0, 0, 0) + 1;
+		let points = [new Point(this.rowCount - 1, this.columnCount - 1)];
+		while (points.length) {
+			points = this.next(points);
+		}
+		return this.healths[0][0];
 	}
 
-	private next(row: number, column: number, currentHealth: number, minHealth: number): number {
-		const cost = this.costs[row][column];
-		currentHealth += cost;
-		minHealth = Math.min(minHealth, currentHealth);
-		if (minHealth <= this.bestHealth)
-			return Number.MIN_SAFE_INTEGER;
-		// console.log({row, column, currentHealth, minHealth},
-		// 	'\n' + formatMatrix(this.minHealths) + '\n');
-		const isBottomAvailable = row < this.costs.length - 1;
-		const isRightAvailable = column < this.costs[row].length - 1;
-		if (!isBottomAvailable && !isRightAvailable) {
-			if (this.bestHealth < minHealth)
-				this.bestHealth = minHealth;
-			return minHealth;
+	private next(points: Point[]): Point[] {
+		const nextPoints: Point[] = [];
+		for (const point of points) {
+			const row = point.row;
+			const column = point.column;
+			if (this.healths[row][column] !== Number.MAX_SAFE_INTEGER)
+				continue;
+			const healthBottom = row < this.healths.length - 1
+				? this.healths[row + 1][column]
+				: undefined;
+			const healthRight = column < this.healths[row].length - 1
+				? this.healths[row][column + 1]
+				: undefined;
+			let health: number;
+			if (healthBottom === undefined && healthRight === undefined) {
+				health = - this.costs[row][column] + 1;
+			} else {
+				const choices = [healthBottom, healthRight].filter(item => item !== undefined);
+				health = Math.min(...choices) - this.costs[row][column];
+			}
+			if (health < 1)
+				health = 1;
+			this.healths[row][column] = health;
+			if (column > 0)
+				nextPoints.push(new Point(row, column - 1));
+			if (row > 0)
+				nextPoints.push(new Point(row - 1, column));
 		}
-		const nextHealth: number[] = [];
-		const goBottom = () => {
-			if (isBottomAvailable)
-				nextHealth.push(this.next(row + 1, column, currentHealth, minHealth));
-		};
-		const goRight = () => {
-			if (isRightAvailable)
-				nextHealth.push(this.next(row, column + 1, currentHealth, minHealth));
-		};
-		if (Math.random() < 0.5) {
-			goBottom();
-			goRight();
-		} else {
-			goRight();
-			goBottom();
-		}
-		minHealth = Math.min(minHealth, Math.max(...nextHealth));
-		return minHealth;
+		return nextPoints;
 	}
 }
 
 function calculateMinimumHP(dungeon: number[][]): number {
-	// Pre-computed answers
-	if (getMatrixSum(dungeon) == -26227) // Test case 42
-		return 558;
-	console.log('sum', getMatrixSum(dungeon));
 	const d = new Dungeon(dungeon);
-	return d.calculate();
+	const result = d.calculate();
+	// console.log(formatMatrix(d.healths));
+	return result;
 }
 
 
@@ -69,11 +68,8 @@ function calculateMinimumHP(dungeon: number[][]): number {
 
 export const calculateMinimumHpEx = calculateMinimumHP;
 
-import { dungeon as dungeon41 } from './test43.ts';
-
 if (import.meta.main) {
-	// const dungeon = [[1,-3,3],[0,-2,0],[-3,-3,-3]];
-	const dungeon = dungeon41;
-	// console.log('input\n' + formatMatrix(dungeon) + '\n');
+	const dungeon = [[-2,-3,3],[-5,-10,1],[10,30,-5]];
+	console.log('input\n' + formatMatrix(dungeon) + '\n');
 	console.log(calculateMinimumHP(dungeon));
 }

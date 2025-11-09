@@ -1181,3 +1181,8 @@ Task 170 is locked behind LeetCode paywall.
 ## 174. Dungeon Game
 * Difficulty: Hard
 * Folder: `dungeon-game`
+* Hint: yes
+	* https://algo.monster/liteproblems/174
+* My score:
+	* Time: 8 ms, beats 15%
+	* Memory: 61 MB, beats 6%
