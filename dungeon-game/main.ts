@@ -1,28 +1,41 @@
-import { formatMatrix } from '../array.ts';
-
 class Dungeon {
-	private readonly minHealths: number[][] = [];
+	minHealths: number[][];
 
 	constructor(readonly costs: number[][]) {
-		for (let row = 0; row < costs.length; ++row)
-			this.minHealths.push(new Array(costs[row].length));
+		this.minHealths = costs.map(row => row.map(_ => Number.MIN_SAFE_INTEGER));
 	}
 
 	calculate(): number {
-		this.rewind(this.costs.length - 1, this.costs[0].length - 1, 0);
-		console.log(formatMatrix(this.costs));
-		console.log();
-		console.log(formatMatrix(this.minHealths));
-		return 0;
+		return (-1) * this.next(0, 0, 0, 0) + 1;
 	}
 
-	private rewind(row: number, column: number, health: number) {
-		health += this.costs[row][column];
-		this.minHealths[row][column] = health;
-		if (row > 0)
-			this.rewind(row - 1, column, health);
-		if (column > 0)
-			this.rewind(row, column - 1, health);
+	private next(row: number, column: number, currentHealth: number, minHealth: number): number {
+		const cost = this.costs[row][column];
+		currentHealth += cost;
+		minHealth = Math.min(minHealth, currentHealth);
+		// console.log({row, column, currentCost: currentHealth, minHealth});
+		const isBottomAvailable = row < this.costs.length - 1;
+		const isRightAvailable = column < this.costs[row].length - 1;
+		if (!isBottomAvailable && !isRightAvailable)
+			return minHealth;
+		const nextHealth: number[] = [];
+		const goBottom = () => {
+			if (isBottomAvailable)
+				nextHealth.push(this.next(row + 1, column, currentHealth, minHealth));
+		};
+		const goRight = () => {
+			if (isRightAvailable)
+				nextHealth.push(this.next(row, column + 1, currentHealth, minHealth));
+		};
+		if (Math.random() < 0.5) {
+			goBottom();
+			goRight();
+		} else {
+			goRight();
+			goBottom();
+		}
+		minHealth = Math.min(minHealth, Math.max(...nextHealth));
+		return minHealth;
 	}
 }
 
@@ -34,9 +47,11 @@ function calculateMinimumHP(dungeon: number[][]): number {
 
 // ---
 
+export const calculateMinimumHpEx = calculateMinimumHP;
+
 import { dungeon } from "./test41.ts";
 
 if (import.meta.main) {
 	const dungeon1 = [[-2,-3,3],[-5,-10,1],[10,30,-5]];
-	console.log(calculateMinimumHP(dungeon1));
+	console.log(calculateMinimumHP(dungeon));
 }
