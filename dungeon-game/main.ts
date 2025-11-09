@@ -1,8 +1,8 @@
 import { formatMatrix } from '../array.ts';
 
 class Dungeon {
-	rowCount: number;
-	columnCount: number;
+	readonly rowCount: number;
+	readonly columnCount: number;
 	healths: number[][];
 
 	constructor(readonly costs: number[][]) {
@@ -19,23 +19,17 @@ class Dungeon {
 	}
 
 	private next(row: number, column: number) {
-		if (this.healths[row][column] !== Number.MAX_SAFE_INTEGER)
-			return;
 		const healthBottom = row < this.rowCount - 1
 			? this.healths[row + 1][column]
-			: undefined;
+			: Number.MAX_SAFE_INTEGER;
 		const healthRight = column < this.columnCount - 1
 			? this.healths[row][column + 1]
-			: undefined;
-		let health = 0;
-		if (healthBottom === undefined && healthRight === undefined)
+			: Number.MAX_SAFE_INTEGER;
+		let health: number;
+		if (healthBottom === Number.MAX_SAFE_INTEGER && healthRight === Number.MAX_SAFE_INTEGER)
 			health = - this.costs[row][column] + 1;
-		else if (healthBottom !== undefined && healthRight !== undefined)
+		else
 			health = Math.min(healthBottom, healthRight) - this.costs[row][column];
-		else if (healthBottom !== undefined)
-			health = healthBottom - this.costs[row][column];
-		else if (healthRight !== undefined)
-			health = healthRight - this.costs[row][column];;
 		if (health < 1)
 			health = 1;
 		this.healths[row][column] = health;
