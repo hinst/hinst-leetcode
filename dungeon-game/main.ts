@@ -27,13 +27,15 @@ class Dungeon {
 		const healthRight = column < this.columnCount - 1
 			? this.healths[row][column + 1]
 			: undefined;
-		let health: number;
-		if (healthBottom === undefined && healthRight === undefined) {
+		let health = 0;
+		if (healthBottom === undefined && healthRight === undefined)
 			health = - this.costs[row][column] + 1;
-		} else {
-			const choices = [healthBottom, healthRight].filter(item => item !== undefined);
-			health = Math.min(...choices) - this.costs[row][column];
-		}
+		else if (healthBottom !== undefined && healthRight !== undefined)
+			health = Math.min(healthBottom, healthRight) - this.costs[row][column];
+		else if (healthBottom !== undefined)
+			health = healthBottom - this.costs[row][column];
+		else if (healthRight !== undefined)
+			health = healthRight - this.costs[row][column];;
 		if (health < 1)
 			health = 1;
 		this.healths[row][column] = health;
