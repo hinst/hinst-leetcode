@@ -1206,3 +1206,7 @@ Task 170 is locked behind LeetCode paywall.
 * Folder name: `nth-highest-salary`
 * My score:
 	* Time: 380 ms, beats 91%
+
+## 178. Rank Scores
+* Difficulty: Medium
+* Folder name: `rank-scores`
