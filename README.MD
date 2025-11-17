@@ -1200,3 +1200,9 @@ Task 170 is locked behind LeetCode paywall.
 * Hint: Learning SQL
 * My score:
 	* Time: 258 ms, beats 59%
+
+## 177. Nth Highest Salary
+* Difficulty: Medium
+* Folder name: `nth-highest-salary`
+* My score:
+	* Time: 380 ms, beats 91%
