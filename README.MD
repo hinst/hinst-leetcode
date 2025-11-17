@@ -1186,3 +1186,17 @@ Task 170 is locked behind LeetCode paywall.
 * My score:
 	* Time: 5 ms, beats 46%
 	* Memory: 59 MB, beats 9%
+
+## 175. Combine Two Tables
+* Difficulty: Easy
+* Folder name: `combine-two-tables`
+* Hint: Learning SQL
+* My score:
+	* Time: 445 ms, beats 16%
+
+## 176. Second Highest Salary
+* Difficulty: Medium
+* Folder name: `second-highest-salary`
+* Hint: Learning SQL
+* My score:
+	* Time: 258 ms, beats 59%
