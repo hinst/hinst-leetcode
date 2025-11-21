@@ -1,25 +1,21 @@
 function largestNumber(inputs: number[]): string {
-	const items = inputs.map(item => '' + item);
-	items.sort(compareExtended);
-	console.log(items);
-	items.reverse();
-	return items.join('');
+	inputs.sort(compare);
+	inputs.reverse();
+	let text =  inputs.join('');
+	while (text.at(0) === '0' && text.length > 1)
+		text = text.substring(1);
+	return text;
 }
 
-function compare(a: string, b: string) {
-	return a < b
-		? -1
-		: a > b
-			? 1
-			: 0;
-}
-
-function compareExtended(a: string, b: string) {
-	if (a.startsWith(b) && a.length > b.length)
+function compare(a: number, b: number) {
+	const aText = '' + a + b;
+	const bText = '' + b + a;
+	if (aText < bText)
 		return -1;
-	if (b.startsWith(a) && b.length > a.length)
+	else if (aText > bText)
 		return 1;
-	return compare(a, b);
+	else
+		return 0;
 }
 
 if (import.meta.main) {

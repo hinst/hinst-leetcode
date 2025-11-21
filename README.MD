@@ -1217,3 +1217,7 @@ Task 170 is locked behind LeetCode paywall.
 ## 179. Largest Number
 * Difficulty: Medium
 * Folder name: `largest-number`
+* Hint: no
+* My score:
+	* Time: 1 ms, beats 93%
+	* Memory: 57 MB, beats 92%
