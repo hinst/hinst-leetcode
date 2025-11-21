@@ -1210,3 +1210,6 @@ Task 170 is locked behind LeetCode paywall.
 ## 178. Rank Scores
 * Difficulty: Medium
 * Folder name: `rank-scores`
+* Hint: yes
+* My score:
+	* Time: 785 ms, beats 9%
