@@ -1221,3 +1221,7 @@ Task 170 is locked behind LeetCode paywall.
 * My score:
 	* Time: 1 ms, beats 93%
 	* Memory: 57 MB, beats 92%
+
+## 180. Consecutive Numbers
+* Difficulty: Medium
+* Folder name: `consecutive-numbers`
