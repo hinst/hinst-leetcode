@@ -1213,3 +1213,7 @@ Task 170 is locked behind LeetCode paywall.
 * Hint: yes
 * My score:
 	* Time: 785 ms, beats 9%
+
+## 179. Largest Number
+* Difficulty: Medium
+* Folder name: `largest-number`
