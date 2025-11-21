@@ -1228,3 +1228,10 @@ Task 170 is locked behind LeetCode paywall.
 * Hint: yes
 * My score:
 	* Time: 536 ms, beats 47%
+
+## 181. Employees Earning More Than Their Managers
+* Difficulty: Easy
+* Folder name: `employees-earning-more-than-their-managers`
+* Hint: looking up the syntax for inner join
+* My score:
+	* Time: 333 ms, beats 87%
