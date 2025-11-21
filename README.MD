@@ -1225,3 +1225,6 @@ Task 170 is locked behind LeetCode paywall.
 ## 180. Consecutive Numbers
 * Difficulty: Medium
 * Folder name: `consecutive-numbers`
+* Hint: yes
+* My score:
+	* Time: 536 ms, beats 47%
