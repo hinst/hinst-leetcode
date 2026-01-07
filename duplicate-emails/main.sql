@@ -1,0 +1,1 @@
+select distinct email as Email from person mainPerson where (select count(*) from person subPerson where mainPerson.email=subPerson.email) > 1;

@@ -1,4 +1,4 @@
-# My Leetcode
+# My Leetcode. Year 2023
 
 ## 2. Add two numbers
 I wrote the solution on my own. First I wrote the solution in TypeScript, then I converted it to Rust. The Rust version ended up being 60 lines, meanwhile TypeScript version is only 30 lines. Later I saw shorter solutions in Rust on Leetcode.
@@ -426,7 +426,7 @@ My approach for this task ended up being as follows: transfer the value from the
 as long as the current value is not equal to the previous value and not equal to the last value.
 My score: duration 0 ms, beats 100%; memory 51 MB, beats 68%.
 
-# My Leetcode Year 2025
+# My Leetcode. Year 2025
 
 ## 83. Remove Duplicates from Sorted List
 This task is similar to the previous task, easier even.
@@ -1235,3 +1235,12 @@ Task 170 is locked behind LeetCode paywall.
 * Hint: looking up the syntax for inner join
 * My score:
 	* Time: 333 ms, beats 87%
+
+
+# My Leetcode. Year 2026
+
+## 182. Duplicate Emails
+* Difficulty: Easy
+* Folder name: `duplicate-emails`
+* My score:
+	* Time: 568 ms, beats 5%
