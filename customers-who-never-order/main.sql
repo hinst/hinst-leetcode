@@ -1,0 +1,1 @@
+select name as Customers from Customers where (select count(*) from Orders where Customers.id=Orders.customerId) = 0;
