@@ -1251,3 +1251,7 @@ Task 170 is locked behind LeetCode paywall.
 * Hint: no
 * My score
 	* Time: 555 ms, beats 27%
+
+## 184. Department Highest Salary
+* Difficulty: Medium
+* Folder name: `department-highest-salary`
