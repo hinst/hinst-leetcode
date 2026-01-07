@@ -1249,9 +1249,12 @@ Task 170 is locked behind LeetCode paywall.
 * Difficulty: Easy
 * Folder name: `customers-who-never-order`
 * Hint: no
-* My score
+* My score:
 	* Time: 555 ms, beats 27%
 
 ## 184. Department Highest Salary
 * Difficulty: Medium
 * Folder name: `department-highest-salary`
+* Hint: looking up `join` and `group by` syntax online on W3Schools
+* My score:
+	* Time: 592 ms, beats 76%
