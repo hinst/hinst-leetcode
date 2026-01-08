@@ -1258,3 +1258,10 @@ Task 170 is locked behind LeetCode paywall.
 * Hint: looking up `join` and `group by` syntax online on W3Schools
 * My score:
 	* Time: 592 ms, beats 76%
+
+## 185. Department Top Three Salaries
+* Difficulty: Hard
+* Folder name: `department-top-three-salaries`
+* Hint: looking up `rank` calculation online
+* My score: 
+	* Time: 939 ms, beats 45%
