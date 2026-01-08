@@ -1265,3 +1265,7 @@ Task 170 is locked behind LeetCode paywall.
 * Hint: looking up `rank` calculation online
 * My score: 
 	* Time: 939 ms, beats 45%
+
+Task 186 is hidden behind a paywall.
+
+## 187. Repeated DNA Sequences
