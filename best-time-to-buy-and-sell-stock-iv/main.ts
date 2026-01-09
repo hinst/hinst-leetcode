@@ -18,6 +18,19 @@ class Finder {
 			const price2 = this.prices[beginning + 1];
 			return price1 < price2 ? price2 - price1 : 0;
 		}
+		if (stepCount === 1) {
+			let maxPrice = 0;
+			let minPrice = PRICE_LIMIT;
+			for (let i = beginning; i < ending; ++i) {
+				const price = this.prices[i];
+				if (price < minPrice)
+					minPrice = price;
+				if (maxPrice < price)
+					maxPrice = price;
+			}
+			console.log('.'.repeat(depth), {beginning, ending, stepCount, minPrice, maxPrice});
+			return minPrice < maxPrice ? maxPrice - minPrice : 0;
+		}
 		let bestProfit = 0;
 		for (let i = beginning + 1; i < ending - 1; ++i) {
 			for (let step = 1; step < stepCount; ++step) {
@@ -26,7 +39,7 @@ class Finder {
 					bestProfit = profit;
 			}
 		}
-		console.log('.'.repeat(depth), {beginning, ending, stepCount, bestProfit});
+		console.log(':'.repeat(depth), {beginning, ending, stepCount, bestProfit});
 		return bestProfit;
 	}
 }
