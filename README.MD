@@ -1269,3 +1269,5 @@ Task 170 is locked behind LeetCode paywall.
 Task 186 is hidden behind a paywall.
 
 ## 187. Repeated DNA Sequences
+* Difficulty: Medium
+* Folder name: `repeated-dna-sequences`
