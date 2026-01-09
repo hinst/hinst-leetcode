@@ -1275,3 +1275,7 @@ Task 186 is hidden behind a paywall.
 * My score:
 	* Time: 18 ms, beats 61%
 	* Memory: 63 MB, beats 76%
+
+## 188. Best Time to Buy and Sell Stock IV
+* Difficulty: Hard
+* Folder name: `best-time-to-buy-and-sell-stock-iv`
