@@ -1271,3 +1271,7 @@ Task 186 is hidden behind a paywall.
 ## 187. Repeated DNA Sequences
 * Difficulty: Medium
 * Folder name: `repeated-dna-sequences`
+* Hint: looking through the comments
+* My score:
+	* Time: 18 ms, beats 61%
+	* Memory: 63 MB, beats 76%
