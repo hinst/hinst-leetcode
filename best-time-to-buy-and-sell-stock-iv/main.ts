@@ -3,74 +3,17 @@ const
 	PRICE_COUNT_LIMIT = 1000,
 	PRICE_MAX_LIMIT = 1000;
 
-class LinkedItem {
-	previous?: LinkedItem;
-	next?: LinkedItem;
-
-	constructor(public readonly value: number) {
-	}
-
-	static build(items: number[]): LinkedItem | undefined {
-		let head: LinkedItem | undefined = undefined;
-		let tail: LinkedItem | undefined = undefined;
-		for (const value of items) {
-			const item = new LinkedItem(value);
-			if (tail) {
-				tail.next = item;
-				item.previous = tail;
-				tail = item;
-			} else {
-				tail = item;
-			}
-			if (!head)
-				head = tail;
-		}
-		return head;
-	}
-
-	collapse() {
-		if (this.previous)
-			this.previous.next = this.next;
-		if (this.next)
-			this.next.previous = this.previous;
-	}
-}
-
-function buildMaxRight(prices: number[]) {
-	const maxRight = new Array(prices.length).fill(0);
-	const sortedPrices = prices.map((price, index) => ({price, index})).sort((a, b) => b.price - a.price);
-	let headPrice = LinkedItem.build(sortedPrices.map(item => item.price));
-	let i = 0;
-	const pointers = new Array<LinkedItem>(prices.length).fill(new LinkedItem(0));
-	for (let linkedItem = headPrice; linkedItem; linkedItem = linkedItem.next, ++i) {
-		pointers[sortedPrices[i].index] = linkedItem;
-	}
-	for (i = 0; i < prices.length; ++i) {
-		maxRight[i] = headPrice?.value || 0;
-		const linkedItem = pointers[i];
-		if (linkedItem === headPrice && linkedItem) {
-			linkedItem.previous = undefined;
-			headPrice = linkedItem.next;
-		} else {
-			linkedItem.collapse();
-		}
-	}
-	return maxRight;
-}
-
 class Finder {
 	private readonly answerCache = new Map<number, number>();
 	private readonly slideCache = new Map<number, number>();
 	/** Maximum price to the right of each [index] */
-	private readonly maxRight: number[];
+	private readonly maxCache = new Map<number, number>();
 
 	constructor(private readonly prices: number[]) {
-		this.maxRight = buildMaxRight(prices);
-		console.log(this.maxRight);
 	}
 
 	findCached(stepCount: number, beginning: number, ending: number): number {
-		const key = this.getKey(stepCount, beginning, ending);
+		const key = this.getAnswerKey(stepCount, beginning, ending);
 		let cachedAnswer = this.answerCache.get(key);
 		if (cachedAnswer !== undefined)
 			return cachedAnswer;
@@ -108,7 +51,7 @@ class Finder {
 		let bestProfit = 0;
 		for (let i = beginning; i < limit; ++i) {
 			const price = this.prices[i];
-			const maxSellingPrice = this.maxRight[i + 1];
+			const maxSellingPrice = this.findMaxCached(beginning + 1, ending);
 			const profit = maxSellingPrice - price;
 			if (bestProfit < profit)
 				bestProfit = profit;
@@ -117,7 +60,7 @@ class Finder {
 	}
 
 	private findSlideCached(beginning: number, ending: number): number {
-		const key = this.getKey(0, beginning, ending);
+		const key = this.getRangeKey(beginning, ending);
 		let cachedAnswer = this.slideCache.get(key);
 		if (cachedAnswer !== undefined) {
 			return cachedAnswer;
@@ -127,10 +70,32 @@ class Finder {
 		return cachedAnswer;
 	}
 
-	private getKey(stepCount: number, beginning: number, ending: number) {
+	private findMax(beginning: number, ending: number): number {
+		let max = 0;
+		for (let i = beginning; i < ending; ++i)
+			if (max < this.prices[i])
+				max = this.prices[i];
+		return max;
+	}
+
+	private findMaxCached(beginning: number, ending: number): number {
+		const key = this.getRangeKey(beginning, ending);
+		let cachedValue = this.maxCache.get(key);
+		if (cachedValue !== undefined)
+			return cachedValue;
+		cachedValue = this.findMax(beginning, ending);
+		this.maxCache.set(key, cachedValue);
+		return cachedValue;
+	}
+
+	private getAnswerKey(stepCount: number, beginning: number, ending: number) {
 		return stepCount +
 			beginning * (STEP_COUNT_LIMIT + 1) +
 			ending * (STEP_COUNT_LIMIT + 1) * (PRICE_COUNT_LIMIT + 1);
+	}
+
+	private getRangeKey(beginning: number, ending: number) {
+		return beginning + ending * (PRICE_COUNT_LIMIT + 1);
 	}
 }
 
