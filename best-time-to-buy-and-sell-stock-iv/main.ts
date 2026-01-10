@@ -4,7 +4,19 @@ const
 	PRICE_LIMIT = 1000;
 
 class Finder {
+	private readonly cache = new Map<string, number>();
+
 	constructor(private readonly prices: number[]) {
+	}
+
+	findCached(stepCount: number, beginning: number, ending: number): number {
+		const key = this.getKey(stepCount, beginning, ending);
+		let cachedAnswer = this.cache.get(key);
+		if (cachedAnswer !== undefined)
+			return cachedAnswer;
+		cachedAnswer = this.find(stepCount, beginning, ending);
+		this.cache.set(key, cachedAnswer);
+		return cachedAnswer;
 	}
 
 	find(stepCount: number, beginning: number, ending: number): number {
@@ -30,8 +42,8 @@ class Finder {
 			}
 			for (let i = beginning + 1; i < ending; ++i) {
 				for (let step = 1; step < stepCount; ++step) {
-					const profit = this.find(step, beginning, i) +
-						this.find(stepCount - step, i, ending);
+					const profit = this.findCached(step, beginning, i) +
+						this.findCached(stepCount - step, i, ending);
 					if (bestProfit < profit)
 						bestProfit = profit;
 				}
@@ -39,6 +51,10 @@ class Finder {
 			--stepCount;
 		}
 		return bestProfit;
+	}
+
+	private getKey(stepCount: number, beginning: number, ending: number) {
+		return stepCount + ';' + beginning + ';' + ending;
 	}
 }
 
