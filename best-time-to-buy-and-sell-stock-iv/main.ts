@@ -37,16 +37,14 @@ class Finder {
 				if (bestProfit < profit)
 					bestProfit = profit;
 			}
-		while (stepCount > 1) {
-			for (let i = beginning + 1; i < ending; ++i) {
-				for (let step = 1; step < stepCount; ++step) {
-					const profit = this.findCached(step, beginning, i) +
-						this.findCached(stepCount - step, i, ending);
-					if (bestProfit < profit)
-						bestProfit = profit;
-				}
+		for (let i = beginning + 1; i < ending; ++i) {
+			for (let leftSteps = 1; leftSteps < stepCount; ++leftSteps) {
+				const rightSteps = stepCount - leftSteps;
+				const profit = this.findCached(leftSteps, beginning, i) +
+					this.findCached(rightSteps, i, ending);
+				if (bestProfit < profit)
+					bestProfit = profit;
 			}
-			--stepCount;
 		}
 		return bestProfit;
 	}
