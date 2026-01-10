@@ -71,11 +71,9 @@ class Finder {
 	}
 
 	private findMax(beginning: number, ending: number): number {
-		let max = 0;
-		for (let i = beginning; i < ending; ++i)
-			if (max < this.prices[i])
-				max = this.prices[i];
-		return max;
+		if (ending - beginning <= 1)
+			return this.prices[beginning];
+		return Math.max(this.prices[beginning], this.findMaxCached(beginning + 1, ending));
 	}
 
 	private findMaxCached(beginning: number, ending: number): number {
