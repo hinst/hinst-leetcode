@@ -7,7 +7,7 @@ class Finder {
 	constructor(private readonly prices: number[]) {
 	}
 
-	find(depth: number, stepCount: number, beginning: number, ending: number): number {
+	find(stepCount: number, beginning: number, ending: number): number {
 		if (stepCount <= 0)
 			return 0;
 		const length = ending - beginning;
@@ -30,8 +30,8 @@ class Finder {
 			}
 			for (let i = beginning + 1; i < ending; ++i) {
 				for (let step = 1; step < stepCount; ++step) {
-					const profit = this.find(depth + 1, step, beginning, i) + 
-						this.find(depth + 1, stepCount - step, i, ending);
+					const profit = this.find(step, beginning, i) +
+						this.find(stepCount - step, i, ending);
 					if (bestProfit < profit)
 						bestProfit = profit;
 				}
@@ -44,7 +44,7 @@ class Finder {
 
 function maxProfit(k: number, prices: number[]): number {
 	const finder = new Finder(prices);
-	return finder.find(0, k, 0, prices.length);
+	return finder.find(k, 0, prices.length);
 }
 
 
