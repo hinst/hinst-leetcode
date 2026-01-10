@@ -31,15 +31,13 @@ class Finder {
 			return price1 < price2 ? price2 - price1 : 0;
 		}
 		let bestProfit = 0;
-		while (stepCount > 0) {
-			if (stepCount === 1) {
-				for (let a = beginning; a < ending; ++a)
-					for (let b = a; b < ending; ++b) {
-						const profit = this.prices[b] - this.prices[a];
-						if (bestProfit < profit)
-							bestProfit = profit;
-					}
+		for (let a = beginning; a < ending; ++a)
+			for (let b = a; b < ending; ++b) {
+				const profit = this.prices[b] - this.prices[a];
+				if (bestProfit < profit)
+					bestProfit = profit;
 			}
+		while (stepCount > 1) {
 			for (let i = beginning + 1; i < ending; ++i) {
 				for (let step = 1; step < stepCount; ++step) {
 					const profit = this.findCached(step, beginning, i) +
@@ -54,7 +52,9 @@ class Finder {
 	}
 
 	private getKey(stepCount: number, beginning: number, ending: number) {
-		return stepCount + beginning * (STEP_COUNT_LIMIT + 1) + ending * (STEP_COUNT_LIMIT + 1) * (PRICE_COUNT_LIMIT + 1);
+		return stepCount +
+			beginning * (STEP_COUNT_LIMIT + 1) +
+			ending * (STEP_COUNT_LIMIT + 1) * (PRICE_COUNT_LIMIT + 1);
 	}
 }
 
