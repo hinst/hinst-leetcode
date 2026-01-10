@@ -17,7 +17,12 @@ Deno.test(function maxProfit() {
 });
 
 Deno.test(function maxProfit() {
-	// Test #152
+	// Test 152
 	const k = 2, prices = [6,1,3,2,4,7];
 	assertEquals(maxProfitEx(k, prices), 7);
+});
+
+Deno.test(function maxProfit() {
+	const k = 2, prices = [3,3,5,0,0,3,1,4];
+	assertEquals(maxProfitEx(k, prices), 6);
 });
