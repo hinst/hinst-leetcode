@@ -8,6 +8,7 @@ class Finder {
 	}
 
 	find(depth: number, stepCount: number, beginning: number, ending: number): number {
+		console.log('.'.repeat(depth), {stepCount,beginning,ending});
 		if (stepCount <= 0)
 			return 0;
 		const length = ending - beginning;
@@ -28,7 +29,7 @@ class Finder {
 				}
 			return bestProfit;
 		}
-		for (let i = beginning + 1; i < ending - 1; ++i) {
+		for (let i = beginning + 1; i < ending; ++i) {
 			for (let step = 1; step < stepCount; ++step) {
 				const profit = this.find(depth + 1, step, beginning, i) + this.find(depth + 1, stepCount - step, i, ending);
 				if (bestProfit < profit)
