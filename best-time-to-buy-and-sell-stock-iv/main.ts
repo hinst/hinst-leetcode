@@ -50,11 +50,11 @@ class Finder {
 		const limit = ending - 1;
 		let bestProfit = 0;
 		for (let i = beginning; i < limit; ++i) {
-			for (let j = i + 1; j < ending; ++j) {
-				const profit = this.prices[j] - this.prices[i];
-				if (bestProfit < profit)
-					bestProfit = profit;
-			}
+			const price = this.prices[i];
+			const maxSellingPrice = this.findMaxCached(i + 1, ending);
+			const profit = maxSellingPrice - price;
+			if (bestProfit < profit)
+				bestProfit = profit;
 		}
 		return bestProfit;
 	}
