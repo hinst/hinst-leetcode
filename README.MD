@@ -1263,7 +1263,7 @@ Task 170 is locked behind LeetCode paywall.
 * Difficulty: Hard
 * Folder name: `department-top-three-salaries`
 * Hint: looking up `rank` calculation online
-* My score: 
+* My score:
 	* Time: 939 ms, beats 45%
 
 Task 186 is hidden behind a paywall.
@@ -1279,3 +1279,4 @@ Task 186 is hidden behind a paywall.
 ## 188. Best Time to Buy and Sell Stock IV
 * Difficulty: Hard
 * Folder name: `best-time-to-buy-and-sell-stock-iv`
+* I spent over 3 hours trying to complete this task without looking for hints, however I managed to pass 207 test cases online, out of 211. My code had to pass 4 more test cases, but got Time Limit Exceeded. In the end, I had to look for a solution online.
