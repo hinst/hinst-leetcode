@@ -1280,3 +1280,7 @@ Task 186 is hidden behind a paywall.
 * Difficulty: Hard
 * Folder name: `best-time-to-buy-and-sell-stock-iv`
 * I spent over 3 hours trying to complete this task without looking for hints, however I managed to pass 207 test cases online, out of 211. My code had to pass 4 more test cases, but got Time Limit Exceeded. In the end, I had to look for a solution online.
+* Hint: https://algo.monster/liteproblems/188
+* My score:
+	* Time: 52 ms, beats 18%
+	* Memory: 87 MB, beats 6%

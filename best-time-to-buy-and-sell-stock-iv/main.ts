@@ -5,8 +5,6 @@ const
 
 class Finder {
 	private readonly answerCache = new Map<number, number>();
-	private readonly slideCache = new Map<number, number>();
-	private readonly maxCache = new Map<number, number>();
 
 	constructor(private readonly prices: number[]) {
 	}
