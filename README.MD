@@ -1284,3 +1284,7 @@ Task 186 is hidden behind a paywall.
 * My score:
 	* Time: 52 ms, beats 18%
 	* Memory: 87 MB, beats 6%
+
+## 189. Rotate Array
+* Difficulty: Medium
+* Folder name: `rotate-array`
