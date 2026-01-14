@@ -1288,3 +1288,7 @@ Task 186 is hidden behind a paywall.
 ## 189. Rotate Array
 * Difficulty: Medium
 * Folder name: `rotate-array`
+* Hint: no
+* My score:
+	* Time: 1 ms, beats 84%
+	* Memory: 66 MB, beats 62%
