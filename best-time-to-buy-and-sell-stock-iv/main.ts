@@ -24,11 +24,11 @@ class Finder {
 	private find(dayIndex: number, remainingTransactions: number, isHolding: number): number {
 		if (dayIndex >= this.prices.length || remainingTransactions <= 0)
 			return 0;
-		const idleProfit = this.find(dayIndex + 1, remainingTransactions, isHolding);
+		const idleProfit = this.findCached(dayIndex + 1, remainingTransactions, isHolding);
 		const invertedHolding = isHolding ? 0 : 1;
 		const actProfit = isHolding
-			? this.prices[dayIndex] + this.find(dayIndex + 1, remainingTransactions - 1, invertedHolding)
-			: - this.prices[dayIndex] + this.find(dayIndex + 1, remainingTransactions, invertedHolding);
+			? this.prices[dayIndex] + this.findCached(dayIndex + 1, remainingTransactions - 1, invertedHolding)
+			: - this.prices[dayIndex] + this.findCached(dayIndex + 1, remainingTransactions, invertedHolding);
 		return Math.max(idleProfit, actProfit);
 	}
 
