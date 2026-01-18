@@ -1329,3 +1329,7 @@ Task 186 is hidden behind a paywall.
 ## 194. Transpose File
 * Difficulty: Medium
 * Folder name: `transpose-file`
+* Hint: reading documentation for arrays in BASH online
+* My score:
+	* Time: 217 ms, beats 6%
+	* Memory: 3 MB, beats 94%
