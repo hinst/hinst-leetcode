@@ -1341,3 +1341,10 @@ Task 186 is hidden behind a paywall.
 * My score:
 	* Time: 28 ms, beats 16%
 	* Memory: 3 MB, beats 92%
+
+## 196. Delete Duplicate Emails
+* Difficulty: Easy
+* Folder name: `delete-duplicate-emails`
+* Hint: https://stackoverflow.com/questions/45494/mysql-error-1093-cant-specify-target-table-for-update-in-from-clause
+* My score:
+	* Time: 786 ms, beats 68%
