@@ -1316,3 +1316,7 @@ Task 186 is hidden behind a paywall.
 * My score:
 	* Time: 53 ms, beats 93%
 	* Memory: 3 MB, beats 95%
+
+## 193. Valid Phone Numbers
+* Difficulty: Easy
+* Folder name: `valid-phone-numbers`
