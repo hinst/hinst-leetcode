@@ -1312,3 +1312,7 @@ Task 186 is hidden behind a paywall.
 ## 192. Word Frequency
 * Difficulty: Medium
 * Folder name: `word-frequency`
+* Hint: reading documentation and StackOverflow answers for BASH programming online
+* My score:
+	* Time: 53 ms, beats 93%
+	* Memory: 3 MB, beats 95%

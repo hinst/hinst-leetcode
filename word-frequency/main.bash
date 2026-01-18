@@ -11,3 +11,6 @@ for word in "${!words[@]}"
 do
 	echo "$word ${words[$word]}"
 done | sort -n -r -k 2
+# -n = numeric
+# -r = reverse
+# -k = column
