@@ -1364,3 +1364,7 @@ Task 186 is hidden behind a paywall.
 * My score:
 	* Time: 0 ms, beats 100%
 	* Memory: 55 MB, beats 40%
+
+## 199. Binary Tree Right Side View
+* Difficulty: Medium
+* Folder name: `binary-tree-right-side-view`
