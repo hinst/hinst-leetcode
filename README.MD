@@ -1352,3 +1352,7 @@ Task 186 is hidden behind a paywall.
 ## 197. Rising Temperature
 * Difficulty: Easy
 * Folder name: `rising-temperature`
+* Hint: looking for documentation online. How to subtract one day from date in MySQL.
+	* https://www.w3schools.com/sql/func_mysql_subdate.asp
+* My score:
+	* Time: 792 ms, beats 6%
