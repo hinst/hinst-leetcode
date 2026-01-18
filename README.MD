@@ -1308,3 +1308,7 @@ Task 186 is hidden behind a paywall.
 * My score:
 	* Time: 0 ms, beats 100%
 	* Memory: 56 MB, beats 71%
+
+## 192. Word Frequency
+* Difficulty: Medium
+* Folder name: `word-frequency`
