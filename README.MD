@@ -1296,3 +1296,7 @@ Task 186 is hidden behind a paywall.
 ## 190. Reverse Bits
 * Difficulty: Easy
 * Folder name: `reverse-bits`
+* Hint: no
+* My score:
+	* Time: 51 ms, beats 46%
+	* Memory: 57 MB, beats 33%

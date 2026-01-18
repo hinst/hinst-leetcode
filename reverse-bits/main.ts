@@ -1,13 +1,14 @@
 function reverseBits(n: number): number {
-	const bits: number[] = [];
-	while (n > 0) {
+	const length = 32;
+	const bits: number[] = new Array(length);
+	for (let i = 0; i < length; ++i) {
 		const bit = n % 2;
-		bits.unshift(bit);
+		bits[i] = bit;
 		n = Math.trunc(n / 2);
 	}
-	console.log(bits.join(''));
+	return parseInt(bits.join(''), 2);
 }
 
 if (import.meta.main) {
-	reverseBits(43261596);
+	console.log(reverseBits(43261596));
 }
