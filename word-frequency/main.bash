@@ -10,4 +10,4 @@ done < "words.txt"
 for word in "${!words[@]}"
 do
 	echo "$word ${words[$word]}"
-done
+done | sort -n -r -k 2
