@@ -1300,3 +1300,11 @@ Task 186 is hidden behind a paywall.
 * My score:
 	* Time: 51 ms, beats 46%
 	* Memory: 57 MB, beats 33%
+
+## 191. Number of 1 Bits
+* Difficulty: Easy
+* Folder name: `number-of-1-bits`
+* Hint: no
+* My score:
+	* Time: 0 ms, beats 100%
+	* Memory: 56 MB, beats 71%
