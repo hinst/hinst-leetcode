@@ -1378,5 +1378,5 @@ Task 186 is hidden behind a paywall.
 * Folder name: `number-of-islands`
 * Hint: no
 * My score:
-	* Time: 60 ms, beats 75%
-	* Memory: 59 MB, beats 65%
+	* Time: 48 ms, beats 97%
+	* Memory: 58 MB, beats 95%

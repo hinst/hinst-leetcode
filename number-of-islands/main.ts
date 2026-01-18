@@ -11,9 +11,9 @@ function numIslands(grid: string[][]): number {
 
 function sink(grid: string[][], row: number, column: number) {
 	grid[row][column] = '0';
-	if (grid[row - 1] && grid[row - 1][column] === '1')
+	if (grid[row - 1]?.[column] === '1')
 		sink(grid, row - 1, column);
-	if (grid[row + 1] && grid[row + 1][column] === '1')
+	if (grid[row + 1]?.[column] === '1')
 		sink(grid, row + 1, column);
 	if (grid[row][column - 1] === '1')
 		sink(grid, row, column - 1);
