@@ -1360,3 +1360,7 @@ Task 186 is hidden behind a paywall.
 ## 198. House Robber
 * Difficulty: Medium
 * Folder name: `house-robber`
+* Hint: no
+* My score:
+	* Time: 0 ms, beats 100%
+	* Memory: 55 MB, beats 40%
