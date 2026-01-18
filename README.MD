@@ -1356,3 +1356,7 @@ Task 186 is hidden behind a paywall.
 	* https://www.w3schools.com/sql/func_mysql_subdate.asp
 * My score:
 	* Time: 792 ms, beats 6%
+
+## 198. House Robber
+* Difficulty: Medium
+* Folder name: `house-robber`
