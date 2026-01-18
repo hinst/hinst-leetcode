@@ -1325,3 +1325,7 @@ Task 186 is hidden behind a paywall.
 * My score:
 	* Time: 66 ms, beats 39%
 	* Memory: 3 MB, beats 26%
+
+## 194. Transpose File
+* Difficulty: Medium
+* Folder name: `transpose-file`
