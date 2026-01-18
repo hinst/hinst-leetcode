@@ -1333,3 +1333,11 @@ Task 186 is hidden behind a paywall.
 * My score:
 	* Time: 217 ms, beats 6%
 	* Memory: 3 MB, beats 94%
+
+## 195. Tenth Line
+* Difficulty: Easy
+* Folder name: `tenth-line`
+* Hint: looking at my code for previous tasks
+* My score:
+	* Time: 28 ms, beats 16%
+	* Memory: 3 MB, beats 92%
