@@ -1348,3 +1348,7 @@ Task 186 is hidden behind a paywall.
 * Hint: https://stackoverflow.com/questions/45494/mysql-error-1093-cant-specify-target-table-for-update-in-from-clause
 * My score:
 	* Time: 786 ms, beats 68%
+
+## 197. Rising Temperature
+* Difficulty: Easy
+* Folder name: `rising-temperature`
