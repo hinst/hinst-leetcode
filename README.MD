@@ -1320,3 +1320,8 @@ Task 186 is hidden behind a paywall.
 ## 193. Valid Phone Numbers
 * Difficulty: Easy
 * Folder name: `valid-phone-numbers`
+* Hint: reading documentation and StackOverflow answers for Regular Expressions in BASH
+	* It turned out that digit character in BASH must be specified as `[0-9]` instead of `\d`
+* My score:
+	* Time: 66 ms, beats 39%
+	* Memory: 3 MB, beats 26%
