@@ -1396,3 +1396,7 @@ Task 186 is hidden behind a paywall.
 * My score:
 	* Time: 1 ms, beats 82%
 	* Memory: 55 MB, beats 89%
+
+## 203. Remove Linked List Elements
+* Difficulty: Easy
+* Folder name: `remove-linked-list-elements`
