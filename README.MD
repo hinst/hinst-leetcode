@@ -1388,3 +1388,11 @@ Task 186 is hidden behind a paywall.
 * My score:
 	* Time: 10 ms, beats 11%
 	* Memory: 65 MB, beats 6%
+
+## 202. Happy Number
+* Difficulty: Easy
+* Folder name: `happy-number`
+* Hint: no
+* My score:
+	* Time: 1 ms, beats 82%
+	* Memory: 55 MB, beats 89%
