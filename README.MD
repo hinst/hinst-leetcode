@@ -1384,4 +1384,7 @@ Task 186 is hidden behind a paywall.
 ## 201. Bitwise AND of Numbers Range
 * Difficulty: Medium
 * Folder name: `bitwise-and-of-numbers-range`
-* 
+* Hint: no
+* My score:
+	* Time: 10 ms, beats 11%
+	* Memory: 65 MB, beats 6%

@@ -19,6 +19,7 @@ function getNumber(items: number[]): number {
 	return result;
 }
 
+// Increment binary number, skipping leading zeroes, because once zeroed by `and`, they're not coming back
 function advance(items: number[]): boolean {
 	let offset = 0;
 	for (; offset < items.length; ++offset) {
@@ -45,20 +46,17 @@ function compare(left: number[], right: number[]): number {
 	return 0;
 }
 
-function and(left: number[], right: number[]): number[] {
-	const result = new Array(left.length);
-	for (let i = 0; i < left.length; ++i) {
-		result[i] = left[i] && right[i];
-	}
-	return result;
+function and(left: number[], right: number[]) {
+	for (let i = 0; i < left.length; ++i)
+		left[i] = left[i] && right[i];
 }
 
 function rangeBitwiseAnd(left: number, right: number): number {
 	const leftArray = getBinaryArray(left);
-	let result: number[] = leftArray.slice();
+	const result: number[] = leftArray.slice();
 	const rightArray = getBinaryArray(right);
 	while (compare(leftArray, rightArray) <= 0) {
-		result = and(result, leftArray);
+		and(result, leftArray);
 		if (!advance(leftArray))
 			break;
 	}
