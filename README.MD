@@ -1380,3 +1380,8 @@ Task 186 is hidden behind a paywall.
 * My score:
 	* Time: 48 ms, beats 97%
 	* Memory: 58 MB, beats 95%
+
+## 201. Bitwise AND of Numbers Range
+* Difficulty: Medium
+* Folder name: `bitwise-and-of-numbers-range`
+* 
