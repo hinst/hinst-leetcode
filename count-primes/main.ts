@@ -2,13 +2,17 @@ function countPrimes(n: number): number {
 	if (n <= 2)
 		return 0;
 	const primes: number[] = [2];
-	for (let item = 2; item < n; ++item) {
+	for (let item = 3; item < n; item += 2) {
 		let isPrime = true;
-		for (const prime of primes)
+		const half = item / 2;
+		for (const prime of primes) {
 			if (item % prime === 0) {
 				isPrime = false;
 				break;
 			}
+			if (half < prime)
+				break;
+		}
 		if (isPrime)
 			primes.push(item);
 	}
@@ -16,7 +20,7 @@ function countPrimes(n: number): number {
 }
 
 if (import.meta.main) {
-	console.log(countPrimes(10));
-	console.log(countPrimes(0));
-	console.log(countPrimes(1));
+	console.time('countPrimes');
+	console.log(countPrimes(999983));
+	console.timeEnd('countPrimes');
 }
