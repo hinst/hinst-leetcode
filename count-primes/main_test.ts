@@ -1,6 +1,16 @@
-import { assertEquals } from "@std/assert";
-import { add } from "./main.ts";
+import { assertEquals } from '@std/assert';
+import { countPrimesExported } from './main.ts';
 
-Deno.test(function addTest() {
-	assertEquals(add(2, 3), 5);
+const countPrimes = countPrimesExported;
+
+Deno.test(function countPrimesTest() {
+	assertEquals(countPrimes(10), 4);
+});
+
+Deno.test(function countPrimesTest() {
+	assertEquals(countPrimes(0), 0);
+});
+
+Deno.test(function countPrimesTest() {
+	assertEquals(countPrimes(1), 0);
 });
