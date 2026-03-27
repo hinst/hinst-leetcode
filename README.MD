@@ -1404,3 +1404,7 @@ Task 186 is hidden behind a paywall.
 * My score:
 	* Time: 0 ms, beats 100%
 	* Memory: 62 MB, beats 67%
+
+## 204. Count Primes
+* Difficulty: Medium
+* Folder name: `count-primes`
