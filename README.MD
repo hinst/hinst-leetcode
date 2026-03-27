@@ -1400,3 +1400,7 @@ Task 186 is hidden behind a paywall.
 ## 203. Remove Linked List Elements
 * Difficulty: Easy
 * Folder name: `remove-linked-list-elements`
+* Hint: no
+* My score:
+	* Time: 0 ms, beats 100%
+	* Memory: 62 MB, beats 67%
