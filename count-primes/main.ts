@@ -5,11 +5,11 @@ function countPrimes(n: number): number {
 		return 0;
 	for (let i = 0; i < primes.length; ++i) {
 		if (n <= primes[i]) {
-			console.log(primes.slice(0, i), n);
 			return i;
 		}
 	}
-	for (let counter = primes[primes.length - 1] + 1; counter < n; counter += 2) {
+	console.log(primes[primes.length - 1]);
+	for (let counter = primes[primes.length - 1] + 1; counter < n; ++counter) {
 		let isPrime = true;
 		const half = counter / 2;
 		for (const prime of primes) {
@@ -23,7 +23,6 @@ function countPrimes(n: number): number {
 		if (isPrime)
 			primes.push(counter);
 	}
-	console.log(primes, n);
 	return primes.length;
 }
 
@@ -31,7 +30,7 @@ export const countPrimesExported = countPrimes;
 
 if (import.meta.main) {
 	console.time('countPrimes');
-	console.log(countPrimes(10));
-	console.log(countPrimes(13));
+	console.log(countPrimes(8));
+	console.log(countPrimes(12));
 	console.timeEnd('countPrimes');
 }
