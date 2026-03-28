@@ -1410,6 +1410,15 @@ Task 186 is hidden behind a paywall.
 * Folder name: `count-primes`
 * Hint: from task description
 	* Use the algorithm named Sieve of Eratosthenes
+	* The hint on LeetCode included only the name of the algorithm, so I had to search online for the actual steps and read those
 * My score:
 	* Time: 50 ms, beats 99%
 	* Memory: 95 MB, beats 70%
+
+## 205. Isomorphic Strings
+* Difficulty: Easy
+* Folder name: `isomorphic-strings`
+* Hint: no
+* My score:
+	* Time: 6 ms, beats 68%
+	* Memory: 57 MB, beats 26%
