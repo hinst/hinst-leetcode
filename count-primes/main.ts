@@ -22,34 +22,23 @@ function generate() {
 	} while (prime);
 }
 
+generate();
+
 function countPrimes(n: number): number {
 	if (n <= 2)
 		return 0;
-	return 0;
+	let count = 0;
+	for (let i = 0; i < n; ++i)
+		if (primes[i])
+			count++;
+	return count;
 }
 
 
 export const countPrimesExported = countPrimes;
 
 if (import.meta.main) {
-	if (true) {
-		console.time('generate');
-		generate();
-		if (false) {
-			let count = 0;
-			for (let i = 0; i < primes.length; ++i) {
-				if (primes[i]) {
-					console.log(i);
-					++count;
-				}
-			}
-			console.log('[', count, ']');
-		}
-		console.timeEnd('generate');
-	}
-	if (false) {
-		console.time('countPrimes');
-		console.log(countPrimes(LIMIT));
-		console.timeEnd('countPrimes');
-	}
+	console.time('countPrimes');
+	console.log(countPrimes(LIMIT));
+	console.timeEnd('countPrimes');
 }

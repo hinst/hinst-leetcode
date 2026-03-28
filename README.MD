@@ -1408,3 +1408,8 @@ Task 186 is hidden behind a paywall.
 ## 204. Count Primes
 * Difficulty: Medium
 * Folder name: `count-primes`
+* Hint: from task description
+	* Use the algorithm named Sieve of Eratosthenes
+* My score:
+	* Time: 50 ms, beats 99%
+	* Memory: 95 MB, beats 70%
