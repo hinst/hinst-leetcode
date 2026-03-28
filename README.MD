@@ -1422,3 +1422,11 @@ Task 186 is hidden behind a paywall.
 * My score:
 	* Time: 6 ms, beats 68%
 	* Memory: 57 MB, beats 26%
+
+## 206. Reverse Linked List
+* Difficulty: Easy
+* Folder name: `reverse-linked-list`
+* Hint: no
+* My score:
+	* Time: 0 ms, beats 100%
+	* Memory: 59 MB, beats 12%
