@@ -1434,3 +1434,8 @@ Task 186 is hidden behind a paywall.
 ## 207. Course Schedule
 * Difficulty: Medium
 * Folder name: `course-schedule`
+* Hint: read about Depth-first search online
+	* Initially I tried to complete the task without hints, but got stuck with Time Limit Exceeded at online test case number 48 of 54
+* My score:
+	* Time: 9 ms, beats 85%
+	* Memory: 62 MB, beats 72%
