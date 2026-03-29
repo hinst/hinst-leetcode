@@ -1,19 +1,24 @@
-function hasLoop(visitedNodes: Set<number>, node: Node): boolean {
-	if (visitedNodes.has(node.id))
+function buildLevel(level: number, nodes: Node[]): boolean {
+	if (nodes.length === 0)
 		return true;
-	visitedNodes.add(node.id);
-	for (const source of node.sources) {
-		if (hasLoop(visitedNodes, source))
-			return true;
+	const nextNodes: Node[] = [];
+	for (const node of nodes) {
+		if (node.level === -1 || node.level > level)
+			node.level = level;
+		else
+			return false;
+		nextNodes.push(node);
 	}
-	visitedNodes.delete(node.id);
-	return false;
+	if (nextNodes.length === 0)
+		return true;
+	return buildLevel(level + 1, nextNodes);
 }
 
 class Node {
 	readonly sources: Node[] = [];
 	readonly targets: Node[] = [];
 	groupIndex: number = -1;
+	level: number = -1;
 
 	constructor(readonly id: number) {
 	}
@@ -71,16 +76,10 @@ function canFinish(numCourses: number, prerequisites: number[][]): boolean {
 	const nodes = Array.from(map.values());
 	const groups = buildGroups(nodes);
 	for (const group of groups) {
-		let hasRoot = false;
-		for (const node of group) {
-			if (node.targets.length === 0) {
-				hasRoot = true;
-				if (hasLoop(new Set(), node))
-					return false;
-			}
-		}
-		if (!hasRoot)
+		const leafs = group.filter(item => item.targets.length === 0);
+		if (leafs.length === 0)
 			return false;
+		return buildLevel(0, leafs);
 	}
 	return true;
 }
@@ -89,7 +88,6 @@ function canFinish(numCourses: number, prerequisites: number[][]): boolean {
 export const canFinishPublic = canFinish;
 
 if (import.meta.main) {
-	const numCourses = 5, prerequisites = [[1,4],[2,4],[3,1],[3,2]];
-	console.log({prerequisites});
+	const numCourses = 3, prerequisites = [[0,2],[1,2],[2,0]];
 	console.log(canFinish(numCourses, prerequisites));
 }
