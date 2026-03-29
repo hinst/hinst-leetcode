@@ -1430,3 +1430,7 @@ Task 186 is hidden behind a paywall.
 * My score:
 	* Time: 0 ms, beats 100%
 	* Memory: 59 MB, beats 12%
+
+## 207. Course Schedule
+* Difficulty: Medium
+* Folder name: `course-schedule`
