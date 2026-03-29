@@ -1,27 +1,38 @@
-function buildLevel(level: number, nodes: Node[]): boolean {
-	if (nodes.length === 0)
-		return true;
-	const nextNodes: Node[] = [];
-	for (const node of nodes) {
-		if (node.level === -1 || node.level > level)
-			node.level = level;
-		else
-			return false;
-		nextNodes.push(node);
-	}
-	if (nextNodes.length === 0)
-		return true;
-	return buildLevel(level + 1, nextNodes);
+enum Status {
+	FRESH,
+	TEMPORARY,
+	PERMANENT
 }
 
 class Node {
 	readonly sources: Node[] = [];
 	readonly targets: Node[] = [];
 	groupIndex: number = -1;
-	level: number = -1;
+	status: Status = Status.FRESH;
 
 	constructor(readonly id: number) {
 	}
+}
+
+function findLoop(node: Node) {
+	if (node.status === Status.PERMANENT)
+		return false;
+	if (node.status === Status.TEMPORARY)
+		return true;
+	node.status = Status.TEMPORARY;
+	for (const source of node.sources)
+		if (findLoop(source))
+			return true;
+	node.status = Status.PERMANENT;
+}
+
+function findLoops(nodes: Node[]): boolean {
+	for (const node of nodes) {
+		if (node.status === Status.FRESH)
+			if (findLoop(node))
+				return true;
+	}
+	return false;
 }
 
 function buildNodeMap(prerequisites: number[][]) {
@@ -76,10 +87,8 @@ function canFinish(numCourses: number, prerequisites: number[][]): boolean {
 	const nodes = Array.from(map.values());
 	const groups = buildGroups(nodes);
 	for (const group of groups) {
-		const leafs = group.filter(item => item.targets.length === 0);
-		if (leafs.length === 0)
+		if (findLoops(group))
 			return false;
-		return buildLevel(0, leafs);
 	}
 	return true;
 }

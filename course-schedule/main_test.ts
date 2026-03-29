@@ -15,3 +15,9 @@ Deno.test(function canFinish() {
 	const numCourses = 5, prerequisites = [[1,4],[2,4],[3,1],[3,2]];
 	assertEquals(canFinishPublic(numCourses, prerequisites), true);
 });
+
+Deno.test(function canFinish() {
+	const numCourses = 5, prerequisites = [[0,2],[1,2],[2,0]];
+	assertEquals(canFinishPublic(numCourses, prerequisites), false);
+});
+
