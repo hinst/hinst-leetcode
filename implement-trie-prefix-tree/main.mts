@@ -12,21 +12,15 @@ function getHash(text: string, limit: number) {
   	return hash;
 }
 
-class Item {
-	constructor(public readonly text: string, public readonly isFull: boolean) {
-	}
-}
-
 class Trie {
-	private readonly map = new Map<number, Item[]>();
+	private readonly map = new Map<number, string[]>();
 
 	insert(word: string): void {
 		for (let i = 1; i <= word.length; ++i) {
 			const hash = getHash(word, i);
-			const item = new Item(word, i === word.length);
-			const items = this.map.get(hash) ?? [];
-			items.push(item);
-			this.map.set(hash, items);
+			const words = this.map.get(hash) ?? [];
+			words.push(word);
+			this.map.set(hash, words);
 		}
 	}
 
@@ -35,7 +29,7 @@ class Trie {
 		if (!items)
 			return false;
 		for (const item of items)
-			if (item.isFull && item.text === word)
+			if (item === word)
 				return true;
 		return false;
 	}
@@ -45,7 +39,7 @@ class Trie {
 		if (!items)
 			return false;
 		for (const item of items)
-			if (item.text.startsWith(prefix))
+			if (item.startsWith(prefix))
 				return true;
 		return false;
 	}
