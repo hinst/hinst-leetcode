@@ -15,7 +15,7 @@ class Trie {
 	insert(word: string): void {
 		for (let i = 1; i <= word.length; ++i) {
 			const part = word.substring(0, i);
-			const hash = getHash(word);
+			const hash = getHash(part);
 			const item = new Item(part, i === word.length);
 			const items = this.map.get(hash) ?? [];
 			items.push(item);
@@ -34,11 +34,12 @@ class Trie {
 	}
 
 	startsWith(prefix: string): boolean {
+		console.log(getHash(prefix));
 		const items = this.map.get(getHash(prefix));
 		if (!items)
 			return false;
 		for (const item of items)
-			if (item.isFull && item.text.startsWith(prefix))
+			if (item.text === prefix)
 				return true;
 		return false;
 	}
@@ -51,3 +52,8 @@ class Trie {
 * var param_2 = obj.search(word)
 * var param_3 = obj.startsWith(prefix)
 */
+
+const trie = new Trie();
+trie.insert('apple');
+console.log(trie.map);
+console.log(trie.startsWith('app'));

@@ -1439,3 +1439,10 @@ Task 186 is hidden behind a paywall.
 * My score:
 	* Time: 9 ms, beats 85%
 	* Memory: 62 MB, beats 72%
+
+## 208. Implement Trie (Prefix Tree)
+* Difficulty: Medium
+* Folder name: implement-trie-prefix-tree
+* My score:
+	* Time: 583 ms, beats 5%
+	* Memory: 88 MB, beats 5%
