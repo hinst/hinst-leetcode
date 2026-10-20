@@ -1,0 +1,25 @@
+{
+	"name": "hinst-leetcode",
+	"version": "1.0.0",
+	"description": "I wrote the solution on my own. First I wrote the solution in TypeScript, then I converted it to Rust. The Rust version ended up being 60 lines, meanwhile TypeScript version is only 30 lines. Later I saw shorter solutions in Rust on Leetcode.",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/hinst/hinst-leetcode.git"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"type": "commonjs",
+	"bugs": {
+		"url": "https://github.com/hinst/hinst-leetcode/issues"
+	},
+	"homepage": "https://github.com/hinst/hinst-leetcode#readme",
+	"devDependencies": {
+		"@types/node": "^26.6.5",
+		"typescript": "^7.0.2"
+	}
+}
