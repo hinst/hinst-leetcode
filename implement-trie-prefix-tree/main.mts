@@ -50,5 +50,4 @@ class Trie {
 
 const trie = new Trie();
 trie.insert('apple');
-console.log(trie.root);
 console.log(trie.startsWith('app'));

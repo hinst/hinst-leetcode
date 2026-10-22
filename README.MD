@@ -1444,5 +1444,5 @@ Task 186 is hidden behind a paywall.
 * Difficulty: Medium
 * Folder name: implement-trie-prefix-tree
 * My score:
-	* Time: 583 ms, beats 5%
-	* Memory: 88 MB, beats 5%
+	* Time: 52 ms, beats 45%
+	* Memory: 80 MB, beats 40%
