@@ -1,39 +1,36 @@
-class Item {
-	map: Map<string, Item> = new Map();
-	hasEnding = false;
-}
+type Item = Record<string, any>;
 
 class Trie {
-	private readonly root: Item = new Item();
+	private readonly root: Item = {};
 
 	insert(word: string): void {
 		let previousItem = this.root;
 		for (const character of word) {
-			let item = previousItem.map.get(character);
+			let item = previousItem[character] as Item;
 			if (!item) {
-				item = new Item();
-				previousItem.map.set(character, item);
+				item = {};
+				previousItem[character] = item;
 			}
 			previousItem = item;
 		}
-		previousItem.hasEnding = true;
+		previousItem.ending = true;
 	}
 
 	search(word: string): boolean {
 		let previousItem = this.root;
 		for (const character of word) {
-			let item = previousItem.map.get(character);
+			let item = previousItem[character];
 			if (!item)
 				return false;
 			previousItem = item;
 		}
-		return previousItem.hasEnding;
+		return !!previousItem.ending;
 	}
 
 	startsWith(prefix: string): boolean {
 		let previousItem = this.root;
 		for (const character of prefix) {
-			let item = previousItem.map.get(character);
+			let item = previousItem[character];
 			if (!item)
 				return false;
 			previousItem = item;
