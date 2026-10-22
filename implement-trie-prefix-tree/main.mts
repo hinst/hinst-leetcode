@@ -1,47 +1,44 @@
-function getHash(text: string, limit: number) {
-	// https://stackoverflow.com/questions/7616461/generate-a-hash-from-string-in-javascript
-	let hash = 0;
-	let index = 0;
-	for (const char of text) {
-		if (index >= limit)
-			break;
-    	hash = (hash << 5) - hash + char.charCodeAt(0);
-    	hash |= 0; // Constrain to 32bit integer
-		++index;
-  	}
-  	return hash;
+class Item {
+	map: Map<string, Item> = new Map();
+	hasEnding = false;
 }
 
 class Trie {
-	private readonly map = new Map<number, string[]>();
+	private readonly root: Item = new Item();
 
 	insert(word: string): void {
-		for (let i = 1; i <= word.length; ++i) {
-			const hash = getHash(word, i);
-			const words = this.map.get(hash) ?? [];
-			words.push(word);
-			this.map.set(hash, words);
+		let previousItem = this.root;
+		for (const character of word) {
+			let item = previousItem.map.get(character);
+			if (!item) {
+				item = new Item();
+				previousItem.map.set(character, item);
+			}
+			previousItem = item;
 		}
+		previousItem.hasEnding = true;
 	}
 
 	search(word: string): boolean {
-		const items = this.map.get(getHash(word, word.length));
-		if (!items)
-			return false;
-		for (const item of items)
-			if (item === word)
-				return true;
-		return false;
+		let previousItem = this.root;
+		for (const character of word) {
+			let item = previousItem.map.get(character);
+			if (!item)
+				return false;
+			previousItem = item;
+		}
+		return previousItem.hasEnding;
 	}
 
 	startsWith(prefix: string): boolean {
-		const items = this.map.get(getHash(prefix, prefix.length));
-		if (!items)
-			return false;
-		for (const item of items)
-			if (item.startsWith(prefix))
-				return true;
-		return false;
+		let previousItem = this.root;
+		for (const character of prefix) {
+			let item = previousItem.map.get(character);
+			if (!item)
+				return false;
+			previousItem = item;
+		}
+		return true;
 	}
 }
 
@@ -55,5 +52,5 @@ class Trie {
 
 const trie = new Trie();
 trie.insert('apple');
-console.log(trie.map);
+console.log(trie.root);
 console.log(trie.startsWith('app'));
