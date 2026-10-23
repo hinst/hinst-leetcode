@@ -18,21 +18,25 @@ function findOrder(numCourses: number, prerequisites: number[][]): number[] {
 
 	const visited = new Set<number>();
 	const queue: number[] = [];
-	function add(item: number) {
-		if (visited.has(item))
+	function add(items: number[]) {
+		if (!items.length)
 			return;
-		visited.add(item);
-		queue.push(item);
-		const row = links[item];
-		if (!row)
-			throw new Error('Missing links[' + item + ']');
-		for (let i = 0; i < row.length; ++i)
-			if (row[i])
-				add(i);
+		const nextItems: number[] = [];
+		for (const item of items) {
+			if (visited.has(item))
+				continue;
+			visited.add(item);
+			queue.push(item);
+			const row = links[item];
+			if (!row)
+				throw new Error('Missing links[' + items + ']');
+			for (let i = 0; i < row.length; ++i)
+				if (row[i])
+					nextItems.push(i);
+		}
+		add(nextItems);
 	}
-	for (const root of roots) {
-		add(root);
-	}
+	add(Array.from(roots));
 	return queue;
 }
 
