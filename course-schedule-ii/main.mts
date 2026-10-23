@@ -17,16 +17,18 @@ function findOrder(numCourses: number, prerequisites: number[][]): number[] {
 	}
 
 	const visited = new Set<number>();
-	const queue: number[] = [];
-	function add(items: number[]) {
-		if (!items.length)
-			return;
+	const queue = new Array(numCourses).fill(0).map((_, index) => ({index, distance: 0}));
+	let items = Array.from(roots);
+	for (let waveIndex = 0; items.length; ++waveIndex) {
 		const nextItems: number[] = [];
 		for (const item of items) {
 			if (visited.has(item))
 				continue;
 			visited.add(item);
-			queue.push(item);
+			const step = queue[item];
+			if (!step)
+				throw new Error('Missing queue[' + item + ']');
+			step.distance = waveIndex;
 			const row = links[item];
 			if (!row)
 				throw new Error('Missing links[' + items + ']');
@@ -34,10 +36,10 @@ function findOrder(numCourses: number, prerequisites: number[][]): number[] {
 				if (row[i])
 					nextItems.push(i);
 		}
-		add(nextItems);
+		items = nextItems;
 	}
-	add(Array.from(roots));
-	return queue;
+	queue.sort((a, b) => a.distance - b.distance);
+	return queue.map(step => step.index);
 }
 
 // const numCourses = 2, prerequisites = [[1,0]];
