@@ -18,7 +18,7 @@ function findOrder(numCourses: number, prerequisites: number[][]): number[] {
 	if (!roots.size)
 		return [];
 
-	const queue = new Array(numCourses).fill(0).map((_, index) => ({index, distance: 0}));
+	const queue = new Array(numCourses).fill(0).map((_, index) => ({index, distance: -1}));
 	let items = Array.from(roots);
 	let visited = new Set<string>();
 	for (let waveIndex = 0; items.length; ++waveIndex) {
@@ -44,8 +44,10 @@ function findOrder(numCourses: number, prerequisites: number[][]): number[] {
 		items = nextItems;
 	}
 	queue.sort((a, b) => a.distance - b.distance);
+	if (queue.some(item => item.distance === -1))
+		return [];
 	return queue.map(step => step.index);
 }
 
-const numCourses = 3, prerequisites = [[1,0],[1,2],[0,1]];
+const numCourses = 8, prerequisites = [[1,0],[2,6],[1,7],[5,1],[6,4],[7,0],[0,5]];
 console.log(findOrder(numCourses, prerequisites));
