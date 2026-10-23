@@ -15,6 +15,8 @@ function findOrder(numCourses: number, prerequisites: number[][]): number[] {
 		row[b] = true;
 		roots.delete(b);
 	}
+	if (!roots.size)
+		return [];
 
 	const visited = new Set<number>();
 	const queue = new Array(numCourses).fill(0).map((_, index) => ({index, distance: 0}));
