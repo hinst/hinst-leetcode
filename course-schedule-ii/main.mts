@@ -31,13 +31,6 @@ function buildNodes(numCourses: number, prerequisites: number[][], roots: Set<nu
 	return nodes;
 }
 
-function hasSources(links: Map<number, Set<number>>, destination: number) {
-	for (const link of links)
-		if (link[1]?.has(destination))
-			return true;
-	return false;
-}
-
 function findOrder(numCourses: number, prerequisites: number[][]): number[] {
 	const roots: Set<number> = new Set();
 	const nodes = buildNodes(numCourses, prerequisites, roots);
