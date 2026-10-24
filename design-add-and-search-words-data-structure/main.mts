@@ -23,30 +23,22 @@ class WordDictionary {
 
 	search(word: string): boolean {
 		let nodes = [this.root];
-		let hasEnd = false;
 		for (const character of word) {
-			hasEnd = false;
 			const isAny = character === '.';
 			const nextNodes: Node[] = [];
 			for (const node of nodes) {
 				if (isAny) {
-					for (const nextNode of node.values()) {
+					for (const nextNode of node.values())
 						nextNodes.push(nextNode);
-						if (nextNode.get(END_KEY))
-							hasEnd = true;
-					}
 				} else {
 					const nextNode = node.get(character);
-					if (nextNode) {
+					if (nextNode)
 						nextNodes.push(nextNode);
-						if (nextNode.get(END_KEY))
-							hasEnd = true;
-					}
 				}
 			}
 			nodes = nextNodes;
 		}
-		return hasEnd;
+		return nodes.some(node => node.get(END_KEY));
 	}
 }
 
