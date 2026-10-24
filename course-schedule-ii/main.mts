@@ -28,8 +28,8 @@ function findOrder(numCourses: number, prerequisites: number[][]): number[] {
 		for (const destination of Array.from(destinations)) {
 			destinations.delete(destination);
 			let hasSources = false;
-			for (const item of links) {
-				if (item[1]?.has(destination))
+			for (const link of links) {
+				if (link[1]?.has(destination))
 					hasSources = true;
 					break;
 			}
@@ -37,8 +37,10 @@ function findOrder(numCourses: number, prerequisites: number[][]): number[] {
 				roots.add(destination);
 		}
 	}
+	if (sortedItems.length !== numCourses)
+		return [];
 	return sortedItems;
 }
 
-const numCourses = 8, prerequisites = [[1,0],[2,6],[1,7],[5,1],[6,4],[7,0],[0,5]];
+const numCourses = 6, prerequisites = [[2,3],[1,2],[0,1],[0,4],[4,5],[5,1]];
 console.log(findOrder(numCourses, prerequisites));
