@@ -9,9 +9,12 @@ class WordDictionary {
 	addWord(word: string): void {
 		let node = this.root;
 		for (const character of word) {
-			if (!node[character])
-				node[character] = {};
-			node = node[character];
+			let nextNode = node[character];
+			if (!nextNode) {
+				nextNode = {};
+				node[character] = nextNode;
+			}
+			node = nextNode;
 		}
 		node.end = true;
 	}
@@ -19,10 +22,8 @@ class WordDictionary {
 	search(word: string): boolean {
 		let nodes = [this.root];
 		for (const character of word) {
-			// console.log(character, nodes.map(node => Object.keys(node)));
 			const nextNodes: Node[] = [];
 			for (const node of nodes) {
-				// console.log(character, Object.keys(node));
 				if (character === '.')
 					nextNodes.push(...Object.values(node))
 				else if (node[character])

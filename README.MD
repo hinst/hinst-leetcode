@@ -1462,5 +1462,5 @@ Task 186 is hidden behind a paywall.
 * Folder name: design-add-and-search-words-data-structure
 * Hint: LLM advice about reusing approach from earlier challenge `Implement Trie (Prefix Tree)`
 * My score:
-	* Time: 868 ms, beats 14%
+	* Time: 846 ms, beats 18%
 	* Memory: 93 MB, beats 99%
