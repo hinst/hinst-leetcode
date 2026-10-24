@@ -1456,3 +1456,7 @@ Task 186 is hidden behind a paywall.
 * My score:
 	* Time: 16 ms, beats 27%
 	* Memory: 63 MB, beats 21%
+
+## 211. Design Add and Search Words Data Structure
+* Difficulty: Medium
+* Folder name: design-add-and-search-words-data-structure
