@@ -1,14 +1,35 @@
-class WordDictionary {
-	constructor() {
+function match(a: string, b: string): boolean {
+	if (a.length !== b.length)
+		return false;
+	let index = 0;
+	for (const character1 of a) {
+		const character2 = b.charAt(index);
+		const matched = character2 === '.' || character1 === character2;
+		if (!matched)
+			return false;
+		++index;
+	}
+	return true;
+}
 
+class WordDictionary {
+	words = new Set<string>();
+
+	constructor() {
 	}
 
 	addWord(word: string): void {
-
+		this.words.add(word);
 	}
 
 	search(word: string): boolean {
-
+		if (!word.includes('.'))
+			return this.words.has(word);
+		else
+			for (const existingWord of this.words)
+				if (match(existingWord, word))
+					return true;
+		return false;
 	}
 }
 
