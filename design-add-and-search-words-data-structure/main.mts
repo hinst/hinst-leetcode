@@ -1,35 +1,34 @@
-function match(a: string, b: string): boolean {
-	if (a.length !== b.length)
-		return false;
-	let index = 0;
-	for (const character1 of a) {
-		const character2 = b.charAt(index);
-		const matched = character2 === '.' || character1 === character2;
-		if (!matched)
-			return false;
-		++index;
-	}
-	return true;
-}
+type Node = Record<string, any>;
 
 class WordDictionary {
-	words = new Set<string>();
+	root: Node = {};
 
 	constructor() {
 	}
 
 	addWord(word: string): void {
-		this.words.add(word);
+		let node = this.root;
+		for (const character of word) {
+			if (!node[character])
+				node[character] = {};
+			node = node[character];
+		}
+		node.end = true;
 	}
 
 	search(word: string): boolean {
-		if (!word.includes('.'))
-			return this.words.has(word);
-		else
-			for (const existingWord of this.words)
-				if (match(existingWord, word))
-					return true;
-		return false;
+		let nodes = [this.root];
+		// console.log(word);
+		for (const character of word) {
+			// console.log(nodes.map(node => Object.keys(node)));
+			const nextNodes: Node[] = [];
+			for (const node of nodes) {
+				if (character === '.' || node[character])
+					nextNodes.push(...Object.values(node))
+			}
+			nodes = nextNodes;
+		}
+		return nodes.some(node => node.end);
 	}
 }
 
