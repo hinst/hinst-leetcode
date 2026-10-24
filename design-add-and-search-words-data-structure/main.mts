@@ -22,9 +22,10 @@ class WordDictionary {
 	search(word: string): boolean {
 		let nodes = [this.root];
 		for (const character of word) {
+			const isAny = character === '.';
 			const nextNodes: Node[] = [];
 			for (const node of nodes) {
-				if (character === '.')
+				if (isAny)
 					nextNodes.push(...Object.values(node))
 				else if (node[character])
 					nextNodes.push(node[character]);
