@@ -1,11 +1,14 @@
 class Node {
+	constructor(readonly id: number) {
+	}
 	sourceCount: number = 0;
-	destinations: Set<number> = new Set();
+	destinations: Set<Node> = new Set();
 }
 
-function buildNodes(numCourses: number, prerequisites: number[][], roots: Set<number>): Map<number, Node> {
+function buildNodes(numCourses: number, prerequisites: number[][], roots: Map<number, Node>): Map<number, Node> {
+	const rootIds = new Set<number>;
 	for (let i = 0; i < numCourses; ++i)
-		roots.add(i);
+		rootIds.add(i);
 	const nodes: Map<number, Node> = new Map();
 	for (const item of prerequisites) {
 		const destination = item[0];
@@ -13,47 +16,46 @@ function buildNodes(numCourses: number, prerequisites: number[][], roots: Set<nu
 		if (null == destination || null == source)
 			throw new Error('Need array of [destination,source] in prerequisites');
 
-		let sourceNode = nodes.get(source);
-		if (!sourceNode) {
-			sourceNode = new Node();
-			nodes.set(source, sourceNode);
-		}
-		sourceNode.destinations.add(destination);
-		roots.delete(destination);
-
 		let destinationNode = nodes.get(destination);
 		if (!destinationNode) {
-			destinationNode = new Node();
+			destinationNode = new Node(destination);
 			nodes.set(destination, destinationNode);
 		}
 		destinationNode.sourceCount += 1;
+
+		let sourceNode = nodes.get(source);
+		if (!sourceNode) {
+			sourceNode = new Node(source);
+			nodes.set(source, sourceNode);
+		}
+		sourceNode.destinations.add(destinationNode);
+		rootIds.delete(destination);
 	}
+	for (const rootId of rootIds)
+		roots.set(rootId, nodes.get(rootId) || new Node(rootId));
 	return nodes;
 }
 
 function findOrder(numCourses: number, prerequisites: number[][]): number[] {
-	const roots: Set<number> = new Set();
+	const roots: Map<number, Node> = new Map();
 	const nodes = buildNodes(numCourses, prerequisites, roots);
 	const sortedItems: number[] = [];
 	while (roots.size) {
 		const [root] = roots;
 		if (null == root)
 			throw new Error('Need first element from roots');
-		roots.delete(root);
-		sortedItems.push(root);
-		const sourceNode = nodes.get(root);
+		const rootId = root[0];
+		roots.delete(rootId);
+		sortedItems.push(rootId);
+		const sourceNode = nodes.get(rootId);
 		if (!sourceNode)
 			continue;
-		const destinationsArray = Array.from(sourceNode.destinations);
-		sourceNode.destinations.clear();
-		for (const destination of destinationsArray) {
-			const destinationNode = nodes.get(destination);
-			if (!destinationNode)
-				continue;
+		for (const destinationNode of sourceNode.destinations) {
 			destinationNode.sourceCount -= 1;
 			if (destinationNode.sourceCount <= 0)
-				roots.add(destination);
+				roots.set(destinationNode.id, destinationNode);
 		}
+		sourceNode.destinations.clear();
 	}
 	if (sortedItems.length !== numCourses)
 		return [];
