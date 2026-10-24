@@ -1,52 +1,43 @@
 function findOrder(numCourses: number, prerequisites: number[][]): number[] {
 	const roots = new Set<number>(new Array(numCourses).fill(0).map((_, index) => index));
-	/** If links[A][B] is true then A leads to B */
-	const links: boolean[][] = [];
-	for (let i = 0; i < numCourses; ++i)
-		links.push(new Array(numCourses));
+	/** Map from source to destinations */
+	const links: Map<number, Set<number>> = new Map();
 	for (const item of prerequisites) {
-		const b = item[0];
-		const a = item[1];
-		if (null == a || null == b)
-			throw new Error('Need arrays with two items in prerequisites');
-		const row = links[a];
-		if (!row)
-			throw new Error('Missing links[' + a + ']');
-		row[b] = true;
-		roots.delete(b);
-	}
-	if (!roots.size)
-		return [];
-
-	const queue = new Array(numCourses).fill(0).map((_, index) => ({index, distance: -1}));
-	let items = Array.from(roots);
-	let visited = new Set<string>();
-	for (let waveIndex = 0; items.length; ++waveIndex) {
-		const itemsKey = items.join(',');
-		if (visited.has(itemsKey))
-			return [];
-		visited.add(itemsKey);
-		const nextItems: number[] = [];
-		for (const item of items) {
-			const step = queue[item];
-			if (!step)
-				throw new Error('Missing queue[' + item + ']');
-			if (step.distance > waveIndex)
-				return [];
-			step.distance = waveIndex;
-			const row = links[item];
-			if (!row)
-				throw new Error('Missing links[' + items + ']');
-			for (let i = 0; i < row.length; ++i)
-				if (row[i])
-					nextItems.push(i);
+		const destination = item[0];
+		const source = item[1];
+		if (null == destination || null == source)
+			throw new Error('Need array of [destination,source] in prerequisites');
+		let destinations = links.get(source);
+		if (!destinations) {
+			destinations = new Set();
+			links.set(source, destinations);
 		}
-		items = nextItems;
+		destinations.add(destination);
+		roots.delete(destination);
 	}
-	queue.sort((a, b) => a.distance - b.distance);
-	if (queue.some(item => item.distance === -1))
-		return [];
-	return queue.map(step => step.index);
+	const sortedItems: number[] = [];
+	while (roots.size) {
+		const [root] = roots;
+		if (null == root)
+			throw new Error('Need first element from roots');
+		roots.delete(root);
+		sortedItems.push(root);
+		const destinations = links.get(root);
+		if (!destinations)
+			continue;
+		for (const destination of Array.from(destinations)) {
+			destinations.delete(destination);
+			let hasSources = false;
+			for (const item of links) {
+				if (item[1]?.has(destination))
+					hasSources = true;
+					break;
+			}
+			if (!hasSources)
+				roots.add(destination);
+		}
+	}
+	return sortedItems;
 }
 
 const numCourses = 8, prerequisites = [[1,0],[2,6],[1,7],[5,1],[6,4],[7,0],[0,5]];
