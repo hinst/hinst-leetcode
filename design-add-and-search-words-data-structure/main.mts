@@ -1,7 +1,9 @@
-type Node = Record<string, any>;
+type Node = Map<string, Node>;
+const END_KEY = '#';
+const END_NODE = new Map<string, Node>();
 
 class WordDictionary {
-	root: Node = {};
+	root: Node = new Map();
 
 	constructor() {
 	}
@@ -9,30 +11,42 @@ class WordDictionary {
 	addWord(word: string): void {
 		let node = this.root;
 		for (const character of word) {
-			let nextNode = node[character];
+			let nextNode = node.get(character);
 			if (!nextNode) {
-				nextNode = {};
-				node[character] = nextNode;
+				nextNode = new Map();
+				node.set(character, nextNode);
 			}
 			node = nextNode;
 		}
-		node.end = true;
+		node.set(END_KEY, END_NODE);
 	}
 
 	search(word: string): boolean {
 		let nodes = [this.root];
+		let hasEnd = false;
 		for (const character of word) {
+			hasEnd = false;
 			const isAny = character === '.';
 			const nextNodes: Node[] = [];
 			for (const node of nodes) {
-				if (isAny)
-					nextNodes.push(...Object.values(node))
-				else if (node[character])
-					nextNodes.push(node[character]);
+				if (isAny) {
+					for (const nextNode of node.values()) {
+						nextNodes.push(nextNode);
+						if (nextNode.get(END_KEY))
+							hasEnd = true;
+					}
+				} else {
+					const nextNode = node.get(character);
+					if (nextNode) {
+						nextNodes.push(nextNode);
+						if (nextNode.get(END_KEY))
+							hasEnd = true;
+					}
+				}
 			}
 			nodes = nextNodes;
 		}
-		return nodes.some(node => node.end);
+		return hasEnd;
 	}
 }
 
