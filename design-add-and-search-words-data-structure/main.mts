@@ -18,13 +18,15 @@ class WordDictionary {
 
 	search(word: string): boolean {
 		let nodes = [this.root];
-		// console.log(word);
 		for (const character of word) {
-			// console.log(nodes.map(node => Object.keys(node)));
+			// console.log(character, nodes.map(node => Object.keys(node)));
 			const nextNodes: Node[] = [];
 			for (const node of nodes) {
-				if (character === '.' || node[character])
+				// console.log(character, Object.keys(node));
+				if (character === '.')
 					nextNodes.push(...Object.values(node))
+				else if (node[character])
+					nextNodes.push(node[character]);
 			}
 			nodes = nextNodes;
 		}
@@ -39,11 +41,28 @@ class WordDictionary {
 * var param_2 = obj.search(word)
 */
 
-const wordDictionary = new WordDictionary();
-wordDictionary.addWord("bad");
-wordDictionary.addWord("dad");
-wordDictionary.addWord("mad");
-console.log(wordDictionary.search("pad")); // return False
-console.log(wordDictionary.search("bad")); // return True
-console.log(wordDictionary.search(".ad")); // return True
-console.log(wordDictionary.search("b..")); // return True
+let wordDictionary = new WordDictionary();
+
+const input1 = ["WordDictionary","addWord","addWord","addWord","addWord","search","search","addWord","search","search","search","search","search","search"];
+const input2: string[][] = [[],["at"],["and"],["an"],["add"],["a"],[".at"],["bat"],[".at"],["an."],["a.d."],["b."],["a.d"],["."]];
+const output = [null,null,null,null,null,false,false,null,true,true,false,false,true,false];
+
+input1.forEach((input, index) => {
+	const word = input2[index]?.[0] ?? '';
+	switch (input) {
+		case 'WordDictionary':
+			wordDictionary = new WordDictionary();
+			break;
+		case 'addWord':
+			console.log({addWord: word});
+			wordDictionary.addWord(input2[index]?.[0] ?? '');
+			break;
+		case 'search':
+			console.log({search: word});
+			const result = wordDictionary.search(word);
+			if (result !== output[index])
+				throw new Error('Expected ' + output[index] + ' got ' + result);
+			break;
+	}
+});
+
