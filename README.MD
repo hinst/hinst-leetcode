@@ -1443,6 +1443,8 @@ Task 186 is hidden behind a paywall.
 ## 208. Implement Trie (Prefix Tree)
 * Difficulty: Medium
 * Folder name: implement-trie-prefix-tree
+* Initially I have passed all test cases without hint, but with low score.
+	* Later, I got the hint from AI to use tree instead of hash map, and rewrote my code to pass with above-average score.
 * My score:
 	* Time: 49 ms, beats 57%
 	* Memory: 78 MB, beats 64%
