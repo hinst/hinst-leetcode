@@ -15,7 +15,11 @@ class Finder {
 	}
 
 	find(words: string[]): string[] {
-		return words.filter(word => this.findWord(word));
+		const outputs = new Set<string>();
+		for (const word of words)
+			if (this.findWord(word))
+				outputs.add(word);
+		return Array.from(outputs);
 	}
 
 	findWord(word: string): boolean {
@@ -26,19 +30,22 @@ class Finder {
 				if (this.board[a]?.[b] === characters[0])
 					roots.push(new Vector2(a, b));
 		const find = (node: Vector2, characterIndex: number): boolean => {
-			this.setVisited(node);
-			if (characterIndex === word.length)
-				return true;
 			const character = characters[characterIndex] ?? '';
+			if (this.getCharacter(node) !== character)
+				return false;
+			if (characterIndex === word.length - 1)
+				return true;
+			this.setVisited(node, true);
 			for (const nextNode of this.getNextNodes(node))
-				if (!this.getVisited(nextNode) && this.getCharacter(nextNode) === character)
+				if (!this.getVisited(nextNode))
 					if (find(nextNode, characterIndex + 1))
 						return true;
+			this.setVisited(node, false);
 			return false;
 		}
 		return roots.some(root => {
 			this.clearVisited();
-			return find(root, 1)
+			return find(root, 0)
 		});
 	}
 
@@ -67,9 +74,9 @@ class Finder {
 			}
 	}
 
-	private setVisited(node: Vector2) {
+	private setVisited(node: Vector2, status: boolean) {
 		const row = this.visited[node.a];
-		if (row) row[node.b] = true;
+		if (row) row[node.b] = status;
 	}
 
 	private getVisited(node: Vector2) {
@@ -81,5 +88,9 @@ function findWords(board: string[][], words: string[]): string[] {
 	return new Finder(board).find(words);
 }
 
-const board = [["o","a","a","n"],["e","t","a","e"],["i","h","k","r"],["i","f","l","v"]], words = ["oath","pea","eat","rain"];
+
+const board = [["a","b","c"],
+			   ["a","e","d"],
+			   ["a","f","g"]
+	], words = ["eaabcdgfa"];
 console.log(findWords(board, words).sort());
