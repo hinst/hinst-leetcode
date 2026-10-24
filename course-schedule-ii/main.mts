@@ -1,3 +1,10 @@
+function hasSources(links: Map<number, Set<number>>, destination: number) {
+	for (const link of links)
+		if (link[1]?.has(destination))
+			return true;
+	return false;
+}
+
 function findOrder(numCourses: number, prerequisites: number[][]): number[] {
 	const roots = new Set<number>(new Array(numCourses).fill(0).map((_, index) => index));
 	/** Map from source to destinations */
@@ -22,20 +29,14 @@ function findOrder(numCourses: number, prerequisites: number[][]): number[] {
 			throw new Error('Need first element from roots');
 		roots.delete(root);
 		sortedItems.push(root);
-		const destinations = links.get(root);
-		if (!destinations)
+		const destinationsSet = links.get(root);
+		if (!destinationsSet)
 			continue;
-		for (const destination of Array.from(destinations)) {
-			destinations.delete(destination);
-			let hasSources = false;
-			for (const link of links) {
-				if (link[1]?.has(destination))
-					hasSources = true;
-					break;
-			}
-			if (!hasSources)
+		const destinationsArray = Array.from(destinationsSet);
+		destinationsSet.clear();
+		for (const destination of destinationsArray)
+			if (!hasSources(links, destination))
 				roots.add(destination);
-		}
 	}
 	if (sortedItems.length !== numCourses)
 		return [];

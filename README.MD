@@ -1453,3 +1453,5 @@ Task 186 is hidden behind a paywall.
 * Difficulty: Medium
 * Folder name: course-schedule-ii
 * My score:
+	* Time: 110 ms, beats 5%
+	* Memory: 65 MB, beats 5%
