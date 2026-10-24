@@ -1,9 +1,8 @@
-type Node = Map<string, Node>;
-const END_KEY = '#';
-const END_NODE = new Map<string, Node>();
+type Node = Record<string, any>;
+const END_KEY = 'end';
 
 class WordDictionary {
-	root: Node = new Map();
+	root: Node = {};
 
 	constructor() {
 	}
@@ -11,14 +10,14 @@ class WordDictionary {
 	addWord(word: string): void {
 		let node = this.root;
 		for (const character of word) {
-			let nextNode = node.get(character);
+			let nextNode = node[character];
 			if (!nextNode) {
-				nextNode = new Map();
-				node.set(character, nextNode);
+				nextNode = {};
+				node[character] = nextNode;
 			}
 			node = nextNode;
 		}
-		node.set(END_KEY, END_NODE);
+		node[END_KEY] = true;
 	}
 
 	search(word: string): boolean {
@@ -28,17 +27,16 @@ class WordDictionary {
 			const nextNodes: Node[] = [];
 			for (const node of nodes) {
 				if (isAny) {
-					for (const nextNode of node.values())
-						nextNodes.push(nextNode);
+					nextNodes.push(...Object.values(node));
 				} else {
-					const nextNode = node.get(character);
+					const nextNode = node[character];
 					if (nextNode)
 						nextNodes.push(nextNode);
 				}
 			}
 			nodes = nextNodes;
 		}
-		return nodes.some(node => node.get(END_KEY));
+		return nodes.some(node => node[END_KEY]);
 	}
 }
 
