@@ -1452,6 +1452,7 @@ Task 186 is hidden behind a paywall.
 ## 210. Course Schedule II
 * Difficulty: Medium
 * Folder name: course-schedule-ii
+* Hint: LLM advice and https://en.wikipedia.org/wiki/Topological_sorting
 * My score:
-	* Time: 110 ms, beats 5%
-	* Memory: 65 MB, beats 5%
+	* Time: 16 ms, beats 27%
+	* Memory: 63 MB, beats 21%
