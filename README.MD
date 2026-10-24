@@ -1464,3 +1464,7 @@ Task 186 is hidden behind a paywall.
 * My score:
 	* Time: 658 ms, beats 65%
 	* Memory: 92 MB, beats 99%
+
+## 212. Word Search II
+* Difficulty: Hard
+* Folder name: word-search-ii
