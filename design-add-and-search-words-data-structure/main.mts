@@ -4,9 +4,6 @@ const END_KEY = 'end';
 class WordDictionary {
 	root: Node = {};
 
-	constructor() {
-	}
-
 	addWord(word: string): void {
 		let node = this.root;
 		for (const character of word) {
@@ -27,7 +24,8 @@ class WordDictionary {
 			const nextNodes: Node[] = [];
 			for (const node of nodes) {
 				if (isAny) {
-					nextNodes.push(...Object.values(node));
+					for (const key in node)
+						nextNodes.push(node[key]);
 				} else {
 					const nextNode = node[character];
 					if (nextNode)
@@ -36,7 +34,10 @@ class WordDictionary {
 			}
 			nodes = nextNodes;
 		}
-		return nodes.some(node => node[END_KEY]);
+		for (const node of nodes)
+			if (node[END_KEY])
+				return true;
+		return false;
 	}
 }
 
