@@ -1470,5 +1470,5 @@ Task 186 is hidden behind a paywall.
 * Folder name: word-search-ii
 * Hint: advice to use PrefixTree
 * My score:
-	* Time: 647 ms, beats 33%
+	* Time: 531 ms, beats 50%
 	* Memory: 65 MB, beats 26%

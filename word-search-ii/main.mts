@@ -62,7 +62,9 @@ class PrefixTree {
 	}
 
 	findNext(node: CharacterNode | undefined, character: string): CharacterNode | undefined {
-		return (node ?? this.root).next?.[character];
+		node = node ?? this.root;
+		const nextNode = node.next?.[character];
+		return node.count > 0 && nextNode && nextNode.count > 0 ? nextNode : undefined;
 	}
 
 	find(word: string): boolean | undefined {
