@@ -131,10 +131,7 @@ function findWords(board: string[][], words: string[]): string[] {
 }
 
 
-const board = [["a","b","c"],
-			   ["a","e","d"],
-			   ["a","f","g"]
-	], words = ["eaabcdgfa"];
-console.log(findWords(board, words).sort());
+//---
 
+export const findWordsExported = findWords;
 export const PrefixTreeExported = PrefixTree;
