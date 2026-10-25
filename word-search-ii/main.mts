@@ -23,6 +23,21 @@ class PrefixTree {
 		}
 		node.hasEnding = true;
 	}
+
+	findNext(node: CharacterNode | undefined, character: string): CharacterNode | undefined {
+		return (node ?? this.root).next?.[character];
+	}
+
+	find(word: string): boolean | undefined {
+		let node = this.root;
+		for (const character of word) {
+			const nextNode = this.findNext(node, character);
+			if (!nextNode)
+				return false;
+			node = nextNode;
+		}
+		return node.hasEnding;
+	}
 }
 
 class Vector2 {
@@ -121,3 +136,5 @@ const board = [["a","b","c"],
 			   ["a","f","g"]
 	], words = ["eaabcdgfa"];
 console.log(findWords(board, words).sort());
+
+export const PrefixTreeExported = PrefixTree;
