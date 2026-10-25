@@ -1,13 +1,23 @@
 class CharacterNode {
-	constructor(readonly character: string) {
+	constructor(readonly previous: CharacterNode | undefined, readonly character: string) {
 	}
 	count: number = 0;
 	next?: Record<string, CharacterNode>;
 	hasEnding?: boolean;
+
+	getWord() {
+		let word = '';
+		let node: CharacterNode | undefined = this;
+		do {
+			word = node.character + word;
+			node = node.previous;
+		} while (node);
+		return word;
+	}
 }
 
 class PrefixTree {
-	root: CharacterNode = new CharacterNode('');
+	root: CharacterNode = new CharacterNode(undefined, '');
 
 	add(word: string) {
 		let node = this.root;
@@ -17,7 +27,7 @@ class PrefixTree {
 				node.next = {};
 			let nextNode = node.next[character];
 			if (!nextNode) {
-				nextNode = new CharacterNode(character);
+				nextNode = new CharacterNode(node, character);
 				node.next[character] = nextNode;
 			}
 			node = nextNode;
@@ -75,64 +85,67 @@ class Finder {
 	aLength = 0;
 	bLength = 0;
 	visited: boolean[][];
+	words = new PrefixTree();
 
-	constructor(readonly board: string[][]) {
+	constructor(readonly board: string[][], words: string[]) {
 		this.aLength = board.length;
 		this.bLength = board[0]?.length ?? 0;
 		this.visited = new Array(this.aLength).fill([])
 			.map(_ => new Array(this.bLength).fill(false));
-	}
-
-	find(words: string[]): string[] {
-		const outputs = new Set<string>();
 		for (const word of words)
-			if (this.findWord(word))
-				outputs.add(word);
-		return Array.from(outputs);
+			this.words.add(word);
 	}
 
-	findWord(word: string): boolean {
-		const roots: Vector2[] = [];
-		const characters = Array.from(word);
+	find(): string[] {
+		const allOutputs: string[] = [];
 		for (let a = 0; a < this.aLength; ++a)
-			for (let b = 0; b < this.bLength; ++b)
-				if (this.board[a]?.[b] === characters[0])
-					roots.push(new Vector2(a, b));
-		const find = (node: Vector2, characterIndex: number): boolean => {
-			const character = characters[characterIndex] ?? '';
-			if (this.getCharacter(node) !== character)
-				return false;
-			if (characterIndex === word.length - 1)
-				return true;
-			this.setVisited(node, true);
-			for (const nextNode of this.getNextNodes(node))
-				if (!this.getVisited(nextNode))
-					if (find(nextNode, characterIndex + 1))
-						return true;
-			this.setVisited(node, false);
-			return false;
+			for (let b = 0; b < this.bLength; ++b) {
+				const position = new Vector2(a, b);
+				const node = this.words.findNext(undefined, this.getCharacter(position));
+				this.clearVisited();
+				if (node) {
+					const outputs = new Set<string>();
+					this.findNext(position, node, outputs);
+					for (const output of outputs) {
+						this.words.delete(output);
+						allOutputs.push(output);
+					}
+				}
+			}
+		return allOutputs;
+	}
+
+	findNext(position: Vector2, node: CharacterNode, outputs: Set<string>) {
+		if (this.checkVisited(position))
+			return;
+		this.setVisited(position, true);
+		if (node.hasEnding)
+			outputs.add(node.getWord());
+		const nextPositions = this.getNextPositions(position);
+		for (const nextPosition of nextPositions) {
+			const nextCharacter = this.getCharacter(nextPosition);
+			const nextNode = this.words.findNext(node, nextCharacter);
+			if (nextNode)
+				this.findNext(nextPosition, nextNode, outputs);
 		}
-		return roots.some(root => {
-			this.clearVisited();
-			return find(root, 0)
-		});
+		this.setVisited(position, false);
 	}
 
-	private getNextNodes(node: Vector2): Vector2[] {
-		const nodes: Vector2[] = [];
-		if (node.a < this.aLength - 1)
-			nodes.push(new Vector2(node.a + 1, node.b));
-		if (0 < node.a)
-			nodes.push(new Vector2(node.a - 1, node.b));
-		if (node.b < (this.bLength) - 1)
-			nodes.push(new Vector2(node.a, node.b + 1));
-		if (0 < node.b)
-			nodes.push(new Vector2(node.a, node.b - 1));
-		return nodes;
+	private getNextPositions(position: Vector2): Vector2[] {
+		const positions: Vector2[] = [];
+		if (position.a < this.aLength - 1)
+			positions.push(new Vector2(position.a + 1, position.b));
+		if (0 < position.a)
+			positions.push(new Vector2(position.a - 1, position.b));
+		if (position.b < (this.bLength) - 1)
+			positions.push(new Vector2(position.a, position.b + 1));
+		if (0 < position.b)
+			positions.push(new Vector2(position.a, position.b - 1));
+		return positions;
 	}
 
-	private getCharacter(node: Vector2): string {
-		return this.board[node.a]?.[node.b] ?? '';
+	private getCharacter(position: Vector2): string {
+		return this.board[position.a]?.[position.b] ?? '';
 	}
 
 	private clearVisited() {
@@ -148,13 +161,13 @@ class Finder {
 		if (row) row[node.b] = status;
 	}
 
-	private getVisited(node: Vector2) {
+	private checkVisited(node: Vector2) {
 		return this.visited[node.a]?.[node.b];
 	}
 }
 
 function findWords(board: string[][], words: string[]): string[] {
-	return new Finder(board).find(words);
+	return new Finder(board, words).find();
 }
 
 
