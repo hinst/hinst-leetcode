@@ -103,24 +103,21 @@ class Finder {
 				const position = new Vector2(a, b);
 				const node = this.words.findNext(undefined, this.getCharacter(position));
 				this.clearVisited();
-				if (node) {
-					const outputs = new Set<string>();
-					this.findNext(position, node, outputs);
-					for (const output of outputs) {
-						this.words.delete(output);
-						allOutputs.push(output);
-					}
-				}
+				if (node)
+					this.findNext(position, node, allOutputs);
 			}
 		return allOutputs;
 	}
 
-	findNext(position: Vector2, node: CharacterNode, outputs: Set<string>) {
+	findNext(position: Vector2, node: CharacterNode, outputs: string[]) {
 		if (this.checkVisited(position))
 			return;
 		this.setVisited(position, true);
-		if (node.hasEnding)
-			outputs.add(node.getWord());
+		if (node.hasEnding && node.count > 0) {
+			const word = node.getWord();
+			outputs.push(word);
+			this.words.delete(word);
+		}
 		const nextPositions = this.getNextPositions(position);
 		for (const nextPosition of nextPositions) {
 			const nextCharacter = this.getCharacter(nextPosition);
