@@ -1468,3 +1468,7 @@ Task 186 is hidden behind a paywall.
 ## 212. Word Search II
 * Difficulty: Hard
 * Folder name: word-search-ii
+* Hint: advice to use PrefixTree
+* My score:
+	* Time: 647 ms, beats 33%
+	* Memory: 65 MB, beats 26%
