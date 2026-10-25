@@ -1,11 +1,13 @@
 class CharacterNode {
+	constructor(readonly character: string) {
+	}
 	count: number = 0;
 	next?: Record<string, CharacterNode>;
 	hasEnding?: boolean;
 }
 
 class PrefixTree {
-	root: CharacterNode = new CharacterNode();
+	root: CharacterNode = new CharacterNode('');
 
 	add(word: string) {
 		let node = this.root;
@@ -15,13 +17,38 @@ class PrefixTree {
 				node.next = {};
 			let nextNode = node.next[character];
 			if (!nextNode) {
-				nextNode = new CharacterNode();
+				nextNode = new CharacterNode(character);
 				node.next[character] = nextNode;
 			}
 			node = nextNode;
 			++node.count;
 		}
 		node.hasEnding = true;
+	}
+
+	delete(word: string): boolean {
+		let node = this.root;
+		const nodes: CharacterNode[] = [node];
+		for (const character of word) {
+			const nextNode = node.next?.[character];
+			if (!nextNode)
+				return false;
+			node = nextNode;
+		}
+		if (!node.hasEnding)
+			return false;
+		node.hasEnding = false;
+		for (let i = nodes.length - 1; i >= 0; --i) {
+			const node = nodes[i];
+			if (!node) throw new Error('Need node'); // should never happen
+			node.count--;
+			if (node.count <= 0 && i > 0) {
+				const previousNode = nodes[i - 1];
+				if (previousNode?.next)
+					delete previousNode.next[node.character];
+			}
+		}
+		return true;
 	}
 
 	findNext(node: CharacterNode | undefined, character: string): CharacterNode | undefined {
