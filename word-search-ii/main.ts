@@ -1,3 +1,30 @@
+class CharacterNode {
+	count: number = 0;
+	next?: Record<string, CharacterNode>;
+	hasEnding?: boolean;
+}
+
+class PrefixTree {
+	root: CharacterNode = new CharacterNode();
+
+	add(word: string) {
+		let node = this.root;
+		++node.count;
+		for (const character of word) {
+			if (!node.next)
+				node.next = {};
+			let nextNode = node.next[character];
+			if (!nextNode) {
+				nextNode = new CharacterNode();
+				node.next[character] = nextNode;
+			}
+			node = nextNode;
+			++node.count;
+		}
+		node.hasEnding = true;
+	}
+}
+
 class Vector2 {
 	constructor(public a: number, public b: number) {}
 }
