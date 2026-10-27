@@ -1472,3 +1472,7 @@ Task 186 is hidden behind a paywall.
 * My score:
 	* Time: 531 ms, beats 50%
 	* Memory: 65 MB, beats 26%
+
+## 213. House Robber II
+* Difficulty: Medium
+* Folder name: house-robber-ii
