@@ -2,19 +2,26 @@ function rob(nums: number[]): number {
 	if (nums.length === 1)
 		return nums[0] ?? 0;
 	let firstHouseAffected = false;
+	const foundCache = new Map<number, number>();
 
 	function find(i: number): number {
+		const cachedResult = foundCache.get(i);
+		if (cachedResult != null)
+			return cachedResult;
 		if (i >= nums.length)
 			return 0;
 		if (i === nums.length - 1)
 			return firstHouseAffected ? 0 : (nums[i] ?? 0);
 		const sum0 = find(i + 1);
 		const sum1 = (nums[i] ?? 0) + find(i + 2);
-		return Math.max(sum0, sum1);
+		const bestSum = Math.max(sum0, sum1);
+		foundCache.set(i, bestSum);
+		return bestSum;
 	}
 
 	const sum1 = find(1);
 	firstHouseAffected = true;
+	foundCache.clear();
 	const sum2 = find(0);
 	return Math.max(sum1, sum2);
 }
