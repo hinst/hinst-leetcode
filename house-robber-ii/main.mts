@@ -1,6 +1,6 @@
-function rob(nums: number[]): number {
-	if (nums.length === 1)
-		return nums[0] ?? 0;
+function rob(houses: number[]): number {
+	if (houses.length === 1)
+		return houses[0] ?? 0;
 	let firstHouseAffected = false;
 	const foundCache = new Map<number, number>();
 
@@ -8,12 +8,12 @@ function rob(nums: number[]): number {
 		const cachedResult = foundCache.get(i);
 		if (cachedResult != null)
 			return cachedResult;
-		if (i >= nums.length)
+		if (i >= houses.length)
 			return 0;
-		if (i === nums.length - 1)
-			return firstHouseAffected ? 0 : (nums[i] ?? 0);
+		if (i === houses.length - 1)
+			return firstHouseAffected ? 0 : (houses[i] ?? 0);
 		const sum0 = find(i + 1);
-		const sum1 = (nums[i] ?? 0) + find(i + 2);
+		const sum1 = (houses[i] ?? 0) + find(i + 2);
 		const bestSum = Math.max(sum0, sum1);
 		foundCache.set(i, bestSum);
 		return bestSum;

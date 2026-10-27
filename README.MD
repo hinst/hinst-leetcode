@@ -1476,3 +1476,7 @@ Task 186 is hidden behind a paywall.
 ## 213. House Robber II
 * Difficulty: Medium
 * Folder name: house-robber-ii
+* Hint: no, but I vaguely remembered that the approach for the similar challenges from before
+* My score:
+	* Time: 0 ms, beats 100%
+	* Memory: 54 MB, beats 81%
