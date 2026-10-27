@@ -1,4 +1,6 @@
 function rob(nums: number[]): number {
+	if (nums.length === 1)
+		return nums[0] ?? 0;
 	let firstHouseAffected = false;
 
 	function find(sum: number, i: number): number {
