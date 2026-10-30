@@ -1486,5 +1486,5 @@ Task 186 is hidden behind a paywall.
 * Folder name: shortest-palindrome
 * Hint: use Knuth-Morris-Pratt algorithm, but the approach without this algorithm still passes all test cases online
 * My score:
-	* 355 ms, beats 21%
-	* 53 MB, beats 100%
+	* Time: 355 ms, beats 21%
+	* Memory 53 MB, beats 100%
