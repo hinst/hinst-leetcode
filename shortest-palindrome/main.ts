@@ -32,7 +32,7 @@ const textDecoder = new TextDecoder();
 
 function shortestPalindrome(s: string): string {
 	let array: Uint8Array<ArrayBufferLike> = textEncoder.encode(s);
-	for (let i = array.length - 1; i >= 0; --i) {
+	for (let i = array.length; i >= 0; --i) {
 		if (checkMirror(array, i)) {
 			array = addPrefix(array, i);
 			break;
