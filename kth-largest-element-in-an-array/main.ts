@@ -1,21 +1,18 @@
 const LOW = (-1) * Math.pow(10, 4);
 
-function insert(array: number[], newItem: number) {
+function insert(array: number[], newItem: number): number[] {
 	let index = 0;
 	while (index < array.length && (array[index] || 0) < newItem)
 		++index;
 	if (index === 0)
-		return;
-	for (let i = 1; i < index; ++i)
-		array[i - 1] = array[i] || 0;
-	array[index - 1] = newItem;
+		return array;
+	return array.slice(1, index).concat([newItem], array.slice(index, array.length));
 }
 
 function findKthLargest(inputs: number[], k: number): number {
-	const top = new Array(k).fill(LOW);
-	for (let i = 0; i < inputs.length; ++i) {
-		insert(top, inputs[i] || 0);
-	}
+	let top = new Array(k).fill(LOW);
+	for (let i = 0; i < inputs.length; ++i)
+		top = insert(top, inputs[i] || 0);
 	return top[0];
 }
 
