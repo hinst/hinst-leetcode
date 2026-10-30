@@ -1480,3 +1480,7 @@ Task 186 is hidden behind a paywall.
 * My score:
 	* Time: 0 ms, beats 100%
 	* Memory: 54 MB, beats 81%
+
+## 214. Shortest Palindrome
+* Difficulty: Hard
+* Folder name: shortest-palindrome
