@@ -1488,3 +1488,7 @@ Task 186 is hidden behind a paywall.
 * My score:
 	* Time: 355 ms, beats 21%
 	* Memory 53 MB, beats 100%
+
+## 215. Kth Largest Element in an Array
+* Difficulty: Medium
+* Folder name: kth-largest-element-in-an-array
