@@ -1,5 +1,17 @@
 const LOW = (-1) * Math.pow(10, 4);
 
+class Node {
+	constructor(readonly value: number, public next: Node?) {
+	}
+}
+
+class TopItems {
+	head: Node;
+
+	insert(newValue: number) {
+	}
+}
+
 function insert(array: number[], newItem: number): number[] {
 	let index = 0;
 	while (index < array.length && (array[index] || 0) < newItem)
