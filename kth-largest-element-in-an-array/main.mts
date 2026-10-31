@@ -2,7 +2,7 @@ const LOW = (-1) * Math.pow(10, 4);
 
 function findIndex(array: number[], a: number, b: number, value: number): number {
 	if (a === b)
-		return a;
+		return (array[b] || 0) < value ? b + 1 : b;
 	const middleIndex = Math.trunc((a + b) / 2);
 	const middleValue = array[middleIndex] || 0;
 	if (value < middleValue)
@@ -30,6 +30,7 @@ function findKthLargest(inputs: number[], k: number): number {
 
 
 export const findIndexPublic = findIndex;
+export const findKthLargestPublic = findKthLargest;
 
 
 let nums = [3,2,1,5,6,4], k = 2;
