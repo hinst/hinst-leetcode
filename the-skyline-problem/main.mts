@@ -21,6 +21,7 @@ class MaxChain {
 		if (this.root.item < item) {
 			const newNode = new Node(item, this.root);
 			this.root = newNode;
+			return;
 		}
 		for (let node: Node | undefined = this.root; node; node = node.next) {
 			if (!node.next || node.next.item <= item) {
