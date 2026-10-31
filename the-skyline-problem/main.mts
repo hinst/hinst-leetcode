@@ -11,7 +11,7 @@ class Node {
 }
 
 class MaxChain {
-	root?: Node;
+	root: Node | undefined;
 
 	add(item: number) {
 		if (!this.root) {
@@ -28,6 +28,20 @@ class MaxChain {
 				const newNode = new Node(item);
 				newNode.next = node.next;
 				node.next = newNode;
+				break;
+			}
+		}
+	}
+
+	delete(item: number) {
+		const rootItem = this.root?.item;
+		if (rootItem === item) {
+			this.root = this.root?.next;
+			return;
+		}
+		for (let node: Node | undefined = this.root; node; node = node.next) {
+			if (node.next?.item === item) {
+				node.next = node.next.next;
 				break;
 			}
 		}
