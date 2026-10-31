@@ -1496,3 +1496,7 @@ Task 186 is hidden behind a paywall.
 * My score:
 	* Time: 90 ms, beats 25%
 	* Memory: 61 MB, beats 100%
+
+## 216. Combination Sum III
+* Difficulty: Medium
+* Folder name: combination-sum-iii
