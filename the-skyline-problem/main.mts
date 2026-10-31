@@ -68,23 +68,15 @@ function getSkyline(buildings: number[][]): number[][] {
 	edges.sort(function(a, b) {
 		return a.left - b.left;
 	});
-	const activeEdges = new Map<number, number>();
+	const activeEdges = new MaxChain();
 	let previousHeight = 0;
 	const points: Point[] = [];
 	for (const edge of edges) {
-		const activeEdge = activeEdges.get(edge.height) ?? 0;
 		if (edge.begin)
-			activeEdges.set(edge.height, activeEdge + 1);
-		else {
-			activeEdges.set(edge.height, activeEdge - 1);
-			if (activeEdge === 1)
-				activeEdges.delete(edge.height);
-		}
-		let maxHeight = 0;
-		for (const height of activeEdges.keys()) {
-			if (maxHeight < height)
-				maxHeight = height;
-		}
+			activeEdges.add(edge.height);
+		else
+			activeEdges.delete(edge.height);
+		const maxHeight = activeEdges.root?.item || 0;
 		if (maxHeight !== previousHeight) {
 			const point: Point = [edge.left, maxHeight];
 			let previousPoint = points[points.length - 1];
@@ -106,5 +98,5 @@ function getSkyline(buildings: number[][]): number[][] {
 
 export const MaxChainPublic = MaxChain;
 
-// const buildings = [[0,2,3],[2,5,3]];
-// console.log(getSkyline(buildings));
+const buildings = [[0,2,3],[2,5,3]];
+console.log(getSkyline(buildings));

@@ -1507,4 +1507,7 @@ Task 186 is hidden behind a paywall.
 
 ## 218. The Skyline Problem
 * Difficulty: Hard
-* Folder name: 
+* Folder name: the-skyline-problem
+* My score:
+	* Time: 195 ms, beats 12%
+	* Memory: 73 MB, beats 50%
