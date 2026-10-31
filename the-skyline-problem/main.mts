@@ -5,6 +5,42 @@ class Edge {
 
 type Point = [number, number];
 
+class Node {
+	constructor(readonly item: number, public next?: Node) {
+	}
+}
+
+class MaxChain {
+	root?: Node;
+
+	add(item: number) {
+		if (!this.root) {
+			this.root = new Node(item);
+			return;
+		}
+		if (this.root.item < item) {
+			const newNode = new Node(item, this.root);
+			this.root = newNode;
+		}
+		for (let node: Node | undefined = this.root; node; node = node.next) {
+			if (!node.next || node.next.item <= item) {
+				const newNode = new Node(item);
+				newNode.next = node.next;
+				node.next = newNode;
+				break;
+			}
+		}
+	}
+
+	toArray(): number[] {
+		const output: number[] = [];
+		for (let node: Node | undefined = this.root; node; node = node.next) {
+			output.push(node.item);
+		}
+		return output;
+	}
+}
+
 function getSkyline(buildings: number[][]): number[][] {
 	const edges: Edge[] = [];
 	for (const building of buildings) {
@@ -53,5 +89,7 @@ function getSkyline(buildings: number[][]): number[][] {
 
 ///---
 
-const buildings = [[0,2,3],[2,5,3]];
-console.log(getSkyline(buildings));
+export const MaxChainPublic = MaxChain;
+
+// const buildings = [[0,2,3],[2,5,3]];
+// console.log(getSkyline(buildings));
