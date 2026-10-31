@@ -3,7 +3,7 @@ class Edge {
 	}
 }
 
-type Side = [number, number];
+type Point = [number, number];
 
 function getSkyline(buildings: number[][]): number[][] {
 	const edges: Edge[] = [];
@@ -12,14 +12,14 @@ function getSkyline(buildings: number[][]): number[][] {
 		const right = building[1] || 0;
 		const height = building[2] || 0;
 		edges.push(new Edge(true, left, height));
-		edges.push(new Edge(true, right, height));
+		edges.push(new Edge(false, right, height));
 	}
 	edges.sort(function(a, b) {
 		return a.left - b.left;
 	});
 	const activeEdges = new Map<number, number>();
-	const currentHeight = 0;
-	const sides: Side[] = [];
+	let previousHeight = 0;
+	const points: Point[] = [];
 	for (const edge of edges) {
 		const activeEdge = activeEdges.get(edge.height) ?? 0;
 		if (edge.begin)
@@ -29,10 +29,20 @@ function getSkyline(buildings: number[][]): number[][] {
 			if (activeEdge === 1)
 				activeEdges.delete(edge.height);
 		}
-		const heights = Array.from(activeEdges.keys()).sort(function(a, b) {
-			return b - a;
-		});
-		console.log(heights[0]);
+		let maxHeight = 0;
+		for (const height of activeEdges.keys()) {
+			if (maxHeight < height)
+				maxHeight = height;
+		}
+		if (maxHeight !== previousHeight)
+			points.push([edge.left, maxHeight]);
+		previousHeight = maxHeight;
 	}
-	return sides;
+	return points;
 }
+
+
+///---
+
+const buildings = [[2,9,10],[3,7,15],[5,12,12],[15,20,10],[19,24,8]];
+console.log(getSkyline(buildings));
