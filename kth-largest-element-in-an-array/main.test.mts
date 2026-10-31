@@ -13,6 +13,10 @@ describe(findIndex.name, function() {
 		assert.equal(findIndex(array, 2), 2);
 		assert.equal(findIndex(array, 10), 3);
 	});
+	it(findIndex.name + '2', function() {
+		const array = [5, 6];
+		assert.equal(findIndex(array, 4), 0);
+	});
 });
 
 describe(findKthLargest.name, function() {

@@ -6,7 +6,7 @@ function findIndex(array: number[], value: number, a?: number, b?: number): numb
 	if (b == null)
 		b = array.length - 1;
 	if (b <= a)
-		return (array[b] || 0) < value ? a + 1 : a;
+		return (array[a] || 0) < value ? a + 1 : a;
 	const middleIndex = Math.trunc((a + b) / 2);
 	const middleValue = array[middleIndex] || 0;
 	if (value < middleValue)
@@ -17,12 +17,13 @@ function findIndex(array: number[], value: number, a?: number, b?: number): numb
 }
 
 function insert(array: number[], newItem: number): number[] {
-	let index = 0;
-	while (index < array.length && (array[index] || 0) < newItem)
-		++index;
-	if (index === 0)
+	let index = findIndex(array, newItem);
+	if (index === 0) {
 		return array;
-	return array.slice(1, index).concat([newItem], array.slice(index, array.length));
+	} else {
+		array = array.slice(1, index).concat([newItem], array.slice(index, array.length));
+		return array;
+	}
 }
 
 function findKthLargest(inputs: number[], k: number): number {
