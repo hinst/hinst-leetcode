@@ -51,20 +51,16 @@ class MinHeap {
 	}
 }
 
-function insert(array: number[], newItem: number, limit: number) {
-	array.unshift(newItem);
-	array.sort(function(a, b) {
-		return a - b;
-	});
-	while (array.length > limit)
-		array.shift();
-}
-
 function findKthLargest(inputs: number[], k: number): number {
-	let top = new Array<number>();
-	for (let i = 0; i < inputs.length; ++i)
-		insert(top, inputs[i] || 0, k);
-	return top[0] || 0;
+	let top = new MinHeap();
+	for (let i = 0; i < inputs.length; ++i) {
+		const input = inputs[i] || 0;
+		if (top.size < k)
+			top.insert(input)
+		else if ((top.root?.val || 0) > input)
+			top.replaceRoot(input);
+	}
+	return top.root?.val || 0;
 }
 
 
