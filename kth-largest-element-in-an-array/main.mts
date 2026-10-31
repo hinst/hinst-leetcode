@@ -43,27 +43,6 @@ function findThird(inputs: number[]): number {
 	return third;
 }
 
-function findFourth(inputs: number[]): number {
-	let first = LOW, second = LOW, third = LOW, fourth = LOW;
-	for (const input of inputs) {
-		if (first < input) {
-			fourth = third;
-			third = second;
-			second = first;
-			first = input;
-		} else if (second < input) {
-			fourth = third;
-			third = second;
-			second = input;
-		} else if (third < input) {
-			fourth = third;
-			third = input;
-		} else if (fourth < input)
-			fourth = input;
-	}
-	return fourth;
-}
-
 function findKthLargest(inputs: number[], k: number): number {
 	switch (k) {
 		case 1:
@@ -72,8 +51,6 @@ function findKthLargest(inputs: number[], k: number): number {
 			return findSecond(inputs);
 		case 3:
 			return findThird(inputs);
-		case 4:
-			return findFourth(inputs);
 		default:
 			return findKthLargestSort(inputs, k);
 	}
