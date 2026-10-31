@@ -1,14 +1,18 @@
 const LOW = (-1) * Math.pow(10, 4);
 
-function findIndex(array: number[], a: number, b: number, value: number): number {
+function findIndex(array: number[], value: number, a?: number, b?: number): number {
+	if (a == null)
+		a = 0;
+	if (b == null)
+		b = array.length - 1;
 	if (a === b)
 		return (array[b] || 0) < value ? b + 1 : b;
 	const middleIndex = Math.trunc((a + b) / 2);
 	const middleValue = array[middleIndex] || 0;
 	if (value < middleValue)
-		return findIndex(array, a, middleIndex - 1, value);
+		return findIndex(array, value, a, middleIndex - 1);
 	if (middleValue < value)
-		return findIndex(array, middleIndex + 1, b, value);
+		return findIndex(array, value, middleIndex + 1, b);
 	return middleIndex;
 }
 
