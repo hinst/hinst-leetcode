@@ -34,8 +34,17 @@ function getSkyline(buildings: number[][]): number[][] {
 			if (maxHeight < height)
 				maxHeight = height;
 		}
-		if (maxHeight !== previousHeight)
-			points.push([edge.left, maxHeight]);
+		if (maxHeight !== previousHeight) {
+			const point: Point = [edge.left, maxHeight];
+			let previousPoint = points[points.length - 1];
+			if (previousPoint?.[0] === point[0]) {
+				points.pop();
+				let previousPoint = points[points.length - 1];
+				if (previousPoint?.[1] !== point[1])
+					points.push(point);
+			} else
+				points.push(point);
+		}
 		previousHeight = maxHeight;
 	}
 	return points;
