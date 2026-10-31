@@ -9,7 +9,7 @@ describe(findIndex.name, function() {
 		assert.equal(findIndex(array, 32), 5);
 		assert.equal(findIndex(array, 42), 6);
 		assert.equal(findIndex(array, 1), 0);
-		// assert.equal(findIndex(array, -1), 0);
+		assert.equal(findIndex(array, -1), 0);
 		assert.equal(findIndex(array, 2), 2);
 		assert.equal(findIndex(array, 10), 3);
 	});

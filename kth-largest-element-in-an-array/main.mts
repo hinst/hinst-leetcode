@@ -5,8 +5,8 @@ function findIndex(array: number[], value: number, a?: number, b?: number): numb
 		a = 0;
 	if (b == null)
 		b = array.length - 1;
-	if (a === b)
-		return (array[b] || 0) < value ? b + 1 : b;
+	if (b <= a)
+		return (array[b] || 0) < value ? a + 1 : a;
 	const middleIndex = Math.trunc((a + b) / 2);
 	const middleValue = array[middleIndex] || 0;
 	if (value < middleValue)
