@@ -1500,3 +1500,7 @@ Task 186 is hidden behind a paywall.
 ## 216. Combination Sum III
 * Difficulty: Medium
 * Folder name: combination-sum-iii
+* Hint: no
+* My score:
+	* Time: 0 ms, beats 100%
+	* Memory: 55 MB, beats 76%
