@@ -16,20 +16,19 @@ function findIndex(array: number[], value: number, a?: number, b?: number): numb
 	return middleIndex;
 }
 
-function insert(array: number[], newItem: number): number[] {
+function insert(array: number[], newItem: number) {
 	let index = findIndex(array, newItem);
-	if (index === 0) {
-		return array;
-	} else {
-		array = array.slice(1, index).concat([newItem], array.slice(index, array.length));
-		return array;
+	if (index !== 0) {
+		for (let i = 1; i < index; ++i)
+			array[i - 1] = array[i];
+		array[index - 1] = newItem;
 	}
 }
 
 function findKthLargest(inputs: number[], k: number): number {
 	let top = new Array(k).fill(LOW);
 	for (let i = 0; i < inputs.length; ++i)
-		top = insert(top, inputs[i] || 0);
+		insert(top, inputs[i] || 0);
 	return top[0];
 }
 
