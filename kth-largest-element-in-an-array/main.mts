@@ -1,15 +1,15 @@
 const LOW = (-1) * Math.pow(10, 4);
 
-class Node {
-	constructor(readonly value: number, public next: Node?) {
-	}
-}
-
-class TopItems {
-	head: Node;
-
-	insert(newValue: number) {
-	}
+function findIndex(array: number[], a: number, b: number, value: number): number {
+	if (a === b)
+		return a;
+	const middleIndex = Math.trunc((a + b) / 2);
+	const middleValue = array[middleIndex] || 0;
+	if (value < middleValue)
+		return findIndex(array, a, middleIndex - 1, value);
+	if (middleValue < value)
+		return findIndex(array, middleIndex + 1, b, value);
+	return middleIndex;
 }
 
 function insert(array: number[], newItem: number): number[] {
@@ -27,6 +27,9 @@ function findKthLargest(inputs: number[], k: number): number {
 		top = insert(top, inputs[i] || 0);
 	return top[0];
 }
+
+
+export const findIndexPublic = findIndex;
 
 
 let nums = [3,2,1,5,6,4], k = 2;
