@@ -1494,5 +1494,5 @@ Task 186 is hidden behind a paywall.
 * Folder name: kth-largest-element-in-an-array
 * Hint: use MinHeap, however it turned out to be too complicated for me, therefore I ended up using simple sorting
 * My score:
-	* Time: 93 ms, beats 19%
+	* Time: 92 ms, beats 21%
 	* Memory: 65 MB, beats 94%
