@@ -2,6 +2,22 @@ class Item {
 	constructor(readonly index: number, readonly value: number) {}
 }
 
+function findIndex(array: number[], value: number, a?: number, b?: number): number {
+	if (a == null)
+		a = 0;
+	if (b == null)
+		b = array.length - 1;
+	if (b <= a)
+		return (array[a] || 0) < value ? a + 1 : a;
+	const middleIndex = Math.trunc((a + b) / 2);
+	const middleValue = array[middleIndex] || 0;
+	if (value < middleValue)
+		return findIndex(array, value, a, middleIndex - 1);
+	if (middleValue < value)
+		return findIndex(array, value, middleIndex + 1, b);
+	return middleIndex;
+}
+
 function containsNearbyAlmostDuplicate(inputs: number[], indexDiff: number, valueDiff: number): boolean {
 	const sortedInputs = inputs.map((value, index) => new Item(index, value));
 	sortedInputs.sort(function(a, b) {
@@ -36,10 +52,15 @@ function containsNearbyAlmostDuplicate(inputs: number[], indexDiff: number, valu
 			const lowIndexes = ladderInputs.get(lowKey);
 			if (!lowIndexes)
 				break;
-			for (const lowIndex of lowIndexes)
-				for (const index of indexes)
-					if (Math.abs(lowIndex - index) <= indexDiff)
-						return true;
+			for (const lowIndex of lowIndexes) {
+				const middle = findIndex(indexes, lowIndex);
+				const a = indexes[middle - 1];
+				if (a != null && (Math.abs(lowIndex - a) <= indexDiff))
+					return true;
+				const b = indexes[middle];
+				if (b != null && (Math.abs(lowIndex - b) <= indexDiff))
+					return true;
+			}
 		}
 		for (let i = ladderIndex + 1; i < ladderKeys.length; ++i) {
 			const highKey = ladderKeys[i] ?? 0;
@@ -48,10 +69,15 @@ function containsNearbyAlmostDuplicate(inputs: number[], indexDiff: number, valu
 			const highIndexes = ladderInputs.get(highKey);
 			if (!highIndexes)
 				break;
-			for (const highIndex of highIndexes)
-				for (const index of indexes)
-					if (Math.abs(highIndex - index) <= indexDiff)
-						return true;
+			for (const highIndex of highIndexes) {
+				const middle = findIndex(indexes, highIndex);
+				const a = indexes[middle - 1];
+				if (a != null && (Math.abs(highIndex - a) <= indexDiff))
+					return true;
+				const b = indexes[middle];
+				if (b != null && (Math.abs(highIndex - b) <= indexDiff))
+					return true;
+			}
 		}
 	}
 	return false;
