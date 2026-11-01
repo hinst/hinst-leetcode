@@ -1511,3 +1511,10 @@ Task 186 is hidden behind a paywall.
 * My score:
 	* Time: 195 ms, beats 12%
 	* Memory: 73 MB, beats 50%
+
+## 219. Contains Duplicate II
+* Difficulty: Easy
+* Folder name: contains-duplicate-ii
+* My score:
+	* Time: 223 ms, beats 5%
+	* Memory: 110 MB, beats 5%
