@@ -24,10 +24,9 @@ function containsNearbyAlmostDuplicate(inputs: number[], indexDiff: number, valu
 	for (let ladderIndex = 0; ladderIndex < ladderKeys.length; ++ladderIndex) {
 		const ladderKey = ladderKeys[ladderIndex] ?? 0;
 		const indexes = ladderInputs.get(ladderKey) ?? [];
-		for (let i = 0; i < indexes.length; ++i)
-			for (let j = 0; j < i; ++j)
-				if (Math.abs((indexes[i] ?? 0) - (indexes[j] ?? 0)) <= indexDiff)
-					return true;
+		for (let i = 1; i < indexes.length; ++i)
+			if (Math.abs((indexes[i] ?? 0) - (indexes[i - 1] ?? 0)) <= indexDiff)
+				return true;
 		const lowLimit = ladderKey - valueDiff;
 		const highLimit = ladderKey - valueDiff;
 		for (let i = ladderIndex - 1; i >= 0; --i) {
@@ -61,10 +60,9 @@ function containsNearbyAlmostDuplicate(inputs: number[], indexDiff: number, valu
 
 ///---
 
-// let nums = [1,2,3,1], indexDiff = 3, valueDiff = 0;
-// console.log(containsNearbyAlmostDuplicate(nums, indexDiff, valueDiff));
-// nums = [1,5,9,1,5,9], indexDiff = 2, valueDiff = 3;
-// console.log(containsNearbyAlmostDuplicate(nums, indexDiff, valueDiff));
-
-const nums = [1,2,1,1], indexDiff = 1, valueDiff = 0;
+let nums = [1,2,3,1], indexDiff = 3, valueDiff = 0;
+console.log(containsNearbyAlmostDuplicate(nums, indexDiff, valueDiff));
+nums = [1,5,9,1,5,9], indexDiff = 2, valueDiff = 3;
+console.log(containsNearbyAlmostDuplicate(nums, indexDiff, valueDiff));
+nums = [1,2,1,1], indexDiff = 1, valueDiff = 0;
 console.log(containsNearbyAlmostDuplicate(nums, indexDiff, valueDiff));
