@@ -1,17 +1,11 @@
 function containsNearbyDuplicate(nums: number[], k: number): boolean {
-	const map = new Map<number, number[]>();
+	const map = new Map<number, number>();
 	let index = 0;
 	for (const item of nums) {
-		const indexes = map.get(item) || [];
-		indexes.push(index);
-		map.set(item, indexes);
-
-		for (const otherIndex of indexes) {
-			if (otherIndex === index)
-				continue;
-			if (Math.abs(otherIndex - index) <= k)
-				return true;
-		}
+		const latestIndex = map.get(item);
+		if (latestIndex != null && Math.abs(latestIndex - index) <= k)
+			return true;
+		map.set(item, index);
 		++index;
 	}
 	return false;

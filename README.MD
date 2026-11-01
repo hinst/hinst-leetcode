@@ -1515,6 +1515,9 @@ Task 186 is hidden behind a paywall.
 ## 219. Contains Duplicate II
 * Difficulty: Easy
 * Folder name: contains-duplicate-ii
+* Hint
+	* Initially I passed all test cases without hint, but got a low score
+	* Later, I got the hint to store only latest index
 * My score:
-	* Time: 223 ms, beats 5%
-	* Memory: 110 MB, beats 5%
+	* Time: 53 ms, beats 27%
+	* Memory: 85 MB, beats 29%
