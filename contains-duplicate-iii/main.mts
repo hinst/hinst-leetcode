@@ -23,7 +23,7 @@ function findIndexInternal(array: number[], value: number, a: number, b: number)
 			};
 		}).filter(diff => diff != null);
 		diffs.sort((left, right) => left.diff - right.diff);
-		return diffs[0]?.index ?? 0;
+		return diffs[0]?.index ?? -1;
 	}
 	const middleIndex = Math.trunc((a + b) / 2);
 	const middleValue = array[middleIndex] ?? 0;
@@ -70,11 +70,8 @@ function containsNearbyAlmostDuplicate(inputs: number[], indexDiff: number, valu
 				break;
 			for (const lowIndex of lowIndexes) {
 				const middle = findIndex(indexes, lowIndex);
-				const a = indexes[middle - 1];
-				if (a != null && (Math.abs(lowIndex - a) <= indexDiff))
-					return true;
-				const b = indexes[middle];
-				if (b != null && (Math.abs(lowIndex - b) <= indexDiff))
+				const nearest = indexes[middle];
+				if (nearest != null && (Math.abs(lowIndex - nearest) <= indexDiff))
 					return true;
 			}
 		}
@@ -87,11 +84,8 @@ function containsNearbyAlmostDuplicate(inputs: number[], indexDiff: number, valu
 				break;
 			for (const highIndex of highIndexes) {
 				const middle = findIndex(indexes, highIndex);
-				const a = indexes[middle - 1];
-				if (a != null && (Math.abs(highIndex - a) <= indexDiff))
-					return true;
-				const b = indexes[middle];
-				if (b != null && (Math.abs(highIndex - b) <= indexDiff))
+				const nearest = indexes[middle];
+				if (nearest != null && (Math.abs(highIndex - nearest) <= indexDiff))
 					return true;
 			}
 		}
