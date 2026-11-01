@@ -2,20 +2,6 @@ class Item {
 	constructor(readonly index: number, readonly value: number) {}
 }
 
-function findClosePairs(arr1: number[], arr2: number[], diffLimit: number): boolean {
-	let left = 0;
-	let right = 0;
-	for (const item1 of arr1) {
-		while (left < arr2.length && arr2[left]! < item1 - diffLimit)
-			left++;
-		while (right < arr2.length && arr2[right]! <= item1 + diffLimit)
-			right++;
-		if (left < right)
-			return true;
-	}
-	return false;
-}
-
 function containsNearbyAlmostDuplicate(inputs: number[], indexDiff: number, valueDiff: number): boolean {
 	const sortedInputs = inputs.map((value, index) => new Item(index, value));
 	sortedInputs.sort(function(a, b) {
@@ -50,8 +36,10 @@ function containsNearbyAlmostDuplicate(inputs: number[], indexDiff: number, valu
 			const lowIndexes = ladderInputs.get(lowKey);
 			if (!lowIndexes)
 				break;
-			if (findClosePairs(lowIndexes, indexes, indexDiff))
-				return true;
+			for (const lowIndex of lowIndexes)
+				for (const index of indexes)
+					if (Math.abs(lowIndex - index) <= indexDiff)
+						return true;
 		}
 		for (let i = ladderIndex + 1; i < ladderKeys.length; ++i) {
 			const highKey = ladderKeys[i] ?? 0;
@@ -60,8 +48,10 @@ function containsNearbyAlmostDuplicate(inputs: number[], indexDiff: number, valu
 			const highIndexes = ladderInputs.get(highKey);
 			if (!highIndexes)
 				break;
-			if (findClosePairs(highIndexes, indexes, indexDiff))
-				return true;
+			for (const highIndex of highIndexes)
+				for (const index of indexes)
+					if (Math.abs(highIndex - index) <= indexDiff)
+						return true;
 		}
 	}
 	return false;
