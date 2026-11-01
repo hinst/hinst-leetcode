@@ -7,42 +7,52 @@ function containsNearbyAlmostDuplicate(inputs: number[], indexDiff: number, valu
 	sortedInputs.sort(function(a, b) {
 		return a.value - b.value;
 	});
-	const sortedIndexes = new Map<number, number[]>();
-	let index = 0;
+	const ladderInputs = new Map<number, number[]>();
 	for (const sortedInput of sortedInputs) {
-		let indexes = sortedIndexes.get(sortedInput.value);
+		let indexes = ladderInputs.get(sortedInput.value);
 		if (!indexes) {
 			indexes = [];
-			sortedIndexes.set(sortedInput.value, indexes);
+			ladderInputs.set(sortedInput.value, indexes);
 		}
-		indexes.push(index);
-		++index;
+		indexes.push(sortedInput.index);
 	}
-	for (let inputIndex = 0; inputIndex < inputs.length; ++inputIndex) {
-		const item = inputs[inputIndex] ?? 0;
-		const indexes = sortedIndexes.get(item) ?? [];
-		const sortedIndex = indexes.shift() ?? 0;
-		const low = item - valueDiff;
-		for (let i = sortedIndex - 1; i >= 0; --i) {
-			const sortedInput = sortedInputs[i];
-			if (!sortedInput)
+	for (const indexes of ladderInputs.values())
+		indexes.sort(function(a, b) {
+			return a - b;
+		});
+	const ladderKeys = Array.from(ladderInputs.keys());
+	for (let ladderIndex = 0; ladderIndex < ladderKeys.length; ++ladderIndex) {
+		const ladderKey = ladderKeys[ladderIndex] ?? 0;
+		const indexes = ladderInputs.get(ladderKey) ?? [];
+		for (let i = 0; i < indexes.length; ++i)
+			for (let j = 0; j < i; ++j)
+				if (Math.abs(indexes[i] ?? 0 - (indexes[j] ?? 0)) <= indexDiff)
+					return true;
+		const lowLimit = ladderKey - valueDiff;
+		const highLimit = ladderKey - valueDiff;
+		for (let i = ladderIndex - 1; i >= 0; --i) {
+			const lowKey = ladderKeys[i] ?? 0;
+			if (lowKey < lowLimit)
 				break;
-			if (sortedInput.value < low)
+			const lowIndexes = ladderInputs.get(lowKey);
+			if (!lowIndexes)
 				break;
-			if (Math.abs(sortedInput.index - inputIndex) <= indexDiff) {
-				return true;
-			}
+			for (const lowIndex of lowIndexes)
+				for (const index of indexes)
+					if (Math.abs(lowIndex - index) <= indexDiff)
+						return true;
 		}
-		const high = item + valueDiff;
-		for (let i = sortedIndex + 1; sortedInputs.length; ++i) {
-			const sortedInput = sortedInputs[i];
-			if (!sortedInput)
+		for (let i = ladderIndex + 1; i < ladderKeys.length; ++i) {
+			const highKey = ladderKeys[i] ?? 0;
+			if (highKey > highLimit)
 				break;
-			if (sortedInput.value > high)
+			const highIndexes = ladderInputs.get(highKey);
+			if (!highIndexes)
 				break;
-			if (Math.abs(sortedInput.index - inputIndex) <= indexDiff) {
-				return true;
-			}
+			for (const highIndex of highIndexes)
+				for (const index of indexes)
+					if (Math.abs(highIndex - index) <= indexDiff)
+						return true;
 		}
 	}
 	return false;
