@@ -1526,5 +1526,5 @@ Task 186 is hidden behind a paywall.
 * Difficulty: Hard
 * Folder name: contains-duplicate-iii
 * My score:
-	* Time: 854 ms, beats 8%
-	* Memory: 116 MB, beats 8%
+	* Time: 821 ms, beats 8%
+	* Memory: 115 MB, beats 8%
