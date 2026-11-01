@@ -2,36 +2,18 @@ class Item {
 	constructor(readonly index: number, readonly value: number) {}
 }
 
-function findIndex(array: number[], value: number) {
-	if (array.length === 0)
-		return -1;
-	if (array.length === 1)
-		return 0;
-	return findIndexInternal(array, value, 0, array.length - 1);
-}
-
-function findIndexInternal(array: number[], value: number, a: number, b: number): number {
-	if (b <= a) {
-		const indexes = [a - 1, a, a + 1];
-		const diffs = indexes.map(index => {
-			const item = array[index];
-			if (!item)
-				return null;
-			return {
-				index: index,
-				diff: Math.abs(value - item),
-			};
-		}).filter(diff => diff != null);
-		diffs.sort((left, right) => left.diff - right.diff);
-		return diffs[0]?.index ?? -1;
+function findClosePairs(arr1: number[], arr2: number[], diffLimit: number): boolean {
+	let left = 0;
+	let right = 0;
+	for (const item1 of arr1) {
+		while (left < arr2.length && arr2[left]! < item1 - diffLimit)
+			left++;
+		while (right < arr2.length && arr2[right]! <= item1 + diffLimit)
+			right++;
+		if (left < right)
+			return true;
 	}
-	const middleIndex = Math.trunc((a + b) / 2);
-	const middleValue = array[middleIndex] ?? 0;
-	if (value < middleValue)
-		return findIndexInternal(array, value, a, middleIndex - 1);
-	if (middleValue < value)
-		return findIndexInternal(array, value, middleIndex + 1, b);
-	return middleIndex;
+	return false;
 }
 
 function containsNearbyAlmostDuplicate(inputs: number[], indexDiff: number, valueDiff: number): boolean {
@@ -68,12 +50,8 @@ function containsNearbyAlmostDuplicate(inputs: number[], indexDiff: number, valu
 			const lowIndexes = ladderInputs.get(lowKey);
 			if (!lowIndexes)
 				break;
-			for (const lowIndex of lowIndexes) {
-				const middle = findIndex(indexes, lowIndex);
-				const nearest = indexes[middle];
-				if (nearest != null && (Math.abs(lowIndex - nearest) <= indexDiff))
-					return true;
-			}
+			if (findClosePairs(lowIndexes, indexes, indexDiff))
+				return true;
 		}
 		for (let i = ladderIndex + 1; i < ladderKeys.length; ++i) {
 			const highKey = ladderKeys[i] ?? 0;
@@ -82,12 +60,8 @@ function containsNearbyAlmostDuplicate(inputs: number[], indexDiff: number, valu
 			const highIndexes = ladderInputs.get(highKey);
 			if (!highIndexes)
 				break;
-			for (const highIndex of highIndexes) {
-				const middle = findIndex(indexes, highIndex);
-				const nearest = indexes[middle];
-				if (nearest != null && (Math.abs(highIndex - nearest) <= indexDiff))
-					return true;
-			}
+			if (findClosePairs(highIndexes, indexes, indexDiff))
+				return true;
 		}
 	}
 	return false;
@@ -95,8 +69,6 @@ function containsNearbyAlmostDuplicate(inputs: number[], indexDiff: number, valu
 
 
 ///---
-
-export const findIndexPublic = findIndex;
 
 let nums = [1,2,3,1], indexDiff = 3, valueDiff = 0;
 console.log(containsNearbyAlmostDuplicate(nums, indexDiff, valueDiff));
