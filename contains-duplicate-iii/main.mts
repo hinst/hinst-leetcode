@@ -2,6 +2,19 @@ class Item {
 	constructor(readonly index: number, readonly value: number) {}
 }
 
+function findCloseItems(sortedArray1: number[], sortedArray2: number[], maxDiff: number) {
+	for (const a of sortedArray1) {
+		for (const b of sortedArray2) {
+			const diff = b - a;
+			if (diff > maxDiff)
+				return false; // moving forward through sorted array, the difference can only get bigger from now on
+			if (Math.abs(a - b) <= maxDiff)
+				return true;
+		}
+	}
+	return false;
+}
+
 function containsNearbyAlmostDuplicate(inputs: number[], indexDiff: number, valueDiff: number): boolean {
 	const sortedInputs = inputs.map((value, index) => new Item(index, value));
 	sortedInputs.sort(function(a, b) {
@@ -36,10 +49,8 @@ function containsNearbyAlmostDuplicate(inputs: number[], indexDiff: number, valu
 			const lowIndexes = ladderInputs.get(lowKey);
 			if (!lowIndexes)
 				break;
-			for (const lowIndex of lowIndexes)
-				for (const index of indexes)
-					if (Math.abs(lowIndex - index) <= indexDiff)
-						return true;
+			if (findCloseItems(indexes, lowIndexes, indexDiff))
+				return true;
 		}
 		for (let i = ladderIndex + 1; i < ladderKeys.length; ++i) {
 			const highKey = ladderKeys[i] ?? 0;
@@ -48,10 +59,8 @@ function containsNearbyAlmostDuplicate(inputs: number[], indexDiff: number, valu
 			const highIndexes = ladderInputs.get(highKey);
 			if (!highIndexes)
 				break;
-			for (const highIndex of highIndexes)
-				for (const index of indexes)
-					if (Math.abs(highIndex - index) <= indexDiff)
-						return true;
+			if (findCloseItems(indexes, highIndexes, indexDiff))
+				return true;
 		}
 	}
 	return false;
