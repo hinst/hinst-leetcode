@@ -1,12 +1,48 @@
-function containsNearbyAlmostDuplicate(nums: number[], indexDiff: number, valueDiff: number): boolean {
-	for (let i = 0; i < nums.length; ++i) {
-		const item = nums[i] || 0;
-		for (let j = i - indexDiff; j <= i + indexDiff; ++j) {
-			if (i === j)
-				continue;
-			const otherItem = nums[j];
-			if (otherItem != null && Math.abs(otherItem - item) <= valueDiff)
+class Item {
+	constructor(readonly index: number, readonly value: number) {}
+}
+
+function containsNearbyAlmostDuplicate(inputs: number[], indexDiff: number, valueDiff: number): boolean {
+	const sortedInputs = inputs.map((value, index) => new Item(index, value));
+	sortedInputs.sort(function(a, b) {
+		return a.value - b.value;
+	});
+	const sortedIndexes = new Map<number, number[]>();
+	let index = 0;
+	for (const sortedInput of sortedInputs) {
+		let indexes = sortedIndexes.get(sortedInput.value);
+		if (!indexes) {
+			indexes = [];
+			sortedIndexes.set(sortedInput.value, indexes);
+		}
+		indexes.push(index);
+		++index;
+	}
+	for (let inputIndex = 0; inputIndex < inputs.length; ++inputIndex) {
+		const item = inputs[inputIndex] ?? 0;
+		const indexes = sortedIndexes.get(item) ?? [];
+		const sortedIndex = indexes.shift() ?? 0;
+		const low = item - valueDiff;
+		for (let i = sortedIndex - 1; i >= 0; --i) {
+			const sortedInput = sortedInputs[i];
+			if (!sortedInput)
+				break;
+			if (sortedInput.value < low)
+				break;
+			if (Math.abs(sortedInput.index - inputIndex) <= indexDiff) {
 				return true;
+			}
+		}
+		const high = item + valueDiff;
+		for (let i = sortedIndex + 1; sortedInputs.length; ++i) {
+			const sortedInput = sortedInputs[i];
+			if (!sortedInput)
+				break;
+			if (sortedInput.value > high)
+				break;
+			if (Math.abs(sortedInput.index - inputIndex) <= indexDiff) {
+				return true;
+			}
 		}
 	}
 	return false;
