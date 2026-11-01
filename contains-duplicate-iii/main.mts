@@ -11,10 +11,22 @@ function findIndex(array: number[], value: number) {
 }
 
 function findIndexInternal(array: number[], value: number, a: number, b: number): number {
-	if (b <= a)
-		return (array[a] || 0) < value ? a + 1 : a;
+	if (b <= a) {
+		const indexes = [a - 1, a, a + 1];
+		const diffs = indexes.map(index => {
+			const item = array[index];
+			if (!item)
+				return null;
+			return {
+				index: index,
+				diff: Math.abs(value - item),
+			};
+		}).filter(diff => diff != null);
+		diffs.sort((left, right) => left.diff - right.diff);
+		return diffs[0]?.index ?? 0;
+	}
 	const middleIndex = Math.trunc((a + b) / 2);
-	const middleValue = array[middleIndex] || 0;
+	const middleValue = array[middleIndex] ?? 0;
 	if (value < middleValue)
 		return findIndexInternal(array, value, a, middleIndex - 1);
 	if (middleValue < value)
@@ -89,6 +101,8 @@ function containsNearbyAlmostDuplicate(inputs: number[], indexDiff: number, valu
 
 
 ///---
+
+export const findIndexPublic = findIndex;
 
 let nums = [1,2,3,1], indexDiff = 3, valueDiff = 0;
 console.log(containsNearbyAlmostDuplicate(nums, indexDiff, valueDiff));
