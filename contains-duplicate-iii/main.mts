@@ -7,15 +7,22 @@ function findCloseItems(sortedArray1: number[], sortedArray2: number[], maxDiff:
 		for (const b of sortedArray2) {
 			const diff = b - a;
 			if (diff > maxDiff)
-				return false; // moving forward through sorted array, the difference can only get bigger from now on
-			if (Math.abs(a - b) <= maxDiff)
+				break; // Moving through sorted array, the difference can only get bigger
+			if (Math.abs(diff) <= maxDiff)
 				return true;
 		}
 	}
 	return false;
 }
 
-function containsNearbyAlmostDuplicate(inputs: number[], indexDiff: number, valueDiff: number): boolean {
+function subtract(a: number, b: number) {
+	return a - b;
+}
+
+/**
+	@returns Map from value to its indexes in the inputs array
+*/
+function buildLadder(inputs: number[]) {
 	const sortedInputs = inputs.map((value, index) => new Item(index, value));
 	sortedInputs.sort(function(a, b) {
 		return a.value - b.value;
@@ -30,9 +37,12 @@ function containsNearbyAlmostDuplicate(inputs: number[], indexDiff: number, valu
 		indexes.push(sortedInput.index);
 	}
 	for (const indexes of ladderInputs.values())
-		indexes.sort(function(a, b) {
-			return a - b;
-		});
+		indexes.sort(subtract);
+	return ladderInputs;
+}
+
+function containsNearbyAlmostDuplicate(inputs: number[], indexDiff: number, valueDiff: number): boolean {
+	const ladderInputs = buildLadder(inputs);
 	const ladderKeys = Array.from(ladderInputs.keys());
 	for (let ladderIndex = 0; ladderIndex < ladderKeys.length; ++ladderIndex) {
 		const ladderKey = ladderKeys[ladderIndex] ?? 0;
