@@ -2,19 +2,23 @@ class Item {
 	constructor(readonly index: number, readonly value: number) {}
 }
 
-function findIndex(array: number[], value: number, a?: number, b?: number): number {
-	if (a == null)
-		a = 0;
-	if (b == null)
-		b = array.length - 1;
+function findIndex(array: number[], value: number) {
+	if (array.length === 0)
+		return -1;
+	if (array.length === 1)
+		return 0;
+	return findIndexInternal(array, value, 0, array.length - 1);
+}
+
+function findIndexInternal(array: number[], value: number, a: number, b: number): number {
 	if (b <= a)
 		return (array[a] || 0) < value ? a + 1 : a;
 	const middleIndex = Math.trunc((a + b) / 2);
 	const middleValue = array[middleIndex] || 0;
 	if (value < middleValue)
-		return findIndex(array, value, a, middleIndex - 1);
+		return findIndexInternal(array, value, a, middleIndex - 1);
 	if (middleValue < value)
-		return findIndex(array, value, middleIndex + 1, b);
+		return findIndexInternal(array, value, middleIndex + 1, b);
 	return middleIndex;
 }
 
